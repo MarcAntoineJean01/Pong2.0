@@ -88,10 +88,6 @@ public class MeshManager : PongManager
         {
             vertices[i] = new Vector3(vertices[i].x, vertices[i].y + (vertices[i].y > 0 ? resize.y * 0.5f : -(resize.y * 0.5f)), vertices[i].z);
         }
-        // for (int i = 0; i < vertices.Length; i++)
-        // {
-        //     vertices[i] = new Vector3(vertices[i].x*resize.x, vertices[i].y*resize.y, vertices[i].z*resize.z);
-        // }
         PostResize(vertices, mesh);
     }
     public void ResizeMeshTop(Mesh mesh, float resize)

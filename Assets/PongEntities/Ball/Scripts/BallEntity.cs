@@ -99,10 +99,8 @@ public class BallEntity : PongEntity
             }
         }
     }
-    // Vector3 testlastpos = Vector3.one;
     protected override void FixedUpdate()
     {
-        // testlastpos = transform.position;
         base.FixedUpdate();
         if (st == State.Live)
         {
@@ -185,9 +183,6 @@ public class BallEntity : PongEntity
     {
         transform.position = new Vector3(0, 0, stagePosZ);
         StopBall();
-        //FIX THIS WHEN WE'll HAVE MORE BALL ENTITY CHILD CLASSES
-        //THIS WILL NEVER BE BOUNCYBALL
-        // if (this is not BouncyBall) {SpikeSpawn();}
         newGameManager.SpikeSpawn();
         StartBall();
     }
@@ -219,7 +214,6 @@ public class BallEntity : PongEntity
         switch (state)
         {
             case State.Live:
-                // gameObject.SetActive(true);
                 StartBall();
                 newGameManager.SpikeSpawn();
                 break;
@@ -233,7 +227,6 @@ public class BallEntity : PongEntity
     public void SetBallForStage()
     {
         StopAllBallCoroutines();
-        // meshR.material = mm.materials.ballMaterials.MaterialForCurrentMesh(fragmented ? mm.NextBallMesh(ballType) : ballType);
         switch (currentStage)
         {
             case Stage.StartMenu:
@@ -465,8 +458,6 @@ public class BallEntity : PongEntity
         }
         dissolveSide = Side.None;            
     }
-
-    //MOVE THIS TO BALL ENTITY
     public void RandomDirection()
     {
         StopCoroutine("CycleRandomDirection");

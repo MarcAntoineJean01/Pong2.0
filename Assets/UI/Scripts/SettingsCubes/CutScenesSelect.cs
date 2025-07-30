@@ -30,6 +30,7 @@ public class CutScenesSelect : SettingSelectCube
     }
     protected override void SwitchSetting()
     {
+        base.SwitchSetting();
         PongManager.mainSettings.cutScenesOn = currentSelectedSetting;
         transform.DOComplete();
         usingCube = false;

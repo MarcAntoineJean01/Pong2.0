@@ -14,6 +14,7 @@ public class PongUiMenu : MonoBehaviour
     public Color titleColor;
     public List<PongUiCube> pongUiCubes = new List<PongUiCube>();
     public List<FakeUiCube> fakeUiCubes = new List<FakeUiCube>();
+    public List<FakeUiCube> fakeUiCubesWithText = new List<FakeUiCube>();
     [Serializable]
     public class MetaCubeVanishedEvent : UnityEvent { }
     [SerializeField]
@@ -49,6 +50,7 @@ public class PongUiMenu : MonoBehaviour
         DOTween.defaultTimeScaleIndependent = true;
         title.alpha = 1;
         pongUiCubes.ForEach(cube => cube.CubeInteractionOn());
+        fakeUiCubesWithText.ForEach(cube => cube.text.alpha = 1);
         pongUiCubes.First().Select();
         pongUiCubes.First().StopTransitions();
         pongUiCubes.First().StartCoroutine("CycleGlow");
@@ -68,6 +70,7 @@ public class PongUiMenu : MonoBehaviour
         StopAllCoroutines();
         if (cube.vanishMetaCubeOnClick)
         {
+            MenuInteractionOff();
             StartCoroutine(CycleVanishMetaCube(cube));
         }
         else

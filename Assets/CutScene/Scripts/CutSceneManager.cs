@@ -8,15 +8,6 @@ using System;
 using UnityEngine.Events;
 public class CutSceneManager : PongManager
 {
-    [Serializable]
-    public class UnsuspendUniverseStage : UnityEvent { }
-    [SerializeField]
-    // protected UnsuspendUniverseStage m_UnsuspendUniverseStage = new UnsuspendUniverseStage();
-    // public UnsuspendUniverseStage unsuspendUniverseStage
-    // {
-    //     get { return m_UnsuspendUniverseStage; }
-    //     set { m_UnsuspendUniverseStage = value; }
-    // }
     public static bool cutSceneOn = false;
     public void TakeControl()
     {
@@ -46,7 +37,6 @@ public class CutSceneManager : PongManager
         {
             dm.MakePixySpeechBubble(Dialogs.spikesAndDebuffsForStage, false, true);
             dm.pixySpeechBubble.pixyBubbleDied.AddListener(() => { newGameManager.ListenForPad(Side.None); dm.pixySpeechBubble.pixyBubbleDied.RemoveAllListeners(); });
-            // ListenForPad(Side.None);
         }
         else
         {
@@ -155,9 +145,6 @@ public class CutSceneManager : PongManager
                 BallEntity newBall = builder.MakeFragmentedBall(BallMesh.Icosahedron, 1.2f);
                 newBall.SetBallForStage();
                 field.ReplaceEntity(Entity.Ball, newBall);
-
-                // GameObject.Destroy(field.debuffStore.debuffFreeze.GetComponent<Rigidbody>());
-                // GameObject.Destroy(field.debuffStore.debuffBurn.GetComponent<Rigidbody>());
             }
             field.debuffStore.debuffBurn.gameObject.SetActive(true);
             field.debuffStore.debuffFreeze.gameObject.SetActive(true);
@@ -262,10 +249,7 @@ public class CutSceneManager : PongManager
         field.rightPad.transform.position = new Vector3(initialRightPadPos.x, Mathf.Lerp(initialRightPadPos.y, 0, easing), Mathf.Lerp(initialRightPadPos.z, nextStagePosZ, easing));
         foreach (Block block in field.blocks)
         {
-            Debug.Log(Mathf.Lerp(block.sd == Side.Left ? initialLeftPadPos.z : initialRightPadPos.z, nextStagePosZ, easing));
             block.transform.position = new Vector3(block.transform.position.x, block.transform.position.y, Mathf.Lerp(block.sd == Side.Left ? initialLeftPadPos.z : initialRightPadPos.z, nextStagePosZ, easing));
-            Debug.Log(new Vector3(block.transform.position.x, block.transform.position.y, Mathf.Lerp(block.sd == Side.Left ? initialLeftPadPos.z : initialRightPadPos.z, nextStagePosZ, easing)));
-            Debug.Log(block.transform.position);
         }
     }
     void ScalePadBlocks(float t, float initialBlockScale, Vector3 initialLeftPadPos, Vector3 initialRightPadPos)
@@ -274,8 +258,6 @@ public class CutSceneManager : PongManager
         var easing = newStageManager.moveEntitiesCurve.Evaluate(normalizedProgress);
         foreach (Block block in field.blocks)
         {
-            // float initialBlockZ = block.sd == Side.Left ? initialLeftPadPos.z : initialRightPadPos.z;
-            // block.transform.position = new Vector3(block.transform.position.x, block.transform.position.y, Mathf.Lerp(initialBlockZ, stagePosZ, easing));
             if (nextStage == Stage.FreeMove)
             {
                 block.transform.localScale = new Vector3(
@@ -324,7 +306,6 @@ public class CutSceneManager : PongManager
         }
         if (nextStage == Stage.DD)
         {
-            // float ghostZend = sizes.planeDistance + sizes.fieldDepth * 0.5f + sizes.ballDiameter * 0.5f;
             float ghostZend = field.background.transform.position.z + field.background.col.bounds.size.z / 2 + sizes.ballDiameter;
             while (t < pm.speeds.transitionSpeeds.entitiesTransitionSpeed)
             {
@@ -339,7 +320,6 @@ public class CutSceneManager : PongManager
         switch (currentStage)
         {
             case Stage.DD:
-                // float ghostZstart = sizes.planeDistance + sizes.fieldDepth * 0.5f + sizes.ballDiameter * 0.5f;
                 float ghostZstart = field.background.transform.position.z + field.background.col.bounds.size.z / 2 + sizes.ballDiameter;
                 materializeEdges = edges.Any(edge => Mathf.Approximately(edge.meshR.material.GetFloat("_DissolveProgress"), 1));
                 while (t < pm.speeds.transitionSpeeds.entitiesTransitionSpeed)
@@ -369,11 +349,6 @@ public class CutSceneManager : PongManager
                             field.ball.meshR.material.SetColor("_DissolveEdgeColor", Color.Lerp(mm.materials.darknessPolyGlowColor, mm.materials.ballDissolveGlowColor, t / pm.speeds.transitionSpeeds.entitiesTransitionSpeed));
                             field.ball.meshR.material.SetFloat("_DissolveEdgeDepth", Mathf.Lerp(1, 0, t / pm.speeds.transitionSpeeds.entitiesTransitionSpeed));
                         }
-                        // else
-                        // {
-                        //     edges.ForEach(edge => edge.meshR.material.SetFloat("_DissolveProgress", Mathf.SmoothStep(1, 0, t / pm.speeds.transitionSpeeds.entitiesTransitionSpeed)));
-                        // }
-
                     }
                     if (materializeEdges)
                     {
@@ -456,9 +431,6 @@ public class CutSceneManager : PongManager
             fallenPadFragments.GatherFragments(field.leftPad);
             fallenPadFragments.GatherFragments(field.rightPad);
         }
-        // field.leftWall.turnOff = nextStage == Stage.Universe;
-        // field.rightWall.turnOff = nextStage == Stage.Universe;
-
         newStageManager.StartStage();
         ReleaseControl(true);
     }
@@ -596,13 +568,10 @@ public class CutSceneManager : PongManager
         }
 
         vfx.StopPolyIdleAnimation();
-        // unsuspendUniverseStage.Invoke();
         ReleaseControl();
     }
     IEnumerator CyclePolyEatsSingularity()
     {
-        // field.ball.SetBallState(States.Idle);
-
         float t = 0f;
         vfx.StartPolyIdleAnimation();
 

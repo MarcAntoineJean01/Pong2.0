@@ -30,6 +30,7 @@ public class GameModeSelect : SettingSelectCube
     }
     protected override void SwitchSetting()
     {
+        base.SwitchSetting();
         PongManager.mainSettings.gameMode = (GameMode)currentSelectedSetting;
         transform.DOComplete();
         usingCube = false;

@@ -83,6 +83,7 @@ public class VolumeSelect : SettingSelectCube
     }
     protected override void SwitchSetting()
     {
+        base.SwitchSetting();
         switch (volumeIndex)
         {
             case 0:

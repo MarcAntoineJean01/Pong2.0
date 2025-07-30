@@ -9,13 +9,11 @@ public class DebuffSlow : DebuffEntity
 {
     bool contained = false;
     bool waitForNextFragment = false;
-    // public CinemachineVirtualCamera testcam;
     public Sequence sqnc;
     public OrbitPath orbitPath;
     public VisualEffect visualEffect;
     public bool doneSpawningBlackhole = false;
     public bool enteredStage = false;
-    // float scaleMultiplier = 2;
     float padSuctionThreshold = 0f;
     float ballFragmentSuctionThreshold = 1;
     float padSuctionRange => (col as SphereCollider).radius * 2;
@@ -23,7 +21,6 @@ public class DebuffSlow : DebuffEntity
     List<Fragment> caughtFragments = new List<Fragment>();
     bool firstFragmentCaught = false;
     Vector3 initialPosition => new Vector3(0, 0, stagePosZ + PongManager.sizes.fieldDepth * 0.5f);
-    // Vector3 originalScale = Vector3.one;
     Vector3[] newCalculatedPath
     {
         get
@@ -41,7 +38,6 @@ public class DebuffSlow : DebuffEntity
                         point.y = Mathf.Cos(angle) * fieldBounds.y * 0.9f;
                         point.z = stagePosZ + PongManager.sizes.ballDiameter * 2.5f;
                         points[i] = point;
-                        // points[i] = new Vector3(point.x, point.y, stagePosZ);
                     }
                     points[segments - 1] = points[0];
                     return points;
@@ -53,7 +49,6 @@ public class DebuffSlow : DebuffEntity
                         point.y = Mathf.Sin(2 * angle) * fieldBounds.y * 0.9f;
                         point.z = stagePosZ + PongManager.sizes.ballDiameter * 2.5f;
                         points[i] = point;
-                        // points[i] = new Vector3(point.x, point.y, stagePosZ);
                     }
                     points[segments - 1] = points[0];
                     // SHIFT START BY 1/4 TO START CENTER SCREEN (CROSS SECTION OF THE FIGURE8 SHAPE OF THE PATH)
@@ -66,7 +61,6 @@ public class DebuffSlow : DebuffEntity
                         point.y = Mathf.Sin(2 * angle) / 1.5f * fieldBounds.y * 0.9f;
                         point.z = stagePosZ + PongManager.sizes.ballDiameter * 2.5f;
                         points[i] = point;
-                        // points[i] = new Vector3(point.x, point.y, stagePosZ);
                     }
                     points[segments - 1] = points[0];
                     // SHIFT START BY 1/4 TO START CENTER SCREEN (CROSS SECTION OF THE FIGURE8 SHAPE OF THE PATH)
@@ -150,7 +144,6 @@ public class DebuffSlow : DebuffEntity
     {
         base.OnEnable();
         transform.position = initialPosition;
-        // originalScale = transform.localScale;
         transform.position = newCalculatedPath[0];
 #if !UNITY_WEBGL
         transform.localScale = Vector3.one * 3;
@@ -192,8 +185,6 @@ public class DebuffSlow : DebuffEntity
         field.leftPad.meshR.material.SetFloat("_SuctionThreshold", padSuctionThreshold);
         field.rightPad.meshR.material.SetFloat("_SuctionRange", padSuctionRange);
         field.rightPad.meshR.material.SetFloat("_SuctionThreshold", padSuctionThreshold);
-        // field.ball.meshR.material.SetFloat("_SuctionRange", ballSuctionRange);
-        // field.ball.meshR.material.SetFloat("_SuctionThreshold", ballSuctionThreshold);
         if (field.ball.fragmented)
         {
             field.ball.fragments[0].meshR.material.SetFloat("_SuctionRange", ballFragmentSuctionRange);
@@ -206,8 +197,6 @@ public class DebuffSlow : DebuffEntity
         field.leftPad.meshR.material.SetFloat("_SuctionThreshold", 0);
         field.rightPad.meshR.material.SetFloat("_SuctionRange", 0);
         field.rightPad.meshR.material.SetFloat("_SuctionThreshold", 0);
-        // field.ball.meshR.material.SetFloat("_SuctionRange", 0);
-        // field.ball.meshR.material.SetFloat("_SuctionThreshold", 0);
         if (field.ball.fragmented)
         {
             field.ball.fragments[0].meshR.material.SetFloat("_SuctionRange", 0);
@@ -231,19 +220,12 @@ public class DebuffSlow : DebuffEntity
         foreach (Fragment fragment in caughtFragments)
         {
             fragment.meshR.material.SetVector("_SuctionTarget", transform.position);
-            // fragment.meshR.material.SetFloat("_SuctionRange", ballFragmentSuctionRange * transform.localScale.x);
         }
         if (!contained)
         {
-            // float normalizedProgress = Mathf.Abs(transform.position.x) / (fieldBounds.x * 0.9f);
-            // float easing = orbitalEase.Evaluate(normalizedProgress);
-            // transform.localScale = Vector3.Lerp(originalScale * scaleMultiplier, originalScale, easing);
-            // (col as SphereCollider).center = Vector3.Lerp(new Vector3(0, 0, 1), Vector3.zero, easing);
-            // field.ball.meshR.material.SetVector("_SuctionTarget", transform.position);
             if (field.ball.fragmented && !waitForNextFragment && col.enabled)
             {
                 field.ball.fragments[0].meshR.material.SetVector("_SuctionTarget", transform.position);
-                // if (Vector3.Distance(transform.position, field.ball.fragments[0].transform.position) <= ballFragmentSuctionRange)
                 if (field.ball.fragmented)
                 {
                     field.ball.fragments[0].col.enabled = false;
@@ -256,7 +238,6 @@ public class DebuffSlow : DebuffEntity
                         BallEntity newBall = builder.MakeFullBall(BallMesh.IcosahedronRough, 1.2f);
                         newBall.SetBallForStage();
                         field.ReplaceEntity(Entity.Ball, newBall);
-                        // StartCoroutine(CyclePrepareForSwitch());
                         if (PongManager.mainSettings.cutScenesOn)
                         {
                             csm.PlayScene(CutScene.PolyFeelsEvenLighter);
@@ -285,68 +266,6 @@ public class DebuffSlow : DebuffEntity
     {
         ExitStage();
     }
-    // IEnumerator CyclePrepareForSwitch()
-    // {
-    //     contained = true;
-    //     (col as SphereCollider).center = Vector3.zero;
-    //     Vector3 currentScale = transform.localScale;
-    //     sqnc.SetAutoKill(true);
-    //     sqnc.OnComplete(() => sqnc.Kill());
-    //     yield return null;
-    //     while (sqnc.active)
-    //     {
-    //         yield return null;
-    //     }
-    //     float t = 0f;
-    //     Vector3 initalPos = transform.position;
-    //     while (t < 3)
-    //     {
-    //         t += Time.deltaTime;
-    //         if (t > 3) { t = 3; }
-    //         transform.position = Vector3.Lerp(initalPos, calculatedPathFlattened[0], t / 3);
-    //         visualEffect.SetFloat("DistortionScale", Mathf.Lerp(2.5f, 10, t / 3));
-    //         transform.localScale = Vector3.Lerp(currentScale, originalScale, t / 3);
-    //         yield return null;
-    //     }
-    //     visualEffect.SetFloat("DistortionScale", 10);
-    //     transform.localScale = originalScale;
-    //     transform.position = calculatedPathFlattened[0];
-
-    //     Sequence newSequence = DOTween.Sequence();
-    //     newSequence.Append(transform.DOPath(calculatedPathFlattened, 30, PathType.Linear).SetEase(Ease.Linear));
-    //     newSequence.SetEase(Ease.Linear);
-    //     newSequence.Pause();
-    //     newSequence.SetAutoKill(false);
-    //     newSequence.OnComplete(() => newSequence.Restart());
-    //     sqnc = newSequence;
-    //     sqnc.Play();
-    //     if (PongManager.mainSettings.cutScenesOn)
-    //     {
-    //         csm.PlayScene(CutScene.ScoldingFromPixy);
-    //     }
-    //     else
-    //     {
-    //         List<Edge> edges = new List<Edge>()
-    //         {
-    //             field.leftWall,
-    //             field.rightWall,
-    //             field.topFloor,
-    //             field.bottomFloor,
-    //             field.background
-    //         };
-    //         edges.ForEach(edge => { edge.meshR.material.SetFloat("_EmissionIntensity", 1); edge.meshR.material.SetFloat("_DissolveEdgeDepth", 0.01f); });
-    //         t = 0f;
-    //         while (t < pm.gameEffects.wallDissolveSpeed)
-    //         {
-    //             t += Time.unscaledDeltaTime;
-    //             if (t > pm.gameEffects.wallDissolveSpeed) { t = pm.gameEffects.wallDissolveSpeed; }
-    //             edges.ForEach(edge => edge.meshR.material.SetFloat("_DissolveProgress", Mathf.SmoothStep(1, 0, t / pm.gameEffects.wallDissolveSpeed)));
-    //             yield return null;
-    //         }
-    //         edges.ForEach(edge => { edge.meshR.material.SetFloat("_EmissionIntensity", 0); edge.meshR.material.SetFloat("_DissolveEdgeDepth", 0); });
-    //         csm.unsuspendUniverseStage.Invoke();
-    //     }
-    // }
     IEnumerator CycleWaitForNextFragment()
     {
         waitForNextFragment = true;
@@ -361,7 +280,6 @@ public class DebuffSlow : DebuffEntity
         float angleSpeed = 50;
         float radialSpeed = 0.5f;
         float maxDistanceDelta = PongManager.sizes.fieldWidth / 90; // testing this is +/- the distance the ball moves in one fixed update
-        // fragment.transform.DOBlendableMoveBy(transform.position, 10);
         while (Vector3.Distance(transform.position, fragment.transform.position) > ballFragmentSuctionThreshold)
         {
             fragment.transform.LookAt(transform.position);
@@ -373,7 +291,6 @@ public class DebuffSlow : DebuffEntity
             float x = transform.position.x + radius * Mathf.Cos(Mathf.Deg2Rad * angle);
             float z = transform.position.z + radius * Mathf.Sin(Mathf.Deg2Rad * angle);
             float y = transform.position.y + radius * Mathf.Cos(Mathf.Deg2Rad * angle);
-            // float y = transform.position.y;
 
             fragment.transform.position = Vector3.MoveTowards(fragment.transform.position, new Vector3(x, y, z), maxDistanceDelta);
             yield return null;
@@ -385,7 +302,6 @@ public class DebuffSlow : DebuffEntity
     {
         yield return new WaitForSeconds(2);
         CinemachineBasicMultiChannelPerlin noise = CameraManager.activeVCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        // CinemachineBasicMultiChannelPerlin noise = testcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         visualEffect.Play();
         noise.m_AmplitudeGain = 0.25f;
         noise.m_FrequencyGain = 5;
@@ -425,7 +341,6 @@ public class DebuffSlow : DebuffEntity
     {
         yield return new WaitForSeconds(2);
         CinemachineBasicMultiChannelPerlin noise = CameraManager.activeVCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        // CinemachineBasicMultiChannelPerlin noise = testcam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         noise.m_AmplitudeGain = 0.25f;
         noise.m_FrequencyGain = 5;
         Vector3 initialScale = Vector3.one*3;

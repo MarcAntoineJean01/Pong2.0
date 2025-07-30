@@ -23,14 +23,5 @@ public class PongManager : PongBehaviour
     public static Side lastToLoseHealth;
     public static int goals = 0;
     public static int totalGoalsThresholdForStage => options.goalsThreshold * (int)PongBehaviour.currentStage;
-    // public static int totalGoalsThresholdForStage
-    // {
-    //     get
-    //     {
-    //         Debug.Log(options.goalsThreshold + "    " + ((int)PongBehaviour.currentStage - 1));
-    //         Debug.Log((int)PongBehaviour.currentStage + "    " + PongBehaviour.currentStage);
-    //         return options.goalsThreshold * ((int)PongBehaviour.currentStage - 1);
-    //     }
-    // }
     public static int remainingGoalsThresholdForStage => totalGoalsThresholdForStage - PongManager.goals;
 }

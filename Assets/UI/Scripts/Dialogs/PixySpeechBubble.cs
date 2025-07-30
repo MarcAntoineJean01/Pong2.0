@@ -6,8 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 public class PixySpeechBubble : NewSpeechBubble
 {
-    //orientation => true: landscape, false: portrait
-    public bool orientation;
+    public bool orientation; //orientation => true: landscape, false: portrait
     public RectTransform rect;
     public GridLayoutGroup grid;
     [SerializeField]

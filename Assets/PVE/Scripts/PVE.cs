@@ -223,7 +223,6 @@ public class PVE : PongManager
             virtualField.leftSpike.GetComponent<Rigidbody>().maxDepenetrationVelocity = field.spikeStore.lastActiveSpikes.spikeLeft.rbd.maxDepenetrationVelocity;
 
             virtualField.leftSpike.GetComponent<Rigidbody>().isKinematic = false;
-            // virtualField.leftSpike.GetComponent<Rigidbody>().angularVelocity = field.spikeStore.lastActiveSpikes.spikeLeft.rbd.angularVelocity;
             virtualField.leftSpike.GetComponent<Rigidbody>().velocity = field.spikeStore.lastActiveSpikes.spikeLeft.rbd.velocity;
             virtualField.leftSpike.GetComponent<Rigidbody>().AddForce(field.spikeStore.lastActiveSpikes.spikeLeft.rbd.velocity, ForceMode.VelocityChange);
             virtualField.leftSpike.transform.rotation = field.spikeStore.lastActiveSpikes.spikeLeft.transform.rotation;
@@ -246,7 +245,6 @@ public class PVE : PongManager
         if (field.debuffStore.debuffBurn.gameObject.activeSelf)
         {
             virtualField.debuffBurn.GetComponent<Rigidbody>().isKinematic = false;
-            // virtualField.debuffBurn.GetComponent<Rigidbody>().angularVelocity = field.debuffStore.debuffBurn.rbd.angularVelocity;
             virtualField.debuffBurn.GetComponent<Rigidbody>().velocity = field.debuffStore.debuffBurn.rbd.velocity;
             virtualField.debuffBurn.GetComponent<Rigidbody>().AddForce(field.debuffStore.debuffBurn.rbd.velocity, ForceMode.VelocityChange);
             virtualField.debuffBurn.transform.rotation = field.debuffStore.debuffBurn.transform.rotation;
@@ -255,7 +253,6 @@ public class PVE : PongManager
         if (field.debuffStore.debuffFreeze.gameObject.activeSelf)
         {
             virtualField.debuffFreeze.GetComponent<Rigidbody>().isKinematic = false;
-            // virtualField.debuffFreeze.GetComponent<Rigidbody>().angularVelocity = field.debuffStore.debuffFreeze.rbd.angularVelocity;
             virtualField.debuffFreeze.GetComponent<Rigidbody>().velocity = field.debuffStore.debuffFreeze.rbd.velocity;
             virtualField.debuffFreeze.GetComponent<Rigidbody>().AddForce(field.debuffStore.debuffFreeze.rbd.velocity, ForceMode.VelocityChange);
             virtualField.debuffFreeze.transform.rotation = field.debuffStore.debuffFreeze.transform.rotation;

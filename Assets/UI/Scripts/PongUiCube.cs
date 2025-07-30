@@ -82,7 +82,6 @@ public class PongUiCube : Selectable, IPointerClickHandler, ISubmitHandler
         sqnc.Append(transform.DOLocalRotate(new Vector3(-2.5f, 0, 0), 0.2f).SetEase(Ease.Linear));
         sqnc.Append(transform.DOLocalRotate(new Vector3(2.5f, -2.5f, -2.5f), 0.2f).SetEase(Ease.Linear));
         sqnc.Append(transform.DOLocalRotate(new Vector3(0, 0, 0), 0.2f).SetEase(Ease.Linear));
-        // sqnc.Insert(0, transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0.1f), sqnc.Duration(), 5));
         sqnc.SetEase(Ease.Linear);
         sqnc.SetAutoKill(false);
         sqnc.OnComplete(() => sqnc.Restart());

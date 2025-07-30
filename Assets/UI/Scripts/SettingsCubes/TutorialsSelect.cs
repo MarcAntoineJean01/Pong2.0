@@ -37,6 +37,7 @@ public class TutorialsSelect : SettingSelectCube
     }
     protected override void SwitchSide(Side dir)
     {
+        base.SwitchSetting();
         currentSelectedSetting = !currentSelectedSetting;
         transform.DOComplete();
         base.SwitchSide(dir);

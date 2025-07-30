@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 public class FakeUiCube : MonoBehaviour
 {
     [ColorUsage(true, true)]
@@ -11,6 +12,7 @@ public class FakeUiCube : MonoBehaviour
     public GameObject[] sides = new GameObject[6];
     protected float size => GetComponentInParent<GridLayoutGroup>().cellSize.x;
     public Sequence sqnc;
+    public TMP_Text text;
     protected void SetCube()
     {
         sides[0].transform.localPosition = new Vector3(0, 0, -size * 0.5f);
@@ -45,7 +47,6 @@ public class FakeUiCube : MonoBehaviour
         sqnc.Append(transform.DORotate(new Vector3(-2.5f, 0, 0), 0.2f).SetEase(Ease.Linear));
         sqnc.Append(transform.DORotate(new Vector3(2.5f, -2.5f, -2.5f), 0.2f).SetEase(Ease.Linear));
         sqnc.Append(transform.DORotate(new Vector3(0, 0, 0), 0.2f).SetEase(Ease.Linear));
-        // sqnc.Insert(0, transform.DOPunchScale(new Vector3(0.1f, 0.1f, 0.1f), sqnc.Duration(), 5));
         sqnc.SetEase(Ease.Linear);
         sqnc.SetAutoKill(false);
         sqnc.OnComplete(() => sqnc.Restart());

@@ -15,9 +15,7 @@ public class PongBehaviour : MonoBehaviour
     public static NewGameManager newGameManager;
     public static NewStageManager newStageManager;
     public static UiManager um;
-    // public static GameManager gm;
     public static Builder builder;
-    // public static StageManager sm;
     public static CameraManager cm;
     public static MeshManager mm;
     public static ParamsManager pm;

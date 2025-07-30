@@ -14,21 +14,13 @@ public enum GamePhase
 public enum Stage
 {
     StartMenu,
-    // bigger pads
     DD,
-    // extra padblocks
     DDD,
-    // multiBall and gravity changes
     Universe,
-    // no powers for now
     GravityWell,
-    // move left and right, tower block gained here are twice as big but stay on their z position
     FreeMove,
-    // freeze shot (honing with straight trajectory), fire shot (honing with curve trajectory, destroys all except initial padblocks)
     FireAndIce,
-    //pad POV and buckshot power
     Neon,
-    // pads on the floor, every power available, balls come from Z axis
     Final
 }
 public enum TransitionStep
@@ -58,14 +50,17 @@ public struct Player
 {
     public PlayerController controller { get; set; }
     public int health { get; private set; }
-    public ProgressBar healthBar;
+    public ProgressBar healthBarFull;
+    public ProgressBar healthBarSplit;
+    public ProgressBar healthBar => PongBehaviour.currentStage == Stage.Neon ? healthBarSplit : healthBarFull;
     public float wallNoiseBase;
 
-    public Player(PlayerController controller, int health, ProgressBar healthBar)
+    public Player(PlayerController controller, int health, ProgressBar healthBar, ProgressBar healthBarSplit)
     {
         this.controller = controller;
-        this.healthBar = healthBar;
-        this.health = this.healthBar.current = this.healthBar.maximum = health;
+        this.healthBarFull = healthBar;
+        this.healthBarSplit = healthBarSplit;
+        this.health = this.healthBarFull.current = this.healthBarFull.maximum = health;
         this.wallNoiseBase = 0;
         this.healthBar.minimum = 0;
     }

@@ -25,7 +25,6 @@ public class TestingScene : MonoBehaviour
         cam.targetTexture = texture;
         foreground.material.SetTexture("_BaseTexture", texture);
         StartCoroutine(tesadt());
-        Debug.Log(new Vector2(-(Screen.width / 2), Screen.width / 2)+"--"+new Vector2(-(Screen.height / 2), Screen.height / 2));
     }
     IEnumerator tesadt()
     {
@@ -61,7 +60,6 @@ public class TestingScene : MonoBehaviour
 
             }
             foreground.material.SetVector("_HitPosition", new Vector2(UnityEngine.Random.Range(-(Screen.width / 2), Screen.width / 2), UnityEngine.Random.Range(-(Screen.height / 2), Screen.height / 2)));
-            Debug.Log(foreground.material.GetVector("_HitPosition"));
             foreground.material.SetFloat("_Speed", 0);
             foreground.material.SetFloat("_Strength", 0);
             foreground.material.SetFloat("_Expanding", 1);
@@ -106,7 +104,6 @@ public class TestingScene : MonoBehaviour
 
             }
             // rendererFeature.passMaterial.SetVector("_HitPosition", new Vector2(UnityEngine.Random.Range(-(Screen.width / 2), Screen.width / 2), UnityEngine.Random.Range(-(Screen.height / 2), Screen.height / 2)));
-            Debug.Log(rendererFeature.passMaterial.GetVector("_HitPosition"));
             rendererFeature.passMaterial.SetFloat("_Speed", 0);
             rendererFeature.passMaterial.SetFloat("_Strength", 0);
             rendererFeature.passMaterial.SetFloat("_Expanding", 1);

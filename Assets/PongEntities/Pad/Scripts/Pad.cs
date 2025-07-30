@@ -178,44 +178,6 @@ public class Pad : PongEntity
         {
             pve.StartPVE();
         }
-        // if (Gamepad.all.Count > 1 && cntrl == PadController.Player)
-        // {
-        //     playerControls = new PongPlayerControls();
-        //     playerControls.devices = new InputDevice[] { sd == Side.Left ? Gamepad.all[0] : Gamepad.all[1] };
-        //     playerControls.PadControls.Move.performed += ctx => verticalAxis = ctx.ReadValue<Vector2>().y;
-        //     playerControls.PadControls.Move.performed += ctx => horizontalAxis = ctx.ReadValue<Vector2>().x;
-        //     playerControls.PadControls.Confirm.performed += ctx => padConfirm.Invoke();
-        //     playerControls.PadControls.Pause.performed += ctx => padPause.Invoke();
-        //     playerControls.PadControls.Enable();
-        //     playerControlsEnabled = true;
-        // }
-        // else if (Gamepad.all.Count > 0 && sd == Side.Left && cntrl == PadController.Player)
-        // {
-        //     playerControls = new PongPlayerControls();
-        //     playerControls.devices = new InputDevice[] { Gamepad.all[0] };
-        //     playerControls.PadControls.Move.performed += ctx => verticalAxis = ctx.ReadValue<Vector2>().y;
-        //     playerControls.PadControls.Move.performed += ctx => horizontalAxis = ctx.ReadValue<Vector2>().x;
-        //     playerControls.PadControls.Confirm.performed += ctx => padConfirm.Invoke();
-        //     playerControls.PadControls.Pause.performed += ctx => padPause.Invoke();
-        //     playerControls.PadControls.Enable();
-        //     playerControlsEnabled = true;
-        // }
-        // else
-        // {
-        //     if (sd == Side.Left)
-        //     {
-        //         PongManager.leftPlayer.controller = PadController.Environment;
-        //     }
-        //     else
-        //     {
-        //         PongManager.rightPlayer.controller = PadController.Environment;
-        //     }
-        //     cntrl = PadController.Environment;
-        //     if (!pve.pveActive)
-        //     {
-        //         pve.StartPVE();
-        //     }
-        // }
     }
     public void DisableControls()
     {
@@ -403,7 +365,6 @@ public class Pad : PongEntity
         StopAllCoroutines();
         targetY = 0;
         targetZ = stagePosZ;
-        // meshR.material = mm.materials.padMaterial;
         switch (currentStage)
         {
             case Stage.StartMenu:

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class DebuffFreeze : DebuffEntity
 {
-    // bool waitForNextFragment = false;
     float ballFragmentSuctionThreshold = 0.1f;
     float ballFragmentSuctionRange => PongManager.sizes.ballDiameter * transform.localScale.x;
     List<Fragment> orbitingFragments = new List<Fragment>();
@@ -45,8 +44,6 @@ public class DebuffFreeze : DebuffEntity
             {
                 fragment.col.enabled = false;
                 fragment.transform.SetParent(PongManager.fieldParent.transform, true);
-                // caughtFragments.Add(fragment);
-                // field.ball.fragments.Remove(field.ball.fragments[0]);
                 StartCoroutine(CycleGobbleFragments());
             }
         }
@@ -83,7 +80,6 @@ public class DebuffFreeze : DebuffEntity
             }
             gotFragments = true;
         }
-        // col.enabled = true;
     }
     IEnumerator CycleGobbleFragments()
     {
@@ -93,8 +89,6 @@ public class DebuffFreeze : DebuffEntity
             {
                 fragment.col.enabled = false;
                 fragment.transform.SetParent(PongManager.fieldParent.transform, true);
-                // caughtFragments.Add(fragment);
-                // field.ball.fragments.Remove(field.ball.fragments[0]);
                 StartCoroutine(CycleGobbleFragment(fragment));
                 yield return new WaitForSecondsRealtime(0.2f);                
             }
@@ -124,16 +118,13 @@ public class DebuffFreeze : DebuffEntity
 
             fragment.transform.position = Vector3.MoveTowards(fragment.transform.position, new Vector3(x, y, z), 0.1f * field.ball.transform.localScale.x);
             fragment.transform.rotation = Quaternion.RotateTowards(fragment.transform.rotation, Quaternion.identity, 0.1f);
-            // fragment.meshR.material.SetVector("_SuctionTarget", transform.position);
             yield return null;
         }
-        // caughtFragments.Remove(fragment);
         fragment.transform.SetParent(transform);
         fragment.transform.localPosition = Vector3.zero;
         fragment.transform.rotation = Quaternion.identity;
         field.ball.fragments.Remove(fragment);
         orbitingFragments.Remove(fragment);
         caughtFragments.Add(fragment);
-        // GameObject.Destroy(fragment.gameObject);
     }
 }

@@ -8,6 +8,7 @@ public class CameraManager : PongManager
     public Camera mainCam;
     public Camera leftPadCam;
     public Camera rightPadCam;
+    public Camera overlayCam;
     public static CinemachineBrain camBrain;
     public GameObject virtualCamPrefab;
     public Dictionary<Stage, CinemachineVirtualCamera> virtualCams = new Dictionary<Stage, CinemachineVirtualCamera>();
@@ -73,7 +74,7 @@ public class CameraManager : PongManager
 
         mainCam.cullingMask = mainCam.cullingMask & ~(1 << 7);
         mainCam.cullingMask = mainCam.cullingMask & ~(1 << 6);
-        mainCam.cullingMask = mainCam.cullingMask & ~(1 << 5);
+        // mainCam.cullingMask = mainCam.cullingMask & ~(1 << 5);
 
         leftPadVCamStart = GameObject.Instantiate(virtualCamPrefab, transform).GetComponent<CinemachineVirtualCamera>();
         rightPadVCamStart = GameObject.Instantiate(virtualCamPrefab, transform).GetComponent<CinemachineVirtualCamera>();
@@ -92,7 +93,7 @@ public class CameraManager : PongManager
         leftPadVCamStart.gameObject.layer = LayerMask.NameToLayer("PadCamLeft");
         rightPadVCamStart.gameObject.layer = LayerMask.NameToLayer("PadCamRight");
         leftPadCam.cullingMask = rightPadCam.cullingMask = leftPadCam.cullingMask & ~(1 << 8);
-        leftPadCam.cullingMask = rightPadCam.cullingMask = leftPadCam.cullingMask & ~(1 << 5);
+        // leftPadCam.cullingMask = rightPadCam.cullingMask = leftPadCam.cullingMask & ~(1 << 5);
         leftPadCam.cullingMask = leftPadCam.cullingMask & ~(1 << 7);
         rightPadCam.cullingMask = rightPadCam.cullingMask & ~(1 << 6);
 
@@ -388,7 +389,6 @@ public class CameraManager : PongManager
         blending = true;
         if (nextStage == Stage.Neon)
         {
-            // float ls = field.topFloor.transform.localScale.x;
             mm.TransitionFieldMeshes();
 #if !UNITY_WEBGL
             field.leftWall.SwitchNeonStage();
@@ -442,8 +442,6 @@ public class CameraManager : PongManager
             field.topFloor.SwitchNeonStage(false);
             field.bottomFloor.SwitchNeonStage(false);
 #endif
-            // field.topFloor.transform.localScale = new Vector3(field.topFloor.transform.localScale.x, field.topFloor.transform.localScale.x, field.topFloor.transform.localScale.z);
-            // field.bottomFloor.transform.localScale = new Vector3(field.bottomFloor.transform.localScale.x, field.bottomFloor.transform.localScale.x, field.bottomFloor.transform.localScale.z);
             TurnOffPadCams();
         }
         if (mainSettings.gameMode == GameMode.Goals)

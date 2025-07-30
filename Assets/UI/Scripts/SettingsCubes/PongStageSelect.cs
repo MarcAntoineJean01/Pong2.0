@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using UnityEngine;
 public class PongStageSelect : SettingSelectCube
 {
     bool changedCurrentStage = false;
@@ -32,6 +33,7 @@ public class PongStageSelect : SettingSelectCube
     }
     protected override void SwitchSetting()
     {
+        base.SwitchSetting();
         PongBehaviour.newStageManager.SelectNewStage(currentSelectedSetting);
         transform.DOComplete();
         usingCube = false;

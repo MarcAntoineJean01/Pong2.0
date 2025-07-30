@@ -30,6 +30,7 @@ public class DialogsSelect : SettingSelectCube
     }
     protected override void SwitchSetting()
     {
+        base.SwitchSetting();
         PongManager.mainSettings.inGameDialogsOn = currentSelectedSetting;
         transform.DOComplete();
         usingCube = false;

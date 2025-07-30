@@ -30,13 +30,5 @@ public class ProgressBar : MonoBehaviour
         float fillAmount = currentOffset / maximum;
         Image imageToFill = isRadial ? fill : mask;
         imageToFill.fillAmount = fillAmount;
-        // if (currentOffset > maximum)
-        // {
-        //     minimum += maximum;
-        // }
-        // if (current < minimum)
-        // {
-        //     minimum -= maximum;
-        // }
     }
 }

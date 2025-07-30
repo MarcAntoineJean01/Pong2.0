@@ -73,6 +73,7 @@ public class GameModeThresholdSelect : SettingSelectCube
     }
     protected override void SwitchSetting()
     {
+        base.SwitchSetting();
         switch (PongManager.mainSettings.gameMode)
         {
             case GameMode.Time:

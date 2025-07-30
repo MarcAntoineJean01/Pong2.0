@@ -24,7 +24,6 @@ public class Wall : Edge
             lct = Time.time;
             if (collision.gameObject.GetComponent<BallEntity>() != null && field.ball.st == State.Live)
             {
-                // cm.CameraNoise(cm.virtualCams[currentStage]);
                 ballTouchedWall.Invoke();
             }
         }

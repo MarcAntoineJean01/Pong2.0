@@ -33,6 +33,7 @@ public class StartingHealthSelect : SettingSelectCube
     }
     protected override void SwitchSetting()
     {
+        base.SwitchSetting();
         PongManager.options.startingHealth = currentSelectedSetting;
         transform.DOComplete();
         usingCube = false;

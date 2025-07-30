@@ -9,6 +9,10 @@ using UnityEngine.UI;
 
 public class UiManager : PongManager
 {
+    public Vector3 testA;
+    public Vector3 testB;
+    public Vector3 testC;
+    public Vector3 testD;
     public GameObject debugFakeCubePrefab;
     public RectTransform metaCube;
     public List<PongUiMenu> metaCubeSides = new List<PongUiMenu>(6);
@@ -21,8 +25,12 @@ public class UiManager : PongManager
     [ColorUsage(true, true)]
     public Color fontGlowColor;
     public GridLayoutGroup hudCanvasGrid;
-    public CanvasGroup leftHud;
-    public CanvasGroup rightHud;
+    public CanvasGroup leftHudFull;
+    public CanvasGroup rightHudFull;
+    public CanvasGroup leftHudSplit;
+    public CanvasGroup rightHudSplit;
+    public CanvasGroup leftHud => currentStage == Stage.Neon ? leftHudSplit : leftHudFull;
+    public CanvasGroup rightHud => currentStage == Stage.Neon ? rightHudSplit : rightHudFull;
     public TMP_Text leftAttractorCount;
     public TMP_Text leftRepulsorCount;
     public TMP_Text rightAttractorCount;
@@ -33,6 +41,8 @@ public class UiManager : PongManager
     public GameObject gameOverPanel;
     public ProgressBar hudBarLeft;
     public ProgressBar hudBarRight;
+    public ProgressBar hudBarLeftSplit;
+    public ProgressBar hudBarRightSplit;
     public bool menuOn = false;
     bool displayingLeftHud = false;
     bool displayingRightHud = false;
@@ -164,22 +174,23 @@ public class UiManager : PongManager
         Application.Quit();
 #endif
     }
+    public void OpenStartMenu()
+    {
+        TurnOnMetaCube(0);
+    }
     public void OpenSettingsMenu()
     {
-        TurnOnMetaCube(currentPhase == GamePhase.Startup ? 1 : 2);
-    }
-    public void OpenAllowedSpikesMenu()
-    {
-        TurnOnMetaCube(3);
+        // TurnOnMetaCube(currentPhase == GamePhase.Startup ? 1 : 2); why was this like that?
+        TurnOnMetaCube(1);
     }
     public void OpenPauseMenu()
     {
         TurnOnMetaCube(2);
         currentActiveMenu.MenuInteractionOn();
     }
-    public void OpenStartMenu()
+    public void OpenAllowedSpikesMenu()
     {
-        TurnOnMetaCube(0);
+        TurnOnMetaCube(3);
     }
     public void OpenSoundMenu()
     {
@@ -274,17 +285,45 @@ public class UiManager : PongManager
         {
             metaCube.gameObject.transform.rotation = Quaternion.Euler(RotationForMenu(side));
             currentActiveMenu = metaCubeSides[side];
+            if (currentStage == Stage.Neon)
+            {
+                cm.overlayCam.transform.position = cm.leftPadCam.transform.position;
+                cm.overlayCam.transform.rotation = cm.rightPadCam.transform.rotation;
+                metaCube.transform.position = new Vector3(metaCube.transform.position.x, metaCube.transform.position.y, stagePosZ);
+                metaCube.transform.LookAt(cm.leftPadCam.transform.position);
+                metaCube.gameObject.transform.rotation = Quaternion.LookRotation(cm.leftPadCam.transform.position - metaCube.transform.position) * Quaternion.Euler(RotationForMenu(side));
+                metaCube.transform.localScale = Vector3.one * 0.5f;
+                menuCanvas.renderMode = RenderMode.WorldSpace;
+            }
+            else
+            {
+                cm.overlayCam.transform.position = cm.mainCam.transform.position;
+                metaCube.transform.localPosition = new Vector3(0, 0, metaCubeSize * 0.5f);
+            }
             metaCube.gameObject.SetActive(true);
         }
         else
         {
             currentActiveMenu.MenuInteractionOff();
-            metaCube.transform.DORotate(RotationForMenu(side), 1).OnComplete(() =>
+            if (currentStage == Stage.Neon)
             {
-                currentActiveMenu = metaCubeSides[side];
-                metaCube.gameObject.transform.rotation = Quaternion.Euler(RotationForMenu(side));
-                currentActiveMenu.MenuInteractionOn();
-            });
+                metaCube.transform.DORotateQuaternion(Quaternion.LookRotation(cm.leftPadCam.transform.position - metaCube.transform.position) * Quaternion.Euler(RotationForMenu(side)), 1).OnComplete(() =>
+                {
+                    currentActiveMenu = metaCubeSides[side];
+                    metaCube.gameObject.transform.rotation = Quaternion.LookRotation(cm.leftPadCam.transform.position - metaCube.transform.position) * Quaternion.Euler(RotationForMenu(side));
+                    currentActiveMenu.MenuInteractionOn();
+                });
+            }
+            else
+            {
+                metaCube.transform.DORotate(RotationForMenu(side), 1).OnComplete(() =>
+                {
+                    currentActiveMenu = metaCubeSides[side];
+                    metaCube.gameObject.transform.rotation = Quaternion.Euler(RotationForMenu(side));
+                    currentActiveMenu.MenuInteractionOn();
+                });                
+            }
+
         }
         HideOverlappingCubes(side);
     }
@@ -292,6 +331,13 @@ public class UiManager : PongManager
     {
         currentActiveMenu.MenuInteractionOff();
         metaCube.gameObject.SetActive(false);
+        if (currentStage == Stage.Neon)
+        {
+            cm.overlayCam.transform.position = cm.mainCam.transform.position;
+            cm.overlayCam.transform.rotation = cm.mainCam.transform.rotation;
+            metaCube.transform.localScale = Vector3.one;
+        }
+        menuCanvas.renderMode = RenderMode.ScreenSpaceCamera;
         metaCube.transform.rotation = Quaternion.identity;
         metaCube.transform.localScale = Vector3.one;
     }
@@ -305,11 +351,11 @@ public class UiManager : PongManager
             case 1:
                 return new Vector3(180, 0, 0);
             case 2:
-                return new Vector3(90, 0, 0);
+                return currentStage == Stage.Neon ? new Vector3(0,90,270) : new Vector3(90, 0, 0);
             case 3:
-                return new Vector3(270, 0, 0);
+                return currentStage == Stage.Neon ? new Vector3(180,90,90) : new Vector3(270, 0, 0);
             case 4:
-                return new Vector3(0, 270, 0);
+                return currentStage == Stage.Neon ? new Vector3(270,90,0) : new Vector3(0, 270, 0);
             case 5:
                 return new Vector3(0, 90, 0);
         }
@@ -339,171 +385,5 @@ public class UiManager : PongManager
         {
             metaCubeSides[metaCubeFace].MenuInteractionOff();
         }
-        // switch (side)
-        // {
-        //     default:
-        //     case 0:
-        //         metaCubeSides[2].transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[2].transform.GetChild(1).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[2].transform.GetChild(2).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[2].transform.GetChild(3).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[3].transform.GetChild(12).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[3].transform.GetChild(13).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[3].transform.GetChild(14).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[3].transform.GetChild(15).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[4].transform.GetChild(3).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[4].transform.GetChild(7).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[4].transform.GetChild(11).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[4].transform.GetChild(15).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[5].transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[5].transform.GetChild(4).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[5].transform.GetChild(8).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[5].transform.GetChild(12).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[1].MenuInteractionOff();
-        //         metaCubeSides[2].MenuInteractionOff();
-        //         metaCubeSides[3].MenuInteractionOff();
-        //         metaCubeSides[4].MenuInteractionOff();
-        //         metaCubeSides[5].MenuInteractionOff();
-        //         break;
-        //     case 1:
-        //         metaCubeSides[2].transform.GetChild(12).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[2].transform.GetChild(13).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[2].transform.GetChild(14).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[2].transform.GetChild(15).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[3].transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[3].transform.GetChild(1).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[3].transform.GetChild(2).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[3].transform.GetChild(3).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[4].transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[4].transform.GetChild(4).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[4].transform.GetChild(8).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[4].transform.GetChild(12).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[5].transform.GetChild(3).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[5].transform.GetChild(7).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[5].transform.GetChild(11).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[5].transform.GetChild(15).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[0].MenuInteractionOff();
-        //         metaCubeSides[2].MenuInteractionOff();
-        //         metaCubeSides[3].MenuInteractionOff();
-        //         metaCubeSides[4].MenuInteractionOff();
-        //         metaCubeSides[5].MenuInteractionOff();
-        //         break;
-        //     case 2:
-        //         metaCubeSides[0].transform.GetChild(12).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[0].transform.GetChild(13).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[0].transform.GetChild(14).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[0].transform.GetChild(15).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[1].transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[1].transform.GetChild(1).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[1].transform.GetChild(2).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[1].transform.GetChild(3).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[4].transform.GetChild(12).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[4].transform.GetChild(13).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[4].transform.GetChild(14).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[4].transform.GetChild(15).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[5].transform.GetChild(12).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[5].transform.GetChild(13).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[5].transform.GetChild(14).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[5].transform.GetChild(15).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[0].MenuInteractionOff();
-        //         metaCubeSides[1].MenuInteractionOff();
-        //         metaCubeSides[3].MenuInteractionOff();
-        //         metaCubeSides[4].MenuInteractionOff();
-        //         metaCubeSides[5].MenuInteractionOff();
-        //         break;
-        //     case 3:
-        //         metaCubeSides[0].transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[0].transform.GetChild(1).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[0].transform.GetChild(2).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[0].transform.GetChild(3).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[1].transform.GetChild(12).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[1].transform.GetChild(13).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[1].transform.GetChild(14).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[1].transform.GetChild(15).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[4].transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[4].transform.GetChild(1).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[4].transform.GetChild(2).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[4].transform.GetChild(3).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[5].transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[5].transform.GetChild(1).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[5].transform.GetChild(2).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[5].transform.GetChild(3).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[0].MenuInteractionOff();
-        //         metaCubeSides[1].MenuInteractionOff();
-        //         metaCubeSides[2].MenuInteractionOff();
-        //         metaCubeSides[4].MenuInteractionOff();
-        //         metaCubeSides[5].MenuInteractionOff();
-        //         break;
-        //     case 4:
-        //         metaCubeSides[0].transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[0].transform.GetChild(4).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[0].transform.GetChild(8).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[0].transform.GetChild(12).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[1].transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[1].transform.GetChild(4).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[1].transform.GetChild(8).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[1].transform.GetChild(12).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[2].transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[2].transform.GetChild(4).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[2].transform.GetChild(8).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[2].transform.GetChild(12).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[3].transform.GetChild(0).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[3].transform.GetChild(4).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[3].transform.GetChild(8).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[3].transform.GetChild(12).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[0].MenuInteractionOff();
-        //         metaCubeSides[1].MenuInteractionOff();
-        //         metaCubeSides[2].MenuInteractionOff();
-        //         metaCubeSides[3].MenuInteractionOff();
-        //         metaCubeSides[5].MenuInteractionOff();
-        //         break;
-        //     case 5:
-        //         metaCubeSides[0].transform.GetChild(3).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[0].transform.GetChild(7).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[0].transform.GetChild(11).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[0].transform.GetChild(15).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[1].transform.GetChild(3).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[1].transform.GetChild(7).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[1].transform.GetChild(11).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[1].transform.GetChild(15).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[2].transform.GetChild(3).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[2].transform.GetChild(7).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[2].transform.GetChild(11).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[2].transform.GetChild(15).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[3].transform.GetChild(3).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[3].transform.GetChild(7).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[3].transform.GetChild(11).GetComponent<CanvasGroup>().alpha = 0;
-        //         metaCubeSides[3].transform.GetChild(15).GetComponent<CanvasGroup>().alpha = 0;
-
-        //         metaCubeSides[0].MenuInteractionOff();
-        //         metaCubeSides[1].MenuInteractionOff();
-        //         metaCubeSides[2].MenuInteractionOff();
-        //         metaCubeSides[3].MenuInteractionOff();
-        //         metaCubeSides[4].MenuInteractionOff();
-        //         break;
-        // }
     }
 }

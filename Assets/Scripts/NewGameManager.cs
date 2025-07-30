@@ -14,7 +14,6 @@ public class NewGameManager : PongManager
     public UnityEvent gameOver;
     public bool debugNeverReachGoal;
     bool explainedSpikes = false;
-    // bool explainedDebuffs = false;
     float timeScaleWhenPaused = 1;
     public float ellapsedGameTime = 0;
     bool scoreCoolingDown = false;
@@ -59,17 +58,6 @@ public class NewGameManager : PongManager
     {
         if (currentPhase != GamePhase.Pause && !um.menuOn)
         {
-            // if (currentStage == Stage.Neon)
-            // {
-            //     if (pauseSide == Side.Left)
-            //     {
-            //         um.metaCube.transform.SetParent(leftCanvas.transform, false);
-            //     }
-            //     else if (pauseSide == Side.Right)
-            //     {
-            //         um.metaCube.transform.SetParent(rightCanvas.transform, false);
-            //     }
-            // }
             previousPhase = currentPhase;
             timeScaleWhenPaused = Time.timeScale;
             Time.timeScale = 0;
@@ -91,10 +79,6 @@ public class NewGameManager : PongManager
             StopCoroutine("DebugMoveCam");
             CameraManager.activeVCam.transform.rotation = Quaternion.identity;
         }
-        // if (currentStage != Stage.Neon && um.metaCube.transform.parent != menuCanvas.transform)
-        // {
-        //     um.metaCube.transform.SetParent(menuCanvas.transform, false);
-        // }
         if (previousPhase != GamePhase.Pause)
         {
             currentPhase = previousPhase;
@@ -115,8 +99,8 @@ public class NewGameManager : PongManager
 
     public void StartGame()
     {
-        leftPlayer = new Player(mainSettings.leftPlayerController, options.startingHealth, um.hudBarLeft);
-        rightPlayer = new Player(mainSettings.rightPlayerController, options.startingHealth, um.hudBarRight);
+        leftPlayer = new Player(mainSettings.leftPlayerController, options.startingHealth, um.hudBarLeft, um.hudBarLeftSplit);
+        rightPlayer = new Player(mainSettings.rightPlayerController, options.startingHealth, um.hudBarRight, um.hudBarRightSplit);
         menuCanvas.planeDistance = 100;
         builder.Build();
         newStageManager.SetStage();
@@ -125,7 +109,6 @@ public class NewGameManager : PongManager
         {
             dm.MakePixySpeechBubble(Dialogs.controlsInstructions, false, true);
             dm.pixySpeechBubble.pixyBubbleDied.AddListener(() => { ListenForPad(Side.None); dm.pixySpeechBubble.pixyBubbleDied.RemoveAllListeners(); });
-            // ListenForPad(Side.None);
         }
         else
         {
@@ -133,7 +116,6 @@ public class NewGameManager : PongManager
         }
         field.rightWall.ballTouchedWall.AddListener(() => TryUpdateScore(Side.Right));
         field.leftWall.ballTouchedWall.AddListener(() => TryUpdateScore(Side.Left));
-        // csm.unsuspendUniverseStage.AddListener(OnUniverseUnsuspended);
         goals = 0;
         currentPhase = GamePhase.Playing;
     }
@@ -198,16 +180,6 @@ public class NewGameManager : PongManager
             StartCoroutine("CycleScoreDelay");
         }
     }
-    // void OnUniverseUnsuspended()
-    // {
-    //     if (mainSettings.gameMode == GameMode.Time)
-    //     {
-    //         FieldDoMoveZ();
-    //     }
-    //     SpikeSpawn();
-    //     field.leftWall.turnOff = false;
-    //     field.rightWall.turnOff = false;
-    // }
     public void StopListenForPad(Side padSide)
     {
         switch (padSide)
@@ -258,10 +230,6 @@ public class NewGameManager : PongManager
             currentPhase = GamePhase.Playing;
             field.ball.SetBallState(State.Live);
             am.PlayAudio(AudioType.LaunchBall, Vector3.zero);
-            // if (currentStage == Stage.FreeMove)
-            // {
-            //     fmfm.gameObject.SetActive(true);
-            // }
             if (currentStage != Stage.FreeMove && fmfm != null)
             {
                 GameObject.Destroy(fmfm.gameObject);

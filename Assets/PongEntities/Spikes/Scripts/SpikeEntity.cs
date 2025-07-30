@@ -2,8 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 public class SpikeEntity : PongEntity
 {
-    //THIS IS TO KILL THE SPIKE AFTER AN N AMOUNT OF BOUNCES
-    protected int bounceLimit = 10;
+    protected int bounceLimit = 10; //THIS IS TO KILL THE SPIKE AFTER AN N AMOUNT OF BOUNCES
     public int bounces = 0;
     public Side sd;
     public float sqrSpikeSpeed => pm.speeds.entitySpeeds.spikeLinearVelocity * pm.speeds.entitySpeeds.spikeLinearVelocity * speedModifier;
@@ -47,19 +46,13 @@ public class SpikeEntity : PongEntity
     }
     public void SetSpikeForStage()
     {
-        // meshR.material = mm.materials.spikeMaterials.MaterialForCurrentMesh(spikeMesh);
         switch (currentStage)
         {
             case Stage.StartMenu:
             case Stage.DD:
                 rbd.constraints = rbd.constraints | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
                 meshR.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
-                // rbd.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
                 break;
-            // case Stages.FreeMove:
-            //     rbd.constraints = RigidbodyConstraints.None;
-            //     meshR.shadowCastingMode = ShadowCastingMode.On;
-            //     break;
             default:
                 rbd.constraints = rbd.constraints | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
                 meshR.shadowCastingMode = ShadowCastingMode.On;
@@ -93,10 +86,6 @@ public class SpikeEntity : PongEntity
         {
             transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, sd == Side.Left ? 90 : 270, this is SpikeDissolve ? 270 : 0));
         }
-        // else
-        // {
-        //     // transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, 0, 0));
-        // }
         StartSpike();
     }
     protected void PostMortem(bool proc = false)

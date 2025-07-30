@@ -42,7 +42,7 @@ public class SettingSelectCube : PongUiCube
                 return sides.First(side => side.transform.position.y >= sides.Max(sd => sd.transform.position.y));
             default:
                 return null;
-        }
+        } 
     }
     protected override void OnEnable()
     {
@@ -79,6 +79,22 @@ public class SettingSelectCube : PongUiCube
             release = false;
         }
     }
+    // protected Vector3 RotationForSplitScreen(Side side)
+    // {
+    //     switch (side)
+    //     {
+    //         case Side.Left:
+    //             return  new Vector3(180, 0, 270);
+    //         case Side.Right:
+    //             return new Vector3(0, 0, 270);
+    //         case Side.Top:
+    //             return new Vector3(180, 0, 180);
+    //         case Side.Bottom:
+    //             return  new Vector3(270, 0, 90);
+    //         default:
+    //             return Vector3.zero;
+    //     }
+    // }
     protected virtual void SwitchSide(Side dir)
     {
         transform.DOComplete();
@@ -87,9 +103,17 @@ public class SettingSelectCube : PongUiCube
         transform.DORotate(RotationForDirection(dir), 0.5f, RotateMode.WorldAxisAdd);
         NextSide(dir).GetComponentInChildren<TMP_Text>().text = currentSelectedString;
     }
+    // protected virtual void SwitchSide(Side dir)
+    // {
+    //     transform.DOComplete();
+    //     PongManager.am.PlayAudio(AudioType.UiSwitchFaces, transform.position);
+    //     NextSide(dir).transform.rotation = PongBehaviour.currentStage == Stage.Neon ? Quaternion.LookRotation(PongBehaviour.cm.leftPadCam.transform.position - PongBehaviour.um.metaCube.transform.position) * Quaternion.Euler(RotationForSplitScreen(dir) * -1) : Quaternion.Euler(RotationForDirection(dir) * -1);
+    //     transform.DOLocalRotate(RotationForDirection(dir), 0.5f, RotateMode.WorldAxisAdd);
+    //     NextSide(dir).GetComponentInChildren<TMP_Text>().text = currentSelectedString;
+    // }
     protected virtual void SwitchSetting()
     {
-
+        cubeControls.UiCubeControls.Disable();
     }
     public override void OnPointerClick(PointerEventData eventData)
     {

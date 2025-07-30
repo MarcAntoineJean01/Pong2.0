@@ -33,6 +33,7 @@ public class MaxPadChargesSelect : SettingSelectCube
     }
     protected override void SwitchSetting()
     {
+        base.SwitchSetting();
         PongManager.options.padMaxMagnetCharges = currentSelectedSetting;
         transform.DOComplete();
         usingCube = false;

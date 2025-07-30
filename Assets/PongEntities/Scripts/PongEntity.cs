@@ -75,7 +75,6 @@ public class PongEntity : PongBehaviour
                 }
                 break;
             case "DebuffSlow":
-                // if (this is not DebuffSlow && this is not Edge && !slowed)
                 if (this is Pad && !slowed)
                 {
                     speedModifier = 0.3f;
@@ -123,7 +122,6 @@ public class PongEntity : PongBehaviour
                 }
                 break;
             case "DebuffSlow":
-                // if (this is not DebuffSlow && this is not Edge)
                 if (this is Pad || this is BallEntity)
                 {
                     speedModifier = 1;

@@ -80,27 +80,11 @@ public class PongStartup : MonoBehaviour
         FillMetaCube();
         StartCoroutine("CycleStartup");
     }
-    // GameObject test;
-    // void Update()
-    // {
-    //     // if (menuOn && EventSystem.current.currentSelectedGameObject == null)
-    //     // {
-    //     //     EventSystem.current.SetSelectedGameObject(EventSystem.current.firstSelectedGameObject);
-    //     // }
-    //     if (menuOn)
-    //     {
-    //         if (test != EventSystem.current.currentSelectedGameObject)
-    //         {
-    //             test = EventSystem.current.currentSelectedGameObject;
-    //         }
-    //     }
-    // }
-
     public void SetInitialSettings()
     {
         PongManager.mainSettings = new MainGameSettings();
         PongManager.options = new GameOptions();
-        PongManager.mainSettings.gameMode = GameMode.Goals;
+        PongManager.mainSettings.gameMode = GameMode.Time;
         PongManager.mainSettings.cutScenesOn = false;
         PongManager.mainSettings.inGameDialogsOn = false;
         PongManager.mainSettings.tutorialsOn = true;
@@ -147,7 +131,7 @@ public class PongStartup : MonoBehaviour
         }
         if (!titleSkipCalled)
         {
-            uiManager.TurnOnMetaCube(0);
+            uiManager.OpenStartMenu();
         }
         t = 0;
         while (t < 1 && !titleSkipCalled)
@@ -163,7 +147,7 @@ public class PongStartup : MonoBehaviour
         {
             float currentAlpha = startupPanel.alpha;
             t = 0;
-            uiManager.TurnOnMetaCube(0);
+            uiManager.OpenStartMenu();
             if (currentAlpha > 0.5f)
             {
                 while (t < 0.4f)

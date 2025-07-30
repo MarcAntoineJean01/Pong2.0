@@ -51,7 +51,6 @@ public class VirtualField
             obj.transform.rotation = Quaternion.identity;
             obj.AddComponent<MeshCollider>();
             obj.AddComponent<Rigidbody>().isKinematic = false;
-            // obj.AddComponent<VirtualEntity>();
         }
         leftPad.GetComponent<Rigidbody>().isKinematic = true;
         rightPad.GetComponent<Rigidbody>().isKinematic = true;
@@ -79,8 +78,6 @@ public class VirtualField
         this.rightSpike.AddComponent<VirtualEntity>().entityType = VirtualEntityType.Spike;
         this.debuffBurn.AddComponent<VirtualEntity>().entityType = VirtualEntityType.Debuff;
         this.debuffFreeze.AddComponent<VirtualEntity>().entityType = VirtualEntityType.Debuff;
-        // this.leftPad.GetComponent<VirtualEntity>().pad = true;
-        // this.rightPad.GetComponent<VirtualEntity>().pad = true;
     }
     public void CopyRigidBody(Rigidbody original, Rigidbody copy)
     {

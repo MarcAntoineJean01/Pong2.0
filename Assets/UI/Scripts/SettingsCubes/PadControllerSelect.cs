@@ -33,6 +33,7 @@ public class PadControllerSelect : SettingSelectCube
     }
     protected override void SwitchSetting()
     {
+        base.SwitchSetting();
         if (padSide == Side.Left)
         {
             PongManager.mainSettings.leftPlayerController = (PlayerController)currentSelectedSetting;
