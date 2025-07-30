@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Pad
+  - Water
+  - UI
+  - PadCamLeft
+  - PadCamRight
+  - MainCamera
+  - Fragment
+  - Debuff
+  - Ball
+  - Spike
+  - BlackHoleCore
+  - Background
+  - Foreground
+  - SpeechBubble
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1493400401
+    locked: 0
+  - name: Text
+    uniqueID: 575476559
+    locked: 0

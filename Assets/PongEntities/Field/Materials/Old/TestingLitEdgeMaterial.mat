@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5917799421950532876
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: TestingLitEdgeMaterial
+  m_Shader: {fileID: -6465566751694194690, guid: d975643cba4f23c4193a642678da384c,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _NormalFromTexture_41ecd19c11a74bb788923a5e1200b86f_Texture_0_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalFromTexture_8197c38baed348c198bfecabbb7ff88f_Texture_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: cb285db95b1147843a8d532b28eda652, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMapping_111d5d3ff9a14cc098346ce3c4f7daaf_Heightmap_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 523c8a5630fc17a438feb0356985c0c4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxOcclusionMapping_44080e72f0844ca28ae4258edb69a579_Heightmap_2_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 1bb20d7f5b7f6224caa2875e8665c9f7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Boolean: 0
+    - _CellsDepth: -0.05
+    - _ColorConversion: 1
+    - _DissolveEdgeDepth: 2.33
+    - _DissolveProgress: 0
+    - _EmissionIntensity: 3.28
+    - _Float: 0.06175956
+    - _Float_1: 12.22
+    - _Float_2: 1.11
+    - _Float_3: -11.14
+    - _Float_4: -1.13
+    - _FresnelPower: -19.61
+    - _Horizontal: 1
+    - _LineThickness: 10000
+    - _NeonSpeed: 0.25
+    - _NeonStage: 1
+    - _NoiseAngleOffset: 15.34
+    - _NoiseDensity: 8
+    - _NoiseIntensity: 2
+    - _NormalIntensity: 6.4
+    - _NormalStrength: 80.64
+    - _PatternOffset: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _SurfaceDepth: 0
+    - _TestingFloat: 1
+    - _Thickness: 0.5
+    - _ThicknessFalloff: 0
+    - _TilesFlatness: -1.76
+    m_Colors:
+    - _BaseColor: {r: 0.996681, g: 1, b: 0.7688679, a: 1}
+    - _Color: {r: 1, g: 0, b: 0.63573265, a: 0}
+    - _Color_1: {r: 6.4980187, g: 0.06362732, b: 0, a: 0}
+    - _EmissionColor: {r: 18.164822, g: 0.17097716, b: 0, a: 0}
+    - _InMinMax: {r: -1, g: 1, b: 0, a: 0}
+    - _Multiplier: {r: -1.99, g: 9.93, b: 0, a: 0}
+    - _NeonColorA: {r: 1.002375, g: 2.996079, b: 0, a: 0}
+    - _NeonColorB: {r: 2.996078, g: 0, b: 1.835294, a: 0}
+    - _NeonLinesDensity: {r: 4.97, g: 0.51, b: 0, a: 0}
+    - _NeonLinesSize: {r: 0.5, g: 0.9, b: 0, a: 0}
+    - _OutMinMax: {r: -1, g: 1, b: 0, a: 0}
+    - _Vector2: {r: -1, g: 1, b: 0, a: 0}
+    - _Vector2_1: {r: 0, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []

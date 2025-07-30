@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WebLitEdgeMaterial
+  m_Shader: {fileID: -6465566751694194690, guid: e718ab003cd3829469e7db3036a249ae,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _CellsDepth: 0.1767756
+    - _DissolveEdgeDepth: 0
+    - _DissolveProgress: 0
+    - _EmissionIntensity: 0
+    - _Horizontal: 1
+    - _NeonSpeed: 0.5
+    - _NeonStage: 0
+    - _NoiseAngleOffset: 0.1258071
+    - _NoiseIntensity: 10
+    - _NormalStrength: 20
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _TestingFloat: 1
+    - _TilesFlatness: 0.5
+    m_Colors:
+    - _BaseColor: {r: 0.99607843, g: 1, b: 0.76862746, a: 1}
+    - _EmissionColor: {r: 18.164822, g: 0.17097716, b: 0, a: 0}
+    - _Multiplier: {r: -1.5, g: 3, b: 0, a: 0}
+    - _NeonColorA: {r: 1.002375, g: 2.996079, b: 0, a: 0}
+    - _NeonColorB: {r: 2.996078, g: 0, b: 1.835294, a: 0}
+    - _NeonLinesDensity: {r: 300, g: 15, b: 0, a: 0}
+    - _NeonLinesSize: {r: 0.05, g: 0.6, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!114 &5656716029531138714
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
