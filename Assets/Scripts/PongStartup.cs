@@ -41,8 +41,9 @@ public class PongStartup : MonoBehaviour
             {
                 for (int i = 0; i < 16 - initialChildCount; i++)
                 {
-                    menu.fakeUiCubes.Add(GameObject.Instantiate(uiManager.debugFakeCubePrefab, menu.grid.transform).GetComponent<FakeUiCube>());
-                    menu.fakeUiCubes.Last().transform.SetAsFirstSibling();
+                    // menu.fakeUiCubes.Add(GameObject.Instantiate(uiManager.debugFakeCubePrefab, menu.grid.transform).GetComponent<FakeUiCube>());
+                    GameObject.Instantiate(uiManager.debugFakeCubePrefab, menu.grid.transform).GetComponent<FakeUiCube>().transform.SetAsFirstSibling();
+                    // menu.fakeUiCubes.Last().transform.SetAsFirstSibling();
                 }
             }
         }
@@ -99,6 +100,8 @@ public class PongStartup : MonoBehaviour
         PongManager.options.goalsThreshold = 5;
         PongManager.options.padMaxMagnetCharges = 2;
         PongManager.options.startingHealth = 100;
+        SettingSelectCube.options = PongManager.options;
+        SettingSelectCube.settings = PongManager.mainSettings;
     }
     IEnumerator CycleStartup()
     {

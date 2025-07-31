@@ -287,7 +287,7 @@ public class CutSceneManager : PongManager
         bool materializeEdges;
 
         vfx.StartPolyIdleAnimation();
-        if (mainSettings.gameMode == GameMode.Goals || currentStage == Stage.Neon || nextStage == Stage.Neon)
+        if (mainSettings.gameMode == GameMode.Goals || nextStage == Stage.Neon || CameraManager.leftPadVCamEnd.gameObject.activeSelf || CameraManager.rightPadVCamEnd.gameObject.activeSelf)
         {
             cm.MoveToNextCamera();
         }

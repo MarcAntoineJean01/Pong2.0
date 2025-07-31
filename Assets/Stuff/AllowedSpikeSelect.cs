@@ -62,7 +62,7 @@ public class AllowedSpikeSelect : PongUiCube
         {
             t += Time.unscaledDeltaTime;
             if (t > fadeDuration) { t = fadeDuration; }
-            mat.SetColor("_BaseColor", Color.Lerp(normalColor, pressedColor, t / fadeDuration));
+            mat.SetColor("_BaseColor", Color.Lerp(PongBehaviour.um.cubeNormalColor, PongBehaviour.um.cubePressedColor, t / fadeDuration));
             yield return null;
         }
     }

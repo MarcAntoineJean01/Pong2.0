@@ -12,8 +12,36 @@ public class PongUiMenu : MonoBehaviour
     public GridLayoutGroup grid;
     public TMP_Text title;
     public Color titleColor;
-    public List<PongUiCube> pongUiCubes = new List<PongUiCube>();
-    public List<FakeUiCube> fakeUiCubes = new List<FakeUiCube>();
+    public List<PongUiCube> pongUiCubes
+    {
+        get
+        {
+            List<PongUiCube> tempList = new List<PongUiCube>();
+            foreach (Transform child in transform)
+            {
+                if (child.GetComponent<PongUiCube>() != null)
+                {
+                    tempList.Add(child.GetComponent<PongUiCube>());
+                }
+            }
+            return tempList;
+        }
+    }
+    public List<FakeUiCube> fakeUiCubes
+    {
+        get
+        {
+            List<FakeUiCube> tempList = new List<FakeUiCube>();
+            foreach (Transform child in transform)
+            {
+                if (child.GetComponent<FakeUiCube>() != null)
+                {
+                    tempList.Add(child.GetComponent<FakeUiCube>());
+                }
+            }
+            return tempList;
+        }
+    }
     public List<FakeUiCube> fakeUiCubesWithText = new List<FakeUiCube>();
     [Serializable]
     public class MetaCubeVanishedEvent : UnityEvent { }
@@ -24,6 +52,7 @@ public class PongUiMenu : MonoBehaviour
         get { return m_MetaCubeVanished; }
         set { m_MetaCubeVanished = value; }
     }
+    public static PongPlayerControls menuControls;
     void Start()
     {
         foreach (PongUiCube cube in pongUiCubes)
@@ -43,6 +72,44 @@ public class PongUiMenu : MonoBehaviour
         else
         {
             grid.spacing = Vector2.Lerp(Vector2.zero, Vector2.one * PongBehaviour.um.uiCubePadding, PongBehaviour.vfx.styleLerpValue);
+        }
+
+        if (menuControls == null)
+        {
+            menuControls = new PongPlayerControls();
+            menuControls.Disable();
+            menuControls.UiCubeControls.Disable();
+            menuControls.UiCubeControls.Cancel.performed += ctx => Back();
+            menuControls.UiCubeControls.Cancel.Enable();                    
+        }
+    }
+    void Back()
+    {
+        switch (UiManager.currentActiveMenuIndex)
+        {
+
+            case 1:
+                PongBehaviour.um.OpenStartMenu();
+                break;
+            case 3:
+            case 4:
+            case 5:
+                if (PongManager.currentPhase != GamePhase.Startup)
+                {
+                    PongBehaviour.um.OpenPauseMenu();
+                }
+                else
+                {
+                    PongBehaviour.um.OpenSettingsMenu();
+                }
+                break;
+            case 2:
+                StopAllCoroutines();
+                MenuInteractionOff();
+                StartCoroutine(CycleVanishMetaCube(null));
+                menuControls.Dispose();
+                menuControls = null;
+                break;
         }
     }
     public void MenuInteractionOn()
@@ -85,14 +152,21 @@ public class PongUiMenu : MonoBehaviour
     private IEnumerator CycleVanishMetaCube(PongUiCube cube)
     {
         PongBehaviour.um.metaCube.transform.DORotate(new Vector3(45, 360, 90), 1, RotateMode.FastBeyond360).SetEase(Ease.Linear).SetLoops(-1);
-        PongBehaviour.um.metaCube.transform.DOScale(new Vector3(0.01f, 0.01f, 0.01f), 1).SetEase(Ease.InSine).OnComplete(() =>  PongBehaviour.um.metaCube.transform.DOKill());
+        PongBehaviour.um.metaCube.transform.DOScale(new Vector3(0.01f, 0.01f, 0.01f), 1).SetEase(Ease.InSine).OnComplete(() => PongBehaviour.um.metaCube.transform.DOKill());
         yield return null;
-        while (DOTween.IsTweening( PongBehaviour.um.metaCube.transform))
+        while (DOTween.IsTweening(PongBehaviour.um.metaCube.transform))
         {
             yield return null;
         }
         PongBehaviour.um.menuOn = false;
-        cube.onMetaCubeVanished.Invoke();
+        if (cube != null)
+        {
+            cube.onMetaCubeVanished.Invoke();
+        }
+        else
+        {
+            PongBehaviour.newGameManager.UnPause();
+        }
         metaCubeVanished.Invoke();
     }
 }

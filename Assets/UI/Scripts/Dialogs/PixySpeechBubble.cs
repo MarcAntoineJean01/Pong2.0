@@ -15,7 +15,7 @@ public class PixySpeechBubble : NewSpeechBubble
     void OnEnable()
     {
         transform.rotation = Quaternion.Euler(Vector3.zero);
-        grid.cellSize = orientation ? new Vector2(PongManager.sizes.canvasSize.x-padding.left, PongManager.sizes.canvasSize.y*0.3f-padding.top) : new Vector2(PongManager.sizes.canvasSize.x*0.3f-padding.left, PongManager.sizes.canvasSize.y-padding.top);
+        grid.cellSize = orientation ? new Vector2(PongManager.sizes.canvasSize.x-padding.left, PongManager.sizes.canvasSize.y*0.4f-padding.top) : new Vector2(PongManager.sizes.canvasSize.x*0.4f-padding.left, PongManager.sizes.canvasSize.y-padding.top);
         grid.padding = padding;
         text.maxVisibleCharacters = 0;
         text.gameObject.SetActive(false);

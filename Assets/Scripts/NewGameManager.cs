@@ -230,11 +230,6 @@ public class NewGameManager : PongManager
             currentPhase = GamePhase.Playing;
             field.ball.SetBallState(State.Live);
             am.PlayAudio(AudioType.LaunchBall, Vector3.zero);
-            if (currentStage != Stage.FreeMove && fmfm != null)
-            {
-                GameObject.Destroy(fmfm.gameObject);
-                fmfm = null;
-            }
             launchCalled = true;
             if (mainSettings.gameMode == GameMode.Time)
             {

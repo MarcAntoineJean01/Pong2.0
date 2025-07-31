@@ -6,6 +6,7 @@ using System;
 
 public class NewSpeechBubble : PongBehaviour
 {
+    bool showAllText = false;
     public bool permanent = false;
     public bool makeGhost;
     public LineRenderer lineRenderer;
@@ -81,6 +82,7 @@ public class NewSpeechBubble : PongBehaviour
     {
         if (currentlySpeeding)
         {
+            showAllText = true;
             return;
         }
         currentlySpeeding = true;
@@ -173,6 +175,20 @@ public class NewSpeechBubble : PongBehaviour
         while (currentVisibleCharacterIndex < text.textInfo.characterCount + 1)
         {
             var lastCharacterIndex = text.textInfo.characterCount - 1;
+            if (showAllText)
+            {
+                text.maxVisibleCharacters = text.textInfo.characterCount;
+                yield return new WaitForSecondsRealtime(sendDoneDelay);
+                CompleteTextRevealed?.Invoke();
+                readyForNewText = true;
+                showAllText = false;
+                currentlySpeeding = false;
+                if (!permanent)
+                {
+                    StartCoroutine("CycleAutoKill");
+                }
+                yield break;
+            }
             if (currentVisibleCharacterIndex >= lastCharacterIndex)
             {
                 text.maxVisibleCharacters++;

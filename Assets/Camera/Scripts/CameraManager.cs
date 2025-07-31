@@ -416,7 +416,7 @@ public class CameraManager : PongManager
                 yield return null;
             }
         }
-        else if (currentStage == Stage.Neon)
+        else if (leftPadCam.gameObject.activeSelf || leftPadCam.gameObject.activeSelf)
         {
             CinemachineBrain leftBrain = leftPadCam.GetComponent<CinemachineBrain>();
             CinemachineBrain rightBrain = rightPadCam.GetComponent<CinemachineBrain>();

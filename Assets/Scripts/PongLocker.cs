@@ -108,7 +108,7 @@ public struct GameOptions
     [Range(0, 1)]
     public float soundVolume;
     public float musicVolume => (m_MusicVolume + soundVolume) / 2;
-    public float effectsVolume => (m_EffectsVolume + soundVolume) /2;
+    public float effectsVolume => (m_EffectsVolume + soundVolume) / 2;
     [Range(0, 1)]
     public float m_MusicVolume;
     [Range(0, 1)]
@@ -124,4 +124,23 @@ public struct GameOptions
     public int padMaxMagnetCharges;
     [Range(5, 200)]
     public int startingHealth;
+}
+public enum Setting
+{
+    GameMode,
+    CutScenesOn,
+    InGameDialogsOn,
+    TutorialsOn,
+    LeftPlayerController,
+    RightPlayerController,
+    SoundVolume,
+    MusicVolume,
+    EffectsVolume,
+    AllowedSpikes,
+    AllowedDebuffs,
+    TimeThreshold,
+    GoalsThreshold,
+    PadMaxMagnetCharges,
+    StartingHealth,
+    Stage
 }

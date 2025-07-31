@@ -14,8 +14,8 @@ public class FreeMoveFieldManager : PongManager
     [SerializeField]
     private ForegroundCollisionDetector foreground;
     private RenderTexture foregroundTexture;
-    private int cullingMask;
-    void Start()
+    private static int cullingMask;
+    void OnEnable()
     {
         foregroundTexture = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
         textureCamera.targetTexture = foregroundTexture;
@@ -28,7 +28,7 @@ public class FreeMoveFieldManager : PongManager
         foregroundCollider.size = (field.background.col as BoxCollider).size;
         foreground.transform.localScale = field.background.transform.localScale;
         foreground.transform.position = new Vector3(field.background.transform.position.x, field.background.transform.position.y, mainSettings.gameMode == GameMode.Time ? stagePosZ - 0.6566f : CameraManager.activeVCam.transform.position.z + menuCanvas.planeDistance + 0.73056f); // 0.6566 | 0.73056 sweet spot to match main camera
-        foregroundCollider.center = new Vector3(0,0,sizes.ballDiameter*1.5f/field.ball.transform.localScale.z);
+        foregroundCollider.center = new Vector3(0, 0, sizes.ballDiameter * 1.5f / field.ball.transform.localScale.z);
         xLine.SetPosition(0, new Vector3(field.ball.transform.position.x, foregroundCollider.transform.position.y - (foregroundCollider.size.y * 0.5f * foreground.transform.localScale.x), stagePosZ));
         xLine.SetPosition(1, new Vector3(field.ball.transform.position.x, field.background.transform.position.y - (foregroundCollider.size.y * 0.5f * foreground.transform.localScale.x), field.background.transform.position.z - (foregroundCollider.size.z * 0.5f * foreground.transform.localScale.x)));
         xLine.SetPosition(2, new Vector3(field.ball.transform.position.x, field.background.transform.position.y + (foregroundCollider.size.y * 0.5f * foreground.transform.localScale.x), field.background.transform.position.z - (foregroundCollider.size.z * 0.5f * foreground.transform.localScale.x)));
@@ -49,8 +49,8 @@ public class FreeMoveFieldManager : PongManager
         textureCamera.transform.rotation = CameraManager.activeVCam.transform.rotation;
         foregroundFilter.mesh = field.background.meshF.mesh;
         foreground.screenBounce.AddListener(() => PlayScreenBounce());
-        cullingMask = Camera.main.cullingMask;
-        Camera.main.cullingMask = 1 << LayerMask.NameToLayer("Foreground");
+        cullingMask = cm.mainCam.cullingMask;
+        cm.mainCam.cullingMask = 1 << LayerMask.NameToLayer("Foreground");
     }
     void PlayScreenBounce()
     {
@@ -66,9 +66,9 @@ public class FreeMoveFieldManager : PongManager
     }
     void OnDestroy()
     {
-        if (Camera.main != null)
+        if (cm.mainCam != null)
         {
-            Camera.main.cullingMask = cullingMask;
+            cm.mainCam.cullingMask = cullingMask;
         }
     }
 }

@@ -6,19 +6,14 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using System.Linq;
+using System.Collections.Generic;
 public class PongUiCube : Selectable, IPointerClickHandler, ISubmitHandler
 {
+    public Material mat;
     public bool vanishMetaCubeOnClick = true;
     public bool highlighted = false;
-    [ColorUsage(true, true)]
-    public Color normalColor;
-    [ColorUsage(true, true)]
-    public Color highlightedColor;
-    [ColorUsage(true, true)]
-    public Color pressedColor;
     protected float fadeDuration = 0.1f;
-    public Material mat;
-    public Color textColor;
     public GameObject[] sides = new GameObject[6];
     protected float size => GetComponentInParent<GridLayoutGroup>().cellSize.x;
     public Sequence sqnc;
@@ -61,18 +56,29 @@ public class PongUiCube : Selectable, IPointerClickHandler, ISubmitHandler
         sides[5].transform.localPosition = new Vector3(size * 0.5f, 0, 0);
         sides[5].transform.localRotation = Quaternion.Euler(0, 270, 0);
     }
+    protected override void Awake()
+    {
+        List<GameObject> tempSides = new List<GameObject>();
+        foreach (Transform child in transform)
+        {
+            tempSides.Add(child.gameObject);
+        }
+        sides = tempSides.ToArray();
+        mat = new Material(PongBehaviour.um.cubeMaterial);
+        base.Awake();
+    }
     protected override void Start()
     {
         base.Start();
         SetCube();
-        mat = new Material(mat);
+        // mat = new Material(PongBehaviour.um.cubeMaterial);
         string txt = sides[0].GetComponentInChildren<TMP_Text>().text;
         foreach (GameObject side in sides)
         {
             side.GetComponent<Image>().material = mat;
             TMP_Text txtObj = side.GetComponentInChildren<TMP_Text>();
             txtObj.text = txt;
-            txtObj.color = textColor;
+            txtObj.color = PongBehaviour.um.cubeTextColor;
             txtObj.alpha = 0;
             txtObj.transform.localPosition = new Vector3(0, 0, -(size * 0.01f));
         }
@@ -95,17 +101,17 @@ public class PongUiCube : Selectable, IPointerClickHandler, ISubmitHandler
         StopAllCoroutines();
         if (PongBehaviour.am.beatsOn)
         {
-            mat.SetColor("_BaseColor", normalColor);
+            mat.SetColor("_BaseColor", PongBehaviour.um.cubeNormalColor);
         }
         else
         {
-            mat.SetColor("_BaseColor", Color.Lerp(Color.white, normalColor, PongBehaviour.vfx.styleLerpValue));
+            mat.SetColor("_BaseColor", Color.Lerp(Color.white, PongBehaviour.um.cubeNormalColor, PongBehaviour.vfx.styleLerpValue));
         }
         mat.SetFloat("_DissolveProgress", 0);
         transform.localScale = Vector3.one;
         foreach (GameObject side in sides)
         {
-            side.GetComponentInChildren<TMP_Text>().color = textColor;
+            side.GetComponentInChildren<TMP_Text>().color = PongBehaviour.um.cubeTextColor;
         }
     }
     public void CubeInteractionOn()
@@ -171,11 +177,11 @@ public class PongUiCube : Selectable, IPointerClickHandler, ISubmitHandler
             if (t > fadeDuration) { t = fadeDuration; }
             if (PongBehaviour.am.beatsOn)
             {
-                mat.SetColor("_BaseColor", Color.Lerp(normalColor, highlightedColor, t / fadeDuration));
+                mat.SetColor("_BaseColor", Color.Lerp(PongBehaviour.um.cubeNormalColor, PongBehaviour.um.cubeHighlightedColor, t / fadeDuration));
             }
             else
             {
-                mat.SetColor("_BaseColor", Color.Lerp(Color.Lerp(Color.white, normalColor, PongBehaviour.vfx.styleLerpValue), Color.Lerp(Color.grey, highlightedColor, PongBehaviour.vfx.styleLerpValue), t / fadeDuration));
+                mat.SetColor("_BaseColor", Color.Lerp(Color.Lerp(Color.white, PongBehaviour.um.cubeNormalColor, PongBehaviour.vfx.styleLerpValue), Color.Lerp(Color.grey, PongBehaviour.um.cubeHighlightedColor, PongBehaviour.vfx.styleLerpValue), t / fadeDuration));
             }
             
             yield return null;
@@ -198,14 +204,14 @@ public class PongUiCube : Selectable, IPointerClickHandler, ISubmitHandler
         {
             t += Time.unscaledDeltaTime;
             if (t > fadeDuration) { t = fadeDuration; }
-            mat.SetColor("_BaseColor", Color.Lerp(highlightedColor, normalColor, t / fadeDuration));
+            mat.SetColor("_BaseColor", Color.Lerp(PongBehaviour.um.cubeHighlightedColor, PongBehaviour.um.cubeNormalColor, t / fadeDuration));
             if (PongBehaviour.am.beatsOn)
             {
-                mat.SetColor("_BaseColor", Color.Lerp(highlightedColor, normalColor, t / fadeDuration));
+                mat.SetColor("_BaseColor", Color.Lerp(PongBehaviour.um.cubeHighlightedColor, PongBehaviour.um.cubeNormalColor, t / fadeDuration));
             }
             else
             {
-                mat.SetColor("_BaseColor", Color.Lerp(Color.Lerp(Color.grey, highlightedColor, PongBehaviour.vfx.styleLerpValue), Color.Lerp(Color.white, normalColor, PongBehaviour.vfx.styleLerpValue), t / fadeDuration));
+                mat.SetColor("_BaseColor", Color.Lerp(Color.Lerp(Color.grey, PongBehaviour.um.cubeHighlightedColor, PongBehaviour.vfx.styleLerpValue), Color.Lerp(Color.white, PongBehaviour.um.cubeNormalColor, PongBehaviour.vfx.styleLerpValue), t / fadeDuration));
             }
             yield return null;
         }
@@ -224,14 +230,14 @@ public class PongUiCube : Selectable, IPointerClickHandler, ISubmitHandler
         {
             t += Time.unscaledDeltaTime;
             if (t > fadeDuration) { t = fadeDuration; }
-            mat.SetColor("_BaseColor", Color.Lerp(highlightedColor, normalColor, t / fadeDuration));
+            mat.SetColor("_BaseColor", Color.Lerp(PongBehaviour.um.cubeHighlightedColor, PongBehaviour.um.cubeNormalColor, t / fadeDuration));
             if (PongBehaviour.am.beatsOn)
             {
-                mat.SetColor("_BaseColor", Color.Lerp(highlightedColor, normalColor, t / fadeDuration));
+                mat.SetColor("_BaseColor", Color.Lerp(PongBehaviour.um.cubeHighlightedColor, PongBehaviour.um.cubeNormalColor, t / fadeDuration));
             }
             else
             {
-                mat.SetColor("_BaseColor", Color.Lerp(Color.Lerp(Color.grey, highlightedColor, PongBehaviour.vfx.styleLerpValue), Color.Lerp(Color.grey*1.5f, pressedColor, PongBehaviour.vfx.styleLerpValue), t / fadeDuration));
+                mat.SetColor("_BaseColor", Color.Lerp(Color.Lerp(Color.grey, PongBehaviour.um.cubeHighlightedColor, PongBehaviour.vfx.styleLerpValue), Color.Lerp(Color.grey*1.5f, PongBehaviour.um.cubePressedColor, PongBehaviour.vfx.styleLerpValue), t / fadeDuration));
             }
             yield return null;
         }

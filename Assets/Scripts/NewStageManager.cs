@@ -105,6 +105,10 @@ public class NewStageManager : PongManager
         }
         if (currentStage == Stage.FreeMove)
         {
+            if (fmfm != null)
+            {
+                GameObject.Destroy(fmfm.gameObject);
+            }
             fmfm = GameObject.Instantiate(freeMoveManagerPrefab, fieldParent.transform).GetComponent<FreeMoveFieldManager>();
             fmfm.gameObject.SetActive(true);
         }
@@ -136,6 +140,11 @@ public class NewStageManager : PongManager
     public void TerminateStage()
     {
         ResetStage();
+        if (fmfm != null)
+        {
+            GameObject.Destroy(fmfm.gameObject);
+            fmfm = null;
+        }
         if (mainSettings.cutScenesOn)
         {
             csm.PlayScene(CutScene.StageOutro);

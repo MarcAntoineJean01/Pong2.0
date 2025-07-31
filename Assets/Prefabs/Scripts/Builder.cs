@@ -266,7 +266,6 @@ public class Builder : PongManager
                     frg.parent = pad;
                     frg.meshR.material = mm.materials.padMaterial;
                 }
-                ;
                 pad.fragmented = true;
             }
         }

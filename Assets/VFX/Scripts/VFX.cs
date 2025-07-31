@@ -246,6 +246,10 @@ public class VFX : PongManager
     {
         foreach (Fragment fragment in field.leftPad.fragments.Concat(field.rightPad.fragments))
         {
+            // Sequence s = DOTween.Sequence();
+            // s.Append(fragment.transform.DOLocalMove(Vector3.zero, 1));
+            // s.Join(fragment.transform.DOLocalRotate(Vector3.zero, 1));
+            // s.Play();
             fragment.transform.DOLocalMove(Vector3.zero, 1);
             fragment.transform.DOLocalRotate(Vector3.zero, 1);
         }
@@ -499,11 +503,11 @@ public class VFX : PongManager
                 {
                     if (cube.highlighted)
                     {
-                        cube.mat.SetColor("_BaseColor", Color.Lerp(Color.grey, cube.highlightedColor, t / duration));
+                        cube.mat.SetColor("_BaseColor", Color.Lerp(Color.grey, um.cubeHighlightedColor, t / duration));
                     }
                     else
                     {
-                        cube.mat.SetColor("_BaseColor", Color.Lerp(Color.white, cube.normalColor, t / duration));
+                        cube.mat.SetColor("_BaseColor", Color.Lerp(Color.white, um.cubeNormalColor, t / duration));
                     }
 
                 }

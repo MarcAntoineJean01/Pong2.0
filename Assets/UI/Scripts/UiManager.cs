@@ -9,10 +9,22 @@ using UnityEngine.UI;
 
 public class UiManager : PongManager
 {
-    public Vector3 testA;
-    public Vector3 testB;
-    public Vector3 testC;
-    public Vector3 testD;
+    [SerializeField]
+    [ColorUsage(true, true)]
+    public Color cubeNormalColor;
+    [SerializeField]
+    [ColorUsage(true, true)]
+    public Color cubeHighlightedColor;
+    [SerializeField]
+    [ColorUsage(true, true)]
+    public Color cubePressedColor;
+    [SerializeField]
+    public Color cubeTextColor;
+    [ColorUsage(true, true)]
+    public Color fontGlowColor;
+    [SerializeField]
+    public Material cubeMaterial;
+    [SerializeField]
     public GameObject debugFakeCubePrefab;
     public RectTransform metaCube;
     public List<PongUiMenu> metaCubeSides = new List<PongUiMenu>(6);
@@ -22,8 +34,6 @@ public class UiManager : PongManager
     public InputSystemUIInputModule inputSystemUI;
     public Material menuBackgroundMaterial;
     public Material fontMaterial;// this way to grab fonts is temporary (and crap).
-    [ColorUsage(true, true)]
-    public Color fontGlowColor;
     public GridLayoutGroup hudCanvasGrid;
     public CanvasGroup leftHudFull;
     public CanvasGroup rightHudFull;
@@ -49,6 +59,7 @@ public class UiManager : PongManager
     bool leftHudExtention = false;
     bool rightHudExtention = false;
     public PongUiMenu currentActiveMenu;
+    public static int currentActiveMenuIndex = 0;
 
     Dictionary<int, CubesToHideFromFace[]> cubesToHideForMenu = new Dictionary<int, CubesToHideFromFace[]>()
     {
@@ -180,8 +191,8 @@ public class UiManager : PongManager
     }
     public void OpenSettingsMenu()
     {
-        // TurnOnMetaCube(currentPhase == GamePhase.Startup ? 1 : 2); why was this like that?
-        TurnOnMetaCube(1);
+        TurnOnMetaCube(currentPhase == GamePhase.Startup ? 1 : 2); // why was this like that? go to start menu if game hasn't started, go to pause menu if it has.
+        // TurnOnMetaCube(1);
     }
     public void OpenPauseMenu()
     {
@@ -283,22 +294,23 @@ public class UiManager : PongManager
         ShowOverlappingCubes();
         if (!metaCube.gameObject.activeSelf)
         {
-            metaCube.gameObject.transform.rotation = Quaternion.Euler(RotationForMenu(side));
             currentActiveMenu = metaCubeSides[side];
             if (currentStage == Stage.Neon)
             {
                 cm.overlayCam.transform.position = cm.leftPadCam.transform.position;
-                cm.overlayCam.transform.rotation = cm.rightPadCam.transform.rotation;
+                cm.overlayCam.transform.rotation = cm.leftPadCam.transform.rotation;
                 metaCube.transform.position = new Vector3(metaCube.transform.position.x, metaCube.transform.position.y, stagePosZ);
                 metaCube.transform.LookAt(cm.leftPadCam.transform.position);
-                metaCube.gameObject.transform.rotation = Quaternion.LookRotation(cm.leftPadCam.transform.position - metaCube.transform.position) * Quaternion.Euler(RotationForMenu(side));
+                metaCube.transform.rotation = Quaternion.LookRotation(cm.leftPadCam.transform.position - metaCube.transform.position) * Quaternion.Euler(RotationForMenu(side));
                 metaCube.transform.localScale = Vector3.one * 0.5f;
                 menuCanvas.renderMode = RenderMode.WorldSpace;
             }
             else
             {
                 cm.overlayCam.transform.position = cm.mainCam.transform.position;
+                cm.overlayCam.transform.rotation = cm.mainCam.transform.rotation;
                 metaCube.transform.localPosition = new Vector3(0, 0, metaCubeSize * 0.5f);
+                metaCube.transform.rotation = Quaternion.Euler(RotationForMenu(side));
             }
             metaCube.gameObject.SetActive(true);
         }
@@ -321,22 +333,20 @@ public class UiManager : PongManager
                     currentActiveMenu = metaCubeSides[side];
                     metaCube.gameObject.transform.rotation = Quaternion.Euler(RotationForMenu(side));
                     currentActiveMenu.MenuInteractionOn();
-                });                
+                });
             }
 
         }
         HideOverlappingCubes(side);
+        currentActiveMenuIndex = side;
     }
     public void TurnOffMetaCube()
     {
         currentActiveMenu.MenuInteractionOff();
         metaCube.gameObject.SetActive(false);
-        if (currentStage == Stage.Neon)
-        {
-            cm.overlayCam.transform.position = cm.mainCam.transform.position;
-            cm.overlayCam.transform.rotation = cm.mainCam.transform.rotation;
-            metaCube.transform.localScale = Vector3.one;
-        }
+        cm.overlayCam.transform.position = cm.mainCam.transform.position;
+        cm.overlayCam.transform.rotation = cm.mainCam.transform.rotation;
+        metaCube.transform.localScale = Vector3.one;
         menuCanvas.renderMode = RenderMode.ScreenSpaceCamera;
         metaCube.transform.rotation = Quaternion.identity;
         metaCube.transform.localScale = Vector3.one;
@@ -351,11 +361,11 @@ public class UiManager : PongManager
             case 1:
                 return new Vector3(180, 0, 0);
             case 2:
-                return currentStage == Stage.Neon ? new Vector3(0,90,270) : new Vector3(90, 0, 0);
+                return currentStage == Stage.Neon ? new Vector3(0,90,-90) : new Vector3(90, 0, 0);
             case 3:
-                return currentStage == Stage.Neon ? new Vector3(180,90,90) : new Vector3(270, 0, 0);
+                return currentStage == Stage.Neon ? new Vector3(180,90,90) : new Vector3(-90, 0, 0);
             case 4:
-                return currentStage == Stage.Neon ? new Vector3(270,90,0) : new Vector3(0, 270, 0);
+                return currentStage == Stage.Neon ? new Vector3(-90,90,0) : new Vector3(0, -90, 0);
             case 5:
                 return new Vector3(0, 90, 0);
         }
