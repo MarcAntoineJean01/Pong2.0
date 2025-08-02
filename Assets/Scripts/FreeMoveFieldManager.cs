@@ -14,7 +14,6 @@ public class FreeMoveFieldManager : PongManager
     [SerializeField]
     private ForegroundCollisionDetector foreground;
     private RenderTexture foregroundTexture;
-    private static int cullingMask;
     void OnEnable()
     {
         foregroundTexture = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
@@ -49,8 +48,7 @@ public class FreeMoveFieldManager : PongManager
         textureCamera.transform.rotation = CameraManager.activeVCam.transform.rotation;
         foregroundFilter.mesh = field.background.meshF.mesh;
         foreground.screenBounce.AddListener(() => PlayScreenBounce());
-        cullingMask = cm.mainCam.cullingMask;
-        cm.mainCam.cullingMask = 1 << LayerMask.NameToLayer("Foreground");
+        cm.SwapMainCameraMask(true);
     }
     void PlayScreenBounce()
     {
@@ -66,9 +64,6 @@ public class FreeMoveFieldManager : PongManager
     }
     void OnDestroy()
     {
-        if (cm.mainCam != null)
-        {
-            cm.mainCam.cullingMask = cullingMask;
-        }
+        cm.SwapMainCameraMask(false);
     }
 }

@@ -144,3 +144,12 @@ public enum Setting
     StartingHealth,
     Stage
 }
+[System.Serializable]
+public class RigidBodiesExcludeLayers
+{
+    public LayerMask ballExclude;
+    public LayerMask debuffExclude;
+    public LayerMask spikeExclude;
+    public LayerMask padExclude;
+    public LayerMask fragmentExclude;
+}

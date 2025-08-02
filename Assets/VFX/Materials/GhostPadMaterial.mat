@@ -50,7 +50,7 @@ Material:
     - _CircleDensity: 3.88
     - _Cull: 2
     - _DstBlend: 10
-    - _EdgeThreshold: 0.1
+    - _EdgeThreshold: 1
     - _IntersectionSpread: 1
     - _QueueControl: 0
     - _QueueOffset: 0

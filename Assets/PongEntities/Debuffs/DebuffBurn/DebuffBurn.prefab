@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4016789321637918823
 Transform:
   m_ObjectHideFlags: 0
@@ -61,10 +61,15 @@ MonoBehaviour:
   speedModifier: 1
   magnetized: 0
   slowed: 0
+  fragments: []
+  orbitWheIdle: 1
+  fragmentCapacity: 10
+  activeOrbitPaths: 0
+  delayBetweenFragments: 0.2
+  inverseIdleOrbit: 1
   sd: 0
   orbiting: 1
   segments: 36
-  gotFragments: 0
 --- !u!33 &932999257463904042
 MeshFilter:
   m_ObjectHideFlags: 0

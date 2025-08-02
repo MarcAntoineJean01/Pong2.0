@@ -19,7 +19,6 @@ public class PongManager : PongBehaviour
     public static bool launchCalled = false;
     public static bool stillTransitioning => NewStageManager.transitioning || CameraManager.camBrain.IsBlending || CameraManager.blending || MeshManager.transitioning || CutSceneManager.cutSceneOn;
     public static Sizes sizes;
-    public static PadFragmentsGroup fallenPadFragments = new PadFragmentsGroup(new Fragment[0], new Fragment[0]);
     public static Side lastToLoseHealth;
     public static int goals = 0;
     public static int totalGoalsThresholdForStage => options.goalsThreshold * (int)PongBehaviour.currentStage;

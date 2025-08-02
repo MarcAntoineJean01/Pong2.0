@@ -9400,6 +9400,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab5680578a009624d9705dadabd895d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rigidBodiesExcludeLayers:
+    ballExclude:
+      serializedVersion: 2
+      m_Bits: 1536
+    debuffExclude:
+      serializedVersion: 2
+      m_Bits: 2560
+    spikeExclude:
+      serializedVersion: 2
+      m_Bits: 1536
+    padExclude:
+      serializedVersion: 2
+      m_Bits: 512
+    fragmentExclude:
+      serializedVersion: 2
+      m_Bits: 3080
   ballPrefab: {fileID: 5112689666056703619, guid: 2c27411c3aecd814e8d5ea9d4396fac3,
     type: 3}
   fragmentPrefab: {fileID: 4815235382512685854, guid: f46c7d22f32339b4d82dadf854a9cd69,
@@ -24797,7 +24813,6 @@ MonoBehaviour:
     floorAttractorStrength: 4
     cameraNoiseDuration: 0.3
     debuffOrbitTime: 3
-    debuffOrbitingRadius: 10
 --- !u!21 &1722541826
 Material:
   serializedVersion: 8
@@ -26727,6 +26742,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da1d44ec35f27584d807de48b55e2a78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerMasks:
+    mainDefault:
+      serializedVersion: 2
+      m_Bits: 130879
+    mainFreeMove:
+      serializedVersion: 2
+      m_Bits: 32768
+    overlay:
+      serializedVersion: 2
+      m_Bits: 32
+    leftPad:
+      serializedVersion: 2
+      m_Bits: 130687
+    rightPad:
+      serializedVersion: 2
+      m_Bits: 130751
   mainCam: {fileID: 330585545}
   leftPadCam: {fileID: 1367738293}
   rightPadCam: {fileID: 1310978756}

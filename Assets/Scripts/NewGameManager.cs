@@ -104,7 +104,7 @@ public class NewGameManager : PongManager
         menuCanvas.planeDistance = 100;
         builder.Build();
         newStageManager.SetStage();
-        cm.SetupVirtualCameras();
+        cm.MainCameraSetup();
         if (mainSettings.tutorialsOn)
         {
             dm.MakePixySpeechBubble(Dialogs.controlsInstructions, false, true);
@@ -235,14 +235,17 @@ public class NewGameManager : PongManager
             {
                 FieldDoMoveZ();
             }
-            if (currentStage >= Stage.FireAndIce)
+            if (field.debuffStore.debuffFreeze.readyForStage)
             {
-                field.debuffStore.debuffFreeze.Release();
-                field.debuffStore.debuffBurn.Release();
+                field.debuffStore.debuffFreeze.EnterStage();
+            }
+            if (field.debuffStore.debuffBurn.readyForStage)
+            {
+                field.debuffStore.debuffBurn.EnterStage();
             }
             if (currentStage == Stage.Neon)
             {
-                foreach (Fragment fragment in fallenPadFragments.allFragments.Concat(field.leftPad.fragments).Concat(field.rightPad.fragments))
+                foreach (Fragment fragment in field.fragmentStore.allPadFragments)
                 {
                     ConstantForce cs = fragment.AddComponent<ConstantForce>();
                     cs.force = new Vector3(0, 0, 25);

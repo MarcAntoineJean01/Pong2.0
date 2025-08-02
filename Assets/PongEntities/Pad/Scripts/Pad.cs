@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Events;
 public class Pad : PongEntity
 {
+    public PadType padType;
     [Serializable]
     public class PadConfirmEvent : UnityEvent { }
     [SerializeField]
@@ -25,9 +26,7 @@ public class Pad : PongEntity
         get { return m_PadPause; }
         set { m_PadPause = value; }
     }
-    public bool fragmented;
     PadPowers powers = new PadPowers(false, false);
-    public List<Fragment> fragments = new List<Fragment>();
     public Projectile projectile;
     float moveDistance = 0.1f;
     bool magnetCoolingDown = false;
@@ -149,7 +148,6 @@ public class Pad : PongEntity
         }
     }
     public bool playerControlsEnabled = false;
-    public bool slickPad = false;
     public void EnableControls()
     {
         if (cntrl == PadController.GamePad)
@@ -195,7 +193,7 @@ public class Pad : PongEntity
             if (currentStage == Stage.Neon && collision.gameObject.GetComponent<BallEntity>() != null)
             {
                 lct = Time.time;
-                cm.PadCameraNoise(sd == Side.Left ? CameraManager.leftPadVCamEnd : CameraManager.rightPadVCamEnd);
+                cm.SplitScreenCameraNoise(sd == Side.Left ? CameraManager.leftPadVCamEnd : CameraManager.rightPadVCamEnd);
             }
             if (currentStage == Stage.FreeMove)
             {
@@ -214,11 +212,13 @@ public class Pad : PongEntity
                 if (CanRemovePiece())
                 {
                     RemovePadPiece();
+                    collision.gameObject.GetComponent<DebuffBurn>().TriggerExplosion();
                 }
             }
             if (collision.gameObject.GetComponent<DebuffFreeze>() != null)
             {
                 Frozen();
+                collision.gameObject.GetComponent<DebuffFreeze>().TriggerExplosion();
             }
         }
     }
@@ -300,12 +300,12 @@ public class Pad : PongEntity
             }
             if (sd == Side.Left)
             {
-                if (freeMove && padForwardTrigger && transform.position.z < field.background.transform.position.z - col.bounds.size.z * 0.5f - field.background.col.bounds.size.z - Vector3.Distance(transform.position, fragments[0].transform.position))
+                if (freeMove && padForwardTrigger && transform.position.z < field.background.transform.position.z - col.bounds.size.z * 0.5f - field.background.col.bounds.size.z - Vector3.Distance(transform.position, (sd == Side.Left ? field.fragmentStore.leftPadFragments : field.fragmentStore.rightPadFragments)[0].transform.position))
                 {
                     move.z += moveDistance * Time.fixedDeltaTime * pm.speeds.entitySpeeds.PadLinearVelocity * playerAxes.x * speedModifier;
                     shouldMove = true;
                 }
-                if (freeMove && padBackwardTrigger && (transform.position.z >= (cm.mainCam.transform.position.z + PongManager.sizes.planeDistance + Vector3.Distance(transform.position, fragments[0].transform.position))))
+                if (freeMove && padBackwardTrigger && (transform.position.z >= (cm.mainCam.transform.position.z + PongManager.sizes.planeDistance + Vector3.Distance(transform.position, (sd == Side.Left ? field.fragmentStore.leftPadFragments : field.fragmentStore.rightPadFragments)[0].transform.position))))
                 {
                     move.z -= moveDistance * Time.fixedDeltaTime * pm.speeds.entitySpeeds.PadLinearVelocity * Mathf.Abs(playerAxes.x) * speedModifier;
                     shouldMove = true;
@@ -313,12 +313,12 @@ public class Pad : PongEntity
             }
             else
             {
-                if (freeMove && padForwardTrigger && transform.position.z < field.background.transform.position.z - col.bounds.size.z * 0.5f - field.background.col.bounds.size.z - Vector3.Distance(transform.position, fragments[0].transform.position))
+                if (freeMove && padForwardTrigger && transform.position.z < field.background.transform.position.z - col.bounds.size.z * 0.5f - field.background.col.bounds.size.z - Vector3.Distance(transform.position, (sd == Side.Left ? field.fragmentStore.leftPadFragments : field.fragmentStore.rightPadFragments)[0].transform.position))
                 {
                     move.z -= moveDistance * Time.fixedDeltaTime * pm.speeds.entitySpeeds.PadLinearVelocity * playerAxes.x * speedModifier;
                     shouldMove = true;
                 }
-                if (freeMove && padBackwardTrigger && (transform.position.z >= (cm.mainCam.transform.position.z + PongManager.sizes.planeDistance + Vector3.Distance(transform.position, fragments[0].transform.position))))
+                if (freeMove && padBackwardTrigger && (transform.position.z >= (cm.mainCam.transform.position.z + PongManager.sizes.planeDistance + Vector3.Distance(transform.position, (sd == Side.Left ? field.fragmentStore.leftPadFragments : field.fragmentStore.rightPadFragments)[0].transform.position))))
                 {
                     move.z += moveDistance * Time.fixedDeltaTime * pm.speeds.entitySpeeds.PadLinearVelocity * -playerAxes.x * speedModifier;
                     shouldMove = true;
@@ -333,12 +333,12 @@ public class Pad : PongEntity
             {
                 if (transform.localPosition.y >= 0 && !InBounds(true))
                 {
-                    float threshold = field.topFloor.transform.position.y - PongManager.sizes.wallThickness * 0.5f - col.bounds.size.y * 0.5f - topOffset - (freeMove ? Vector3.Distance(transform.position, fragments[3].transform.position) : 0);
+                    float threshold = field.topFloor.transform.position.y - PongManager.sizes.wallThickness * 0.5f - col.bounds.size.y * 0.5f - topOffset - (freeMove ? Vector3.Distance(transform.position, (sd == Side.Left ? field.fragmentStore.leftPadFragments : field.fragmentStore.rightPadFragments)[3].transform.position) : 0);
                     transform.position = new Vector3(transform.position.x, threshold, transform.position.z);
                 }
                 else if (transform.localPosition.y < 0 && !InBounds())
                 {
-                    float threshold = -(field.topFloor.transform.position.y - PongManager.sizes.wallThickness * 0.5f - col.bounds.size.y * 0.5f) + bottomOffset + (freeMove ? Vector3.Distance(transform.position, fragments[3].transform.position) : 0);
+                    float threshold = -(field.topFloor.transform.position.y - PongManager.sizes.wallThickness * 0.5f - col.bounds.size.y * 0.5f) + bottomOffset + (freeMove ? Vector3.Distance(transform.position, (sd == Side.Left ? field.fragmentStore.leftPadFragments : field.fragmentStore.rightPadFragments)[3].transform.position) : 0);
                     transform.position = new Vector3(transform.position.x, threshold, transform.position.z);
                 }
             }
@@ -350,7 +350,7 @@ public class Pad : PongEntity
         float threshold = field.topFloor.transform.position.y
         - PongManager.sizes.wallThickness * 0.5f
         - col.bounds.size.y * 0.5f
-        - (freeMove ? Vector3.Distance(transform.position, fragments[3].transform.position) : 0);
+        - (freeMove ? Vector3.Distance(transform.position, (sd == Side.Left ? field.fragmentStore.leftPadFragments : field.fragmentStore.rightPadFragments)[3].transform.position) : 0);
         if (goingUp)
         {
             return Mathf.Abs(transform.position.y) + moveDistance < threshold - topOffset;
@@ -371,9 +371,9 @@ public class Pad : PongEntity
             case Stage.DD:
                 meshR.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
                 rbd.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionX;
-                if (fragmented && fragments.Count > 0)
+                if (sd == Side.Left ? !field.fragmentStore.leftPadFragmentsEmpty : !field.fragmentStore.rightPadFragmentsEmpty)
                 {
-                    foreach (Fragment fragment in fragments)
+                    foreach (Fragment fragment in sd == Side.Left ? field.fragmentStore.leftPadFragments : field.fragmentStore.rightPadFragments)
                     {
                         fragment.meshR.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
                     }
@@ -439,7 +439,7 @@ public class Pad : PongEntity
     public bool CanAddPiece()
     {
         // *0.3333f === /3
-        return col.bounds.size.y + PongManager.sizes.padWidth <= PongManager.sizes.fieldHeight * 0.3333f && !fragmented;
+        return col.bounds.size.y + PongManager.sizes.padWidth <= PongManager.sizes.fieldHeight * 0.3333f;
     }
     public bool CanRemovePiece()
     {

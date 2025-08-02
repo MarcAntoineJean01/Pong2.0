@@ -99,6 +99,4 @@ public class GameEffects
     public float cameraNoiseDuration;
     [Range(0.1f, 10f)]
     public float debuffOrbitTime;
-    [Range(0.1f, 10f)]
-    public float debuffOrbitingRadius;
 }

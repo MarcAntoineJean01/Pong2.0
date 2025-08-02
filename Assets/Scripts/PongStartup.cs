@@ -88,7 +88,7 @@ public class PongStartup : MonoBehaviour
         PongManager.mainSettings.gameMode = GameMode.Time;
         PongManager.mainSettings.cutScenesOn = false;
         PongManager.mainSettings.inGameDialogsOn = false;
-        PongManager.mainSettings.tutorialsOn = true;
+        PongManager.mainSettings.tutorialsOn = false;
         PongManager.mainSettings.leftPlayerController = PlayerController.Player;
         PongManager.mainSettings.rightPlayerController = PlayerController.Player;
         PongManager.options.soundVolume = 0.1f;

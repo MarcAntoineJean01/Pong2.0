@@ -6,9 +6,7 @@ public class BallEntity : PongEntity
 {
     float timeScaleWhenStartedRandomDireciton = 1;
     public BallMesh ballType;
-    public bool fragmented;
     public bool attracted;
-    public List<Fragment> fragments = new List<Fragment>();
     public State st = State.Dead;
     public ConstantForce cf;
     public Side dissolveSide;
@@ -161,14 +159,46 @@ public class BallEntity : PongEntity
         if (lct != Time.time)
         {
             lct = Time.time;
-            if (currentStage == Stage.Universe && st == State.Live)
+            // if (currentStage == Stage.Universe && st == State.Live)
+            // {
+            //     if (field.debuffStore.debuffSlow != null && field.debuffStore.debuffSlow.doneSpawningBlackhole && !field.debuffStore.debuffSlow.enteredStage && (collision.gameObject.GetComponent<Wall>() != null || collision.gameObject.GetComponent<Pad>()))
+            //     {
+            //         field.debuffStore.debuffSlow.EnterStage();
+            //     }
+
+            // }
+            if (!field.fragmentStore.NoFragmentsForBall(ballType))
             {
-                if (field.debuffStore.debuffSlow != null && field.debuffStore.debuffSlow.doneSpawningBlackhole && !field.debuffStore.debuffSlow.enteredStage && (collision.gameObject.GetComponent<Wall>() != null || collision.gameObject.GetComponent<Pad>()))
+                field.fragmentStore.DropBallFragmentsForMesh(ballType);
+                if (field.fragmentStore.cubeFragmentsEmpty && field.ball.ballType == BallMesh.Cube)
                 {
-                    field.debuffStore.debuffSlow.EnterStage();
+                    BallEntity newBall = builder.MakeFullBall(BallMesh.IcosahedronRough, 1.2f);
+                    newBall.SetBallForStage();
+                    field.ReplaceEntity(Entity.Ball, newBall);
+                    if (PongManager.mainSettings.cutScenesOn)
+                    {
+                        csm.PlayScene(CutScene.PolyFeelsEvenLighter);
+                    }
+
                 }
 
+                if (field.fragmentStore.cubeFragments.Count == 3 && field.ball.ballType == BallMesh.Cube && PongManager.mainSettings.cutScenesOn)
+                {
+                    csm.PlayScene(CutScene.PolyFeelsLighter);
+                }
+                if (field.fragmentStore.icosahedronFragmentsEmpty && field.ball.ballType == BallMesh.Icosahedron)
+                {
+                    BallEntity newBall = builder.MakeFullBall(BallMesh.Octacontagon, 1.2f);
+                    newBall.SetBallForStage();
+                    field.ReplaceEntity(Entity.Ball, newBall);
+                    if (PongManager.mainSettings.cutScenesOn)
+                    {
+                        csm.PlayScene(CutScene.PolyFeelsEvenLighter);
+                    }
+
+                }
             }
+
         }
     }
     public void StartBall(Vector3? velocity = null, Vector3? angularVelocity = null)
@@ -234,13 +264,6 @@ public class BallEntity : PongEntity
                 meshR.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
                 transform.rotation = Quaternion.Euler(new Vector3(45, 45, 0));
                 rbd.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-                if (fragmented && fragments.Count > 0)
-                {
-                    foreach (Fragment fragment in fragments)
-                    {
-                        fragment.meshR.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
-                    }
-                }
                 break;
             default:
             case Stage.DDD:
@@ -370,13 +393,6 @@ public class BallEntity : PongEntity
             t += Time.deltaTime;
             if (t > pm.gameEffects.dissolveSpeed) { t = pm.gameEffects.dissolveSpeed; }
             meshR.material.SetFloat("_DissolveProgress", Mathf.SmoothStep(0, pm.gameEffects.dissolveStrength, t / pm.gameEffects.dissolveSpeed));
-            if (fragmented)
-            {
-                for (int i = 0; i < fragments.Count; i++)
-                {
-                    fragments[i].meshR.material.SetFloat("_DissolveProgress", Mathf.SmoothStep(0, pm.gameEffects.dissolveStrength, t / pm.gameEffects.dissolveSpeed));
-                }
-            }
             yield return null;
         }
     }
@@ -396,13 +412,6 @@ public class BallEntity : PongEntity
             t += Time.deltaTime;
             if (t > pm.gameEffects.dissolveSpeed) { t = pm.gameEffects.dissolveSpeed; }
             meshR.material.SetFloat("_DissolveProgress", Mathf.SmoothStep(pm.gameEffects.dissolveStrength, 0, t / pm.gameEffects.dissolveSpeed));
-            if (fragmented)
-            {
-                for (int i = 0; i < fragments.Count; i++)
-                {
-                    fragments[i].meshR.material.SetFloat("_DissolveProgress", Mathf.SmoothStep(pm.gameEffects.dissolveStrength, 0, t / pm.gameEffects.dissolveSpeed));
-                }
-            }
             yield return null;
         }
         meshR.material.SetFloat("_EmissionIntensity", 0);
@@ -444,18 +453,7 @@ public class BallEntity : PongEntity
         meshR.material.SetFloat("_FrostAmmount", 0);
         meshR.material.SetFloat("_SuctionRange", 0);
         meshR.material.SetFloat("_SuctionThreshold", 0);
-        if (fragmented)
-        {
-            for (int i = 0; i < fragments.Count; i++)
-            {
-                fragments[i].meshR.material.SetFloat("_SuctionRange", 0);
-                fragments[i].meshR.material.SetFloat("_SuctionThreshold", 0);
-                fragments[i].meshR.material.SetFloat("_DissolveProgress", 0);
-                fragments[i].meshR.material.SetFloat("_FrostAmmount", 0);
-                fragments[i].meshR.material.SetFloat("_DissolveEdgeDepth", 0);
-                fragments[i].meshR.material.SetFloat("_EmissionIntensity", 0);
-            }
-        }
+        field.fragmentStore.ResetBallFragmentsMaterials();
         dissolveSide = Side.None;            
     }
     public void RandomDirection()

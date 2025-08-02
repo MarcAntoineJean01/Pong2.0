@@ -146,13 +146,16 @@ MonoBehaviour:
   speedModifier: 1
   magnetized: 0
   slowed: 0
+  fragments: []
+  orbitWhenActive: 1
+  orbitWheIdle: 0
+  fragmentCapacity: 4
+  activeOrbitPaths: 1
+  delayBetweenFragments: 0.5
   sd: 0
   orbiting: 1
   segments: 360
-  orbitPath: 1
   visualEffect: {fileID: 0}
-  doneSpawningBlackhole: 0
-  enteredStage: 0
 --- !u!135 &3025422759084373124
 SphereCollider:
   m_ObjectHideFlags: 0

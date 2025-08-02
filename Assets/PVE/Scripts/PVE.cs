@@ -148,7 +148,7 @@ public class PVE : PongManager
         virtualField.CopyRigidBody(field.rightPad.rbd, virtualField.rightPad.GetComponent<Rigidbody>());
         virtualField.CopyMeshCollider(field.leftPad.col as MeshCollider, virtualField.leftPad.GetComponent<MeshCollider>());
         virtualField.CopyMeshCollider(field.rightPad.col as MeshCollider, virtualField.rightPad.GetComponent<MeshCollider>());
-        if ((field.ball.ballType != BallMesh.Cube && field.ball.ballType != BallMesh.Sphere) || (field.ball.ballType == BallMesh.Cube && field.ball.fragmented))
+        if ((field.ball.ballType != BallMesh.Cube && field.ball.ballType != BallMesh.Sphere) || (field.ball.ballType == BallMesh.Cube && !field.fragmentStore.ballFragmentsEmpty))
         {
             virtualField.CopyMeshCollider(field.ball.col as MeshCollider, virtualField.ball.GetComponent<MeshCollider>());
         }
@@ -164,12 +164,12 @@ public class PVE : PongManager
         virtualField.CopyRigidBody(field.spikeStore.lastActiveSpikes.spikeLeft.rbd, virtualField.leftSpike.GetComponent<Rigidbody>());
         virtualField.CopyRigidBody(field.spikeStore.lastActiveSpikes.spikeRight.rbd, virtualField.rightSpike.GetComponent<Rigidbody>());
 
-        if (field.debuffStore.debuffBurn.gameObject.activeSelf)
+        if (field.debuffStore.debuffBurn.gameObject.activeSelf && !field.debuffStore.debuffBurn.orbiting)
         {
             virtualField.CopyMeshCollider(field.debuffStore.debuffBurn.col as MeshCollider, virtualField.debuffBurn.GetComponent<MeshCollider>(), builder.storedMeshForVirtualDebuffs);
             virtualField.CopyRigidBody(field.debuffStore.debuffBurn.rbd, virtualField.debuffBurn.GetComponent<Rigidbody>());
         }
-        if (field.debuffStore.debuffFreeze.gameObject.activeSelf)
+        if (field.debuffStore.debuffFreeze.gameObject.activeSelf && !field.debuffStore.debuffFreeze.orbiting)
         {
             virtualField.CopyMeshCollider(field.debuffStore.debuffFreeze.col as MeshCollider, virtualField.debuffFreeze.GetComponent<MeshCollider>(), builder.storedMeshForVirtualDebuffs);
             virtualField.CopyRigidBody(field.debuffStore.debuffFreeze.rbd, virtualField.debuffFreeze.GetComponent<Rigidbody>());

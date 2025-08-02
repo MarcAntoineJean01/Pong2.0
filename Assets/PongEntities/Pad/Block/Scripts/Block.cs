@@ -12,12 +12,15 @@ public class Block : PongEntity
             {
                 if (sd == Side.Top)
                 {
-                    mm.ResizeMeshBottom(meshF.mesh, -(PongManager.sizes.padWidth*0.5f));
+                    mm.ResizeMeshBottom(meshF.mesh, -(PongManager.sizes.padWidth * 0.5f));
                     (col as MeshCollider).convex = true;
-                } else
+                    collision.gameObject.GetComponent<DebuffBurn>().TriggerExplosion();
+                }
+                else
                 {
-                    mm.ResizeMeshTop(meshF.mesh, -(PongManager.sizes.padWidth*0.5f));
+                    mm.ResizeMeshTop(meshF.mesh, -(PongManager.sizes.padWidth * 0.5f));
                     (col as MeshCollider).convex = true;
+                    collision.gameObject.GetComponent<DebuffBurn>().TriggerExplosion();
                 }
             }
             if (col.bounds.size.y <= PongManager.sizes.padWidth*0.5f)

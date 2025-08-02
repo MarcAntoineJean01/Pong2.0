@@ -213,79 +213,15 @@ MonoBehaviour:
   speedModifier: 1
   magnetized: 0
   slowed: 0
+  fragments: []
+  orbitWheIdle: 0
+  fragmentCapacity: 4
+  activeOrbitPaths: 1
+  delayBetweenFragments: 0.5
   sd: 0
   orbiting: 1
   segments: 360
-  orbitPath: 1
-  orbitalEase:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 0.8
-      inSlope: 1.0111569
-      outSlope: 1.0111569
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.07304545
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  distortionExplosionEase:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0.25
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   visualEffect: {fileID: 4790144592604058546}
-  doneSpawningBlackhole: 0
-  enteredStage: 0
 --- !u!135 &3025422759084373124
 SphereCollider:
   m_ObjectHideFlags: 0

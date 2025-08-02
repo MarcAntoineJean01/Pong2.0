@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.Events;
 using Cinemachine;
+using System.Linq;
 public class NewStageManager : PongManager
 {
     public GameObject freeMoveManagerPrefab;
@@ -95,6 +96,14 @@ public class NewStageManager : PongManager
     public void SetEntitiesForStage()
     {
         ReplaceEntitiesForStage();
+        if (currentStage == Stage.FireAndIce)
+        {
+            field.debuffStore.debuffBurn.gameObject.SetActive(true);
+            field.debuffStore.debuffFreeze.gameObject.SetActive(true);
+            // field.debuffStore.debuffFreeze.Orbit();
+            // field.debuffStore.debuffBurn.Orbit();
+            // field.ball.ballType = BallMesh.Octacontagon;            
+        }
         foreach (SpikeEntity spike in field.spikeStore.allSpikes)
         {
             spike.SetSpikeForStage();
@@ -135,11 +144,39 @@ public class NewStageManager : PongManager
         {
             StartCoroutine("CycleSetupUniverse");
         }
+        if (currentStage > Stage.FireAndIce)
+        {
+            field.debuffStore.debuffBurn.gameObject.SetActive(true);
+            field.debuffStore.debuffFreeze.gameObject.SetActive(true);
+            field.debuffStore.debuffBurn.orbiting = true;
+            field.debuffStore.debuffFreeze.orbiting = true;
+            // field.debuffStore.debuffBurn.readyForStage = true;
+            // field.debuffStore.debuffFreeze.readyForStage = true;
+            field.debuffStore.debuffBurn.IdleOrbit();
+            field.debuffStore.debuffFreeze.IdleOrbit();
+
+        }
     }
 
     public void TerminateStage()
     {
-        ResetStage();
+        vfx.KillAllLiveEffects();
+        field.spikeStore.StoreSpikes();
+        field.debuffStore.StoreDebuffs();
+        field.leftPad.StopAllPadCoroutines();
+        field.rightPad.StopAllPadCoroutines();
+        field.ball.SetBallState(State.Idle);
+        CinemachineBasicMultiChannelPerlin noise = CameraManager.activeVCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        noise.m_AmplitudeGain = 0;
+        noise.m_FrequencyGain = 0;
+        foreach (Fragment fragment in field.fragmentStore.allPadFragments)
+        {
+            ConstantForce cs = fragment.GetComponent<ConstantForce>();
+            if (cs != null)
+            {
+                GameObject.Destroy(cs);
+            }
+        }
         if (fmfm != null)
         {
             GameObject.Destroy(fmfm.gameObject);
@@ -151,10 +188,6 @@ public class NewStageManager : PongManager
         }
         else
         {
-            if (currentStage == Stage.Universe)
-            {
-                field.debuffStore.StoreDebuffs(true);
-            }
             csm.TakeControl();
             csm.SimpleStageTransitionScene();
         }
@@ -166,7 +199,7 @@ public class NewStageManager : PongManager
         nextStage = (Stage)currentSelectedStage;
         if (mainSettings.gameMode == GameMode.Time)
         {
-            SetStage();
+            // SetStage();
             newGameManager.KillFieldDoMoveZ();
             field.background.transform.position = TimeModeFieldPos(field.background);
 
@@ -178,29 +211,13 @@ public class NewStageManager : PongManager
         }
         else
         {
-            SetStage();
+            // SetStage();
         }
         TerminateStage();
     }
     public void ResetStage()
     {
-        vfx.KillAllLiveEffects();
-        field.spikeStore.StoreSpikes();
-        field.debuffStore.StoreDebuffs();
-        field.leftPad.StopAllPadCoroutines();
-        field.rightPad.StopAllPadCoroutines();
-        field.ball.SetBallState(State.Idle);
-        CinemachineBasicMultiChannelPerlin noise = CameraManager.activeVCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        noise.m_AmplitudeGain = 0;
-        noise.m_FrequencyGain = 0;
-        foreach (Fragment fragment in fallenPadFragments.allFragments)
-        {
-            ConstantForce cs = fragment.GetComponent<ConstantForce>();
-            if (cs != null)
-            {
-                GameObject.Destroy(cs);
-            }
-        }
+        SelectNewStage((int)currentStage);
     }
     public void CheckStage(Side loserSide)
     {
@@ -237,18 +254,19 @@ public class NewStageManager : PongManager
                 field.ReplaceEntity(Entity.Ball, newBall);
                 break;
             case Stage.FireAndIce:
-                if (!field.debuffStore.debuffFreeze.gotFragments || !field.debuffStore.debuffBurn.gotFragments)
+                field.fragmentStore.DestroyBallFragmentsForMesh(BallMesh.Icosahedron);
+                if (field.debuffStore.debuffBurn.hasAllFragments && field.debuffStore.debuffFreeze.hasAllFragments)
                 {
-                    newBall = builder.MakeFragmentedBall(BallMesh.Icosahedron, 1.2f);
-                    newBall.SetBallForStage();
-                    field.ReplaceEntity(Entity.Ball, newBall);
+                    newBall = builder.MakeFullBall(BallMesh.Octacontagon, 1.2f);
                 }
-                field.debuffStore.debuffBurn.gameObject.SetActive(true);
-                field.debuffStore.debuffFreeze.gameObject.SetActive(true);
-                field.debuffStore.debuffFreeze.Orbit();
-                field.debuffStore.debuffBurn.Orbit();
-                field.ball.ballType = BallMesh.Octacontagon;
-                field.ball.fragmented = false;
+                else
+                {
+                    field.debuffStore.debuffBurn.DestroyAllFragments();
+                    field.debuffStore.debuffFreeze.DestroyAllFragments();
+                    newBall = builder.MakeFragmentedBall(BallMesh.Icosahedron, 1.2f);
+                }
+                newBall.SetBallForStage();
+                field.ReplaceEntity(Entity.Ball, newBall);
                 break;
             case Stage.Neon:
                 newBall = builder.MakeFullBall(BallMesh.Octacontagon, 1.2f);
@@ -307,7 +325,7 @@ public class NewStageManager : PongManager
             yield return null;
         }
         field.debuffStore.debuffSlow.gameObject.SetActive(true);
-        field.debuffStore.debuffSlow.StartBlackhole();
+        // field.debuffStore.debuffSlow.OnGobbledAllFragments();
         transitioning = false;
     }
 
