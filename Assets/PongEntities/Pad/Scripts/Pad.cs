@@ -371,12 +371,13 @@ public class Pad : PongEntity
             case Stage.DD:
                 meshR.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
                 rbd.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionX;
-                if (sd == Side.Left ? !field.fragmentStore.leftPadFragmentsEmpty : !field.fragmentStore.rightPadFragmentsEmpty)
+                if (sd == Side.Left)
                 {
-                    foreach (Fragment fragment in sd == Side.Left ? field.fragmentStore.leftPadFragments : field.fragmentStore.rightPadFragments)
-                    {
-                        fragment.meshR.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
-                    }
+                    field.fragmentStore.leftPadFragments.ForEach(frg => frg.meshR.shadowCastingMode = ShadowCastingMode.ShadowsOnly);
+                }
+                else
+                {
+                    field.fragmentStore.rightPadFragments.ForEach(frg => frg.meshR.shadowCastingMode = ShadowCastingMode.ShadowsOnly);
                 }
                 break;
             default:
@@ -385,21 +386,53 @@ public class Pad : PongEntity
                 freeMove = false;
                 meshR.shadowCastingMode = ShadowCastingMode.On;
                 rbd.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionX;
+                if (sd == Side.Left)
+                {
+                    field.fragmentStore.leftPadFragments.ForEach(frg => frg.meshR.shadowCastingMode = ShadowCastingMode.On);
+                }
+                else
+                {
+                    field.fragmentStore.rightPadFragments.ForEach(frg => frg.meshR.shadowCastingMode = ShadowCastingMode.On);
+                }
                 break;
             case Stage.Universe:
                 freeMove = false;
                 meshR.shadowCastingMode = ShadowCastingMode.On;
+                if (sd == Side.Left)
+                {
+                    field.fragmentStore.leftPadFragments.ForEach(frg => frg.meshR.shadowCastingMode = ShadowCastingMode.On);
+                }
+                else
+                {
+                    field.fragmentStore.rightPadFragments.ForEach(frg => frg.meshR.shadowCastingMode = ShadowCastingMode.On);
+                }
                 break;
             case Stage.GravityWell:
                 powers.magnet = true;
                 freeMove = false;
                 meshR.shadowCastingMode = ShadowCastingMode.On;
+                if (sd == Side.Left)
+                {
+                    field.fragmentStore.leftPadFragments.ForEach(frg => frg.meshR.shadowCastingMode = ShadowCastingMode.On);
+                }
+                else
+                {
+                    field.fragmentStore.rightPadFragments.ForEach(frg => frg.meshR.shadowCastingMode = ShadowCastingMode.On);
+                }
                 break;
             case Stage.FreeMove:
                 powers.magnet = true;
                 freeMove = true;
                 meshR.shadowCastingMode = ShadowCastingMode.On;
                 rbd.constraints = RigidbodyConstraints.FreezePositionX;
+                if (sd == Side.Left)
+                {
+                    field.fragmentStore.leftPadFragments.ForEach(frg => frg.meshR.shadowCastingMode = ShadowCastingMode.On);
+                }
+                else
+                {
+                    field.fragmentStore.rightPadFragments.ForEach(frg => frg.meshR.shadowCastingMode = ShadowCastingMode.On);
+                }
                 break;
             case Stage.FireAndIce:
                 powers.magnet = true;
@@ -407,24 +440,49 @@ public class Pad : PongEntity
                 freeMove = false;
                 meshR.shadowCastingMode = ShadowCastingMode.On;
                 rbd.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionX;
+                if (sd == Side.Left)
+                {
+                    field.fragmentStore.leftPadFragments.ForEach(frg => frg.meshR.shadowCastingMode = ShadowCastingMode.On);
+                }
+                else
+                {
+                    field.fragmentStore.rightPadFragments.ForEach(frg => frg.meshR.shadowCastingMode = ShadowCastingMode.On);
+                }
                 break;
             case Stage.Neon:
                 powers.magnet = true;
                 powers.projectiles = true;
                 freeMove = false;
                 meshR.shadowCastingMode = ShadowCastingMode.On;
+                if (sd == Side.Left)
+                {
+                    field.fragmentStore.leftPadFragments.ForEach(frg => frg.meshR.shadowCastingMode = ShadowCastingMode.On);
+                }
+                else
+                {
+                    field.fragmentStore.rightPadFragments.ForEach(frg => frg.meshR.shadowCastingMode = ShadowCastingMode.On);
+                }
                 break;
             case Stage.Final:
                 powers.magnet = true;
                 powers.projectiles = true;
                 freeMove = false;
                 meshR.shadowCastingMode = ShadowCastingMode.On;
+                if (sd == Side.Left)
+                {
+                    field.fragmentStore.leftPadFragments.ForEach(frg => frg.meshR.shadowCastingMode = ShadowCastingMode.On);
+                }
+                else
+                {
+                    field.fragmentStore.rightPadFragments.ForEach(frg => frg.meshR.shadowCastingMode = ShadowCastingMode.On);
+                }
                 break;
         }
     }
     public void AddPadPiece()
     {
         mm.ResizePadMesh(meshF.mesh, new Vector3(0, meshF.mesh.bounds.size.x, 0));
+        mm.ResizePadFragmentsMeshes(sd, new Vector3(0, meshF.mesh.bounds.size.x, 0));
         (col as MeshCollider).convex = true;
         switch (sd)
         {
@@ -448,6 +506,7 @@ public class Pad : PongEntity
     public void RemovePadPiece()
     {
         mm.ResizePadMesh(meshF.mesh, new Vector3(0, -meshF.mesh.bounds.size.x, 0));
+        mm.ResizePadFragmentsMeshes(sd, new Vector3(0, -meshF.mesh.bounds.size.x, 0));
         (col as MeshCollider).convex = true;
         switch (sd)
         {

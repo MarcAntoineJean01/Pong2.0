@@ -148,19 +148,18 @@ public class PVE : PongManager
         virtualField.CopyRigidBody(field.rightPad.rbd, virtualField.rightPad.GetComponent<Rigidbody>());
         virtualField.CopyMeshCollider(field.leftPad.col as MeshCollider, virtualField.leftPad.GetComponent<MeshCollider>());
         virtualField.CopyMeshCollider(field.rightPad.col as MeshCollider, virtualField.rightPad.GetComponent<MeshCollider>());
-        if ((field.ball.ballType != BallMesh.Cube && field.ball.ballType != BallMesh.Sphere) || (field.ball.ballType == BallMesh.Cube && !field.fragmentStore.ballFragmentsEmpty))
+        if (field.ball.col is MeshCollider)
         {
             virtualField.CopyMeshCollider(field.ball.col as MeshCollider, virtualField.ball.GetComponent<MeshCollider>());
         }
-        else if (field.ball.ballType == BallMesh.Cube)
+        else if (field.ball.col is BoxCollider)
         {
             virtualField.CopyBoxCollider(field.ball.col as BoxCollider, virtualField.ball.GetComponent<BoxCollider>());
         }
-        else if (field.ball.ballType == BallMesh.Sphere)
+        else if (field.ball.col is SphereCollider)
         {
             virtualField.CopySphereCollider(field.ball.col as SphereCollider, virtualField.ball.GetComponent<SphereCollider>());
         }
-
         virtualField.CopyRigidBody(field.spikeStore.lastActiveSpikes.spikeLeft.rbd, virtualField.leftSpike.GetComponent<Rigidbody>());
         virtualField.CopyRigidBody(field.spikeStore.lastActiveSpikes.spikeRight.rbd, virtualField.rightSpike.GetComponent<Rigidbody>());
 

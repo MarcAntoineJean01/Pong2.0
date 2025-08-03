@@ -191,8 +191,7 @@ public class UiManager : PongManager
     }
     public void OpenSettingsMenu()
     {
-        TurnOnMetaCube(currentPhase == GamePhase.Startup ? 1 : 2); // why was this like that? go to start menu if game hasn't started, go to pause menu if it has.
-        // TurnOnMetaCube(1);
+        TurnOnMetaCube(currentPhase == GamePhase.Startup ? 1 : 2);
     }
     public void OpenPauseMenu()
     {

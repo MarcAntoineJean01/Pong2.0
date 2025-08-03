@@ -26,10 +26,8 @@ public class DebuffSlow : DebuffEntity
 #else
         transform.localScale = Vector3.zero;
 #endif
-        field.fragmentStore.removedAllCubeFragments.RemoveAllListeners();
-        field.fragmentStore.droppedCubeFragment.RemoveAllListeners();
-        field.fragmentStore.removedAllCubeFragments.AddListener(() => OnAllBallFragmentsDropped());
-        field.fragmentStore.droppedCubeFragment.AddListener(frg => AddFragment(frg));
+        field.fragmentStore.droppedAllCubeFragments.RemoveAllListeners();
+        field.fragmentStore.droppedAllCubeFragments.AddListener(() => OnAllBallFragmentsDropped());
     }
     public void EnterStage()
     {
@@ -46,11 +44,6 @@ public class DebuffSlow : DebuffEntity
         col.enabled = true;
         field.leftPad.meshR.material.SetFloat("_SuctionRange", suctionRange);
         field.rightPad.meshR.material.SetFloat("_SuctionRange", suctionRange);
-        if (!field.fragmentStore.cubeFragmentsEmpty)
-        {
-            field.fragmentStore.cubeFragments[0].meshR.material.SetFloat("_SuctionRange", suctionRange);
-            field.fragmentStore.cubeFragments[0].meshR.material.SetFloat("_SuctionThreshold", suctionThreshold);
-        }
     }
     void OnDisable()
     {
@@ -61,11 +54,6 @@ public class DebuffSlow : DebuffEntity
         field.leftPad.speedModifier = 1;
         field.rightPad.speedModifier = 1;
         field.ball.speedModifier = 1;
-        foreach (DebuffFragment debuffFragment in fragments)
-        {
-            GameObject.Destroy(debuffFragment.fragment.gameObject);
-        }
-        fragments.Clear();
     }
     public override void OnGobbledAllFragments()
     {
@@ -77,13 +65,9 @@ public class DebuffSlow : DebuffEntity
     }
     protected override void FixedUpdate()
     {
-
         field.leftPad.meshR.material.SetVector("_SuctionTarget", transform.position);
         field.rightPad.meshR.material.SetVector("_SuctionTarget", transform.position);
-        foreach (DebuffFragment debuffFragment in fragments)
-        {
-            debuffFragment.fragment.meshR.material.SetVector("_SuctionTarget", transform.position);
-        }
+        field.fragmentStore.cubeFragments.ForEach(frg => frg.meshR.material.SetVector("_SuctionTarget", transform.position));
     }
     IEnumerator CycleStartBlackhole()
     {
@@ -144,10 +128,5 @@ public class DebuffSlow : DebuffEntity
         noise.m_FrequencyGain = 0;
         transform.localScale = initialScale;
         EnterStage();
-    }
-    public override void DestroyAllFragments()
-    {
-        field.fragmentStore.cubeFragments.ForEach(frg => GameObject.Destroy(frg.gameObject));
-        base.DestroyAllFragments();
     }
 }

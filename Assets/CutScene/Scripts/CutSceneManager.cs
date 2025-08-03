@@ -140,26 +140,15 @@ public class CutSceneManager : PongManager
     {
         if (dialogType == DialogType.StageIntro && currentStage >= Stage.FireAndIce)
         {
-            BallEntity newBall;
-            field.fragmentStore.DestroyBallFragmentsForMesh(BallMesh.Icosahedron);
-            if (field.debuffStore.debuffBurn.hasAllFragments && field.debuffStore.debuffFreeze.hasAllFragments)
-            {
-                newBall = builder.MakeFullBall(BallMesh.Octacontagon, 1.2f);
-            }
-            else
-            {
-                field.debuffStore.debuffBurn.DestroyAllFragments();
-                field.debuffStore.debuffFreeze.DestroyAllFragments();
-                newBall = builder.MakeFragmentedBall(BallMesh.Icosahedron, 1.2f);
-            }
+            BallEntity newBall = builder.MakeFullBall(BallMesh.Octacontagon);
             newBall.SetBallForStage();
             field.ReplaceEntity(Entity.Ball, newBall);
+            if (currentStage == Stage.FireAndIce)
+            {
+                field.fragmentStore.GatherBallFragments(field.ball.ballType);
+            }
             field.debuffStore.debuffBurn.gameObject.SetActive(true);
             field.debuffStore.debuffFreeze.gameObject.SetActive(true);
-
-            // field.debuffStore.debuffFreeze.Orbit();
-            // field.debuffStore.debuffBurn.Orbit();
-            // field.ball.ballType = BallMesh.Octacontagon;
         }
         vfx.StartPolyIdleAnimation();
         dm.MakeSPeechBubble(dialogType);
@@ -348,22 +337,20 @@ public class CutSceneManager : PongManager
         if (nextStage == Stage.FreeMove)
         {
             newGameManager.StopListenForPad(Side.None);
-            if (field.leftPad.energyShield == null)
+            if (field.leftPad.energyShield == null || field.rightPad.energyShield == null)
             {
                 if (field.leftPad.padType != PadType.Slick)
                 {
                     Pad newLeftpad = builder.MakePad(PadType.Slick, Side.Left);
                     field.ReplaceEntity(Entity.LeftPad, newLeftpad);
                 }
-                vfx.SetFreeMovePad(Side.Left);
-            }
-            if (field.rightPad.energyShield == null)
-            {
                 if (field.rightPad.padType != PadType.Slick)
                 {
                     Pad newRightPad = builder.MakePad(PadType.Slick, Side.Right);
                     field.ReplaceEntity(Entity.RightPad, newRightPad);
                 }
+                field.fragmentStore.GatherPadFragments();
+                vfx.SetFreeMovePad(Side.Left);
                 vfx.SetFreeMovePad(Side.Right);
             }
             yield return null;
@@ -393,13 +380,9 @@ public class CutSceneManager : PongManager
         }
         if (nextStage < Stage.FreeMove)
         {
-            if (field.leftPad.padType == PadType.Slick)
+            if (field.leftPad.padType == PadType.Slick || field.rightPad.padType == PadType.Slick)
             {
-                vfx.RebuildPad(Side.Left);
-            }
-            if (field.rightPad.padType == PadType.Slick)
-            {
-                vfx.RebuildPad(Side.Right);
+                vfx.RebuildPads();
             }
             yield return null;
             while (field.fragmentStore.allPadFragments.Any(frg => DOTween.IsTweening(frg.transform))) { yield return null; }
@@ -415,25 +398,21 @@ public class CutSceneManager : PongManager
                 field.ReplaceEntity(Entity.RightPad, newRightPad);
                 newGameManager.StopListenForPad(Side.Right);
             }
+            field.fragmentStore.HidePadFragments();
         }
         else if (nextStage > Stage.FreeMove)
         {
-            if (field.leftPad.padType != PadType.Slick)
+            if (field.leftPad.padType != PadType.Slick || field.rightPad.padType != PadType.Slick)
             {
                 Pad newLeftpad = builder.MakePad(PadType.Slick, Side.Left);
-                field.ReplaceEntity(Entity.LeftPad, newLeftpad);
-                newGameManager.StopListenForPad(Side.Left);
-                // field.fragmentStore.GatherPadFragments(field.leftPad);
-            }
-            if (field.rightPad.padType != PadType.Slick)
-            {
                 Pad newRightPad = builder.MakePad(PadType.Slick, Side.Right);
+                field.ReplaceEntity(Entity.LeftPad, newLeftpad);
                 field.ReplaceEntity(Entity.RightPad, newRightPad);
+                newGameManager.StopListenForPad(Side.Left);
                 newGameManager.StopListenForPad(Side.Right);
-                // field.fragmentStore.GatherPadFragments(field.rightPad);
+                field.fragmentStore.GatherPadFragments();
             }
-            field.fragmentStore.GatherPadFragments(field.leftPad);
-            field.fragmentStore.GatherPadFragments(field.rightPad);
+            field.fragmentStore.DropPadFragments();
         }
         vfx.StopPolyIdleAnimation();
         newStageManager.StartStage();
@@ -462,7 +441,7 @@ public class CutSceneManager : PongManager
         edges.ForEach(edge => { edge.meshR.material.SetFloat("_EmissionIntensity", 1); edge.meshR.material.SetFloat("_DissolveEdgeDepth", 0.01f); });
         //
         cm.MainCameraNoise(CameraManager.activeVCam, 0.25f, 5, pm.gameEffects.wallDissolveSpeed);
-        //dissolve walls and shake camera
+        //dissolve walls
         while (t < pm.gameEffects.wallDissolveSpeed)
         {
             t += Time.unscaledDeltaTime;
@@ -512,7 +491,6 @@ public class CutSceneManager : PongManager
             yield return null;
         }
         field.debuffStore.debuffSlow.gameObject.SetActive(true);
-        // field.debuffStore.debuffSlow.OnGobbledAllFragments();
         vfx.StopPolyIdleAnimation();
         ReleaseControl();
     }

@@ -9,34 +9,6 @@ public class MeshManager : PongManager
     public Materials materials;
     public Materials webMaterials;
     public static bool transitioning = false;
-    public BallMesh NextBallMesh(BallMesh oldMesh)
-    {
-        switch (oldMesh)
-        {
-            case BallMesh.Cube:
-                return BallMesh.IcosahedronRough;
-            case BallMesh.Icosahedron:
-                return BallMesh.Octacontagon;
-            case BallMesh.Octacontagon:
-                return BallMesh.Icosikaihenagon;
-            default:
-                return BallMesh.Cube;
-        }
-    }
-    public int FragmentsForMesh(BallMesh oldMesh)
-    {
-        switch (oldMesh)
-        {
-            default:
-                return 0;
-            case BallMesh.Cube:
-                return 4;
-            case BallMesh.Icosahedron:
-                return 20;
-            case BallMesh.Octacontagon:
-                return 4;
-        }
-    }
     public Mesh NewMesh(string type, Vector3 multiplier)
     {
         Mesh mesh = Resources.Load("PongMeshes/" + type.Replace("Fragmented", ""), typeof(Mesh)) as Mesh;
@@ -80,6 +52,34 @@ public class MeshManager : PongManager
             vertices[i] = new Vector3(vertices[i].x + (vertices[i].x > 0 ? resize.x * 0.5f : -(resize.x * 0.5f)), vertices[i].y + (vertices[i].y > 0 ? resize.y * 0.5f : -(resize.y * 0.5f)), vertices[i].z + (vertices[i].z > 0 ? resize.z * 0.5f : -(resize.z * 0.5f)));
         }
         PostResize(vertices, mesh);
+    }
+    public void ResizePadFragmentsMeshes(Side side, Vector3 resize)
+    {
+        switch (side)
+        {
+            case Side.Left:
+                field.fragmentStore.leftPadFragments.ForEach(frg =>
+                {
+                    Vector3[] vertices = frg.meshF.mesh.vertices;
+                    for (int i = 0; i < vertices.Length; i++)
+                    {
+                        vertices[i] = new Vector3(vertices[i].x + (vertices[i].x > 0 ? resize.x * 0.5f : -(resize.x * 0.5f)), vertices[i].y + (vertices[i].y > 0 ? resize.y * 0.5f : -(resize.y * 0.5f)), vertices[i].z + (vertices[i].z > 0 ? resize.z * 0.5f : -(resize.z * 0.5f)));
+                    }
+                    PostResize(vertices, frg.meshF.mesh);
+                });
+                break;
+            case Side.Right:
+                field.fragmentStore.rightPadFragments.ForEach(frg =>
+                {
+                    Vector3[] vertices = frg.meshF.mesh.vertices;
+                    for (int i = 0; i < vertices.Length; i++)
+                    {
+                        vertices[i] = new Vector3(vertices[i].x + (vertices[i].x > 0 ? resize.x * 0.5f : -(resize.x * 0.5f)), vertices[i].y + (vertices[i].y > 0 ? resize.y * 0.5f : -(resize.y * 0.5f)), vertices[i].z + (vertices[i].z > 0 ? resize.z * 0.5f : -(resize.z * 0.5f)));
+                    }
+                    PostResize(vertices, frg.meshF.mesh);
+                });
+                break;
+        }
     }
     public void ResizeEnergyShieldMesh(Mesh mesh, Vector3 resize)
     {

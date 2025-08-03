@@ -71,7 +71,6 @@ public class PongUiCube : Selectable, IPointerClickHandler, ISubmitHandler
     {
         base.Start();
         SetCube();
-        // mat = new Material(PongBehaviour.um.cubeMaterial);
         string txt = sides[0].GetComponentInChildren<TMP_Text>().text;
         foreach (GameObject side in sides)
         {

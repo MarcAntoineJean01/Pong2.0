@@ -17,6 +17,7 @@ public class Builder : PongManager
     public GameObject padPrefab;
     public GameObject blockPrefab;
     public PhysicMaterial bouncyMaterial;
+    public PhysicMaterial notSoBouncyMaterial;
     //measures
     float canvasFieldDepth;
     float canvasWallThickness;
@@ -157,7 +158,6 @@ public class Builder : PongManager
     Background MakeBackground()
     {
         Background background = GameObject.Instantiate(edges[(int)EdgeType.Background], menuCanvas.transform).GetComponent<Background>();
-        // NetworkServer.Spawn(background.gameObject);
         background.gameObject.name = "Background";
         Mesh mesh = background.meshF.mesh;
         Vector3[] vertices = mesh.vertices;
@@ -241,53 +241,16 @@ public class Builder : PongManager
         pad.projectile.transform.position = new Vector3(pad.projectile.transform.position.x, pad.projectile.transform.position.y, pad.col.bounds.size.z);
         pad.transform.rotation = Quaternion.Euler(0, side == Side.Left ? 90 : -90, 0);
         pad.meshR.material = mm.materials.padMaterial;
-        if (padType == PadType.Slick)
-        {
-            if ((side == Side.Left && !field.fragmentStore.leftPadFragmentsEmpty) || (side == Side.Left && !field.fragmentStore.rightPadFragmentsEmpty))
-            {
-                field.fragmentStore.TransferPadFragments(pad);
-            }
-            else
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    Fragment frg = GameObject.Instantiate(fragmentPrefab, pad.transform).GetComponent<Fragment>();
-                    frg.gameObject.name = (side == Side.Left ? "LeftPad" : "RightPad") + "Fragment" + (i + 1);
-                    frg.gameObject.layer = pad.gameObject.layer;
-                    switch (side)
-                    {
-                        case Side.Left:
-                            field.fragmentStore.leftPadFragments.Add(frg);
-                            break;
-                        case Side.Right:
-                            field.fragmentStore.rightPadFragments.Add(frg);
-                            break;
-                    }
-                    frg.meshF.mesh = mm.NewMesh("PadFragment" + (i + 1), Vector3.one * canvasPadWidth);
-                    if ((side == Side.Left && field.leftPad != null) || (side == Side.Right && field.rightPad != null))
-                    {
-                        mm.ResizePadMesh(frg.meshF.mesh, new Vector3(0, (side == Side.Left ? field.leftPad.meshF.mesh.bounds.size.y : field.rightPad.meshF.mesh.bounds.size.y) - canvasPadWidth * 3, 0));
-                    }
-                    frg.col = frg.AddComponent<MeshCollider>();
-                    (frg.col as MeshCollider).sharedMesh = frg.meshF.mesh;
-                    (frg.col as MeshCollider).convex = true;
-                    frg.col.isTrigger = false;
-                    frg.col.sharedMaterial = bouncyMaterial;
-                    frg.parent = pad;
-                    frg.meshR.material = mm.materials.padMaterial;
-                }
-            }
-        }
         pad.rbd.excludeLayers = rigidBodiesExcludeLayers.padExclude;
         return pad;
     }
-    public BallEntity MakeFullBall(BallMesh bm, float multiplier = 1)
+    public BallEntity MakeFullBall(BallMesh bm)
     {
         BallEntity ball = GameObject.Instantiate(ballPrefab, menuCanvas.transform).GetComponent<BallEntity>();
         ball.ballType = bm;
 
         ball.gameObject.name = bm.ToString() + "Full";
-        ball.meshF.mesh = mm.NewMesh(bm.ToString(), Vector3.one * canvasBallDiameter * multiplier);
+        ball.meshF.mesh = mm.NewMesh(bm.ToString(), Vector3.one * canvasBallDiameter * pm.initialSizes.ballSizeMultiplier);
         if (bm == BallMesh.Cube)
         {
             ball.col = ball.AddComponent<BoxCollider>();
@@ -348,119 +311,105 @@ public class Builder : PongManager
         ball.rbd.excludeLayers = rigidBodiesExcludeLayers.ballExclude;
         return ball;
     }
-    public BallEntity MakeFragmentedBall(BallMesh bm, float multiplier = 1)
-    {
-        BallEntity ball = GameObject.Instantiate(ballPrefab, menuCanvas.transform).GetComponent<BallEntity>();
-        ball.ballType = bm;
-
-        ball.gameObject.name = bm.ToString() + "Fragmented";
-        ball.meshF.mesh = mm.NewMesh(mm.NextBallMesh(bm).ToString(), Vector3.one * canvasBallDiameter * multiplier);
-        ball.col = ball.AddComponent<MeshCollider>();
-        (ball.col as MeshCollider).sharedMesh = ball.meshF.mesh;
-        (ball.col as MeshCollider).convex = true;
-        ball.col.isTrigger = false;
-        ball.col.sharedMaterial = bouncyMaterial;
-        if (field.fragmentStore.NoFragmentsForBall(bm))
-        {
-            for (int i = 0; i < mm.FragmentsForMesh(bm); i++)
-            {
-                Fragment frg = GameObject.Instantiate(fragmentPrefab, ball.transform).GetComponent<Fragment>();
-                frg.gameObject.name = bm.ToString() + "Fragment" + (i + 1);
-                frg.gameObject.layer = LayerMask.NameToLayer("Ball");
-                frg.meshF.mesh = mm.NewMesh(frg.gameObject.name, Vector3.one * canvasBallDiameter * multiplier);
-                frg.col = frg.AddComponent<MeshCollider>();
-                (frg.col as MeshCollider).sharedMesh = frg.meshF.mesh;
-                (frg.col as MeshCollider).convex = true;
-                frg.col.isTrigger = false;
-                frg.col.sharedMaterial = bouncyMaterial;
-                frg.parent = ball;
-                if (bm == BallMesh.Icosahedron)
-                {
-                    if ((i + 1) % 2 == 0)
-                    {
-                        frg.meshR.material = mm.materials.ballFragmentsMaterials.burnFragmentMaterial;
-                        field.fragmentStore.icosahedronBurnFragments.Add(frg);
-                    }
-                    else
-                    {
-                        frg.meshR.material = mm.materials.ballFragmentsMaterials.freezeFragmentMaterial;
-                        field.fragmentStore.icosahedronFreezeFragments.Add(frg);
-                    }
-                }
-                else if (bm == BallMesh.Cube)
-                {
-                    frg.meshR.material = mm.materials.ballFragmentsMaterials.cubeFragmentsMaterials[i];
-                    field.fragmentStore.cubeFragments.Add(frg);
-                }
-                else if (bm == BallMesh.Octacontagon)
-                {
-                    frg.meshR.material = mm.materials.ballFragmentsMaterials.ballFragmentMaterial;
-                    field.fragmentStore.octacontagonFragments.Add(frg);
-                }
-            }
-        }
-        else
-        {
-            field.fragmentStore.TransferBallFragments(bm);
-        }
-        ball.col.isTrigger = false;
-        ball.col.sharedMaterial = bouncyMaterial;
-        ball.transform.localPosition = Vector3.zero;
-        ball.transform.SetParent(fieldParent.transform);
-        ball.meshR.material = mm.materials.ballMaterials.MaterialForCurrentMesh(mm.NextBallMesh(bm));
-        ball.rbd.excludeLayers = rigidBodiesExcludeLayers.ballExclude;
-        return ball;
-    }
-    public List<DebuffFragment> MakeFreshFreezeFragments(DebuffEntity debuff, bool orbiting, float multiplier)
-    {
-        List<DebuffFragment> newFragmentList = new List<DebuffFragment>();
-        for (int i = 0; i < debuff.fragmentCapacity*2; i++)
-        {
-            if ((i + 1) % 2 != 0)
-            {
-                Fragment frg = GameObject.Instantiate(fragmentPrefab, debuff.transform).GetComponent<Fragment>();
-                frg.gameObject.name = "IcosahedronFragment" + (i + 1);
-                frg.gameObject.layer = LayerMask.NameToLayer("Debuff");
-                frg.meshF.mesh = mm.NewMesh(frg.gameObject.name, Vector3.one * canvasBallDiameter * multiplier);
-                frg.col = frg.AddComponent<MeshCollider>();
-                (frg.col as MeshCollider).sharedMesh = frg.meshF.mesh;
-                (frg.col as MeshCollider).convex = true;
-                frg.col.isTrigger = false;
-                frg.col.sharedMaterial = bouncyMaterial;
-                frg.parent = debuff;
-                frg.meshR.material = mm.materials.ballFragmentsMaterials.freezeFragmentMaterial;
-                newFragmentList.Add(new DebuffFragment(frg, orbiting));
-            }
-        }
-        return newFragmentList;
-    }
-    public List<DebuffFragment> MakeFreshBurnFragments(DebuffEntity debuff, bool orbiting, float multiplier)
-    {
-        List<DebuffFragment> newFragmentList = new List<DebuffFragment>();
-        for (int i = 0; i < debuff.fragmentCapacity*2; i++)
-        {
-            if ((i + 1) % 2 == 0)
-            {
-                Fragment frg = GameObject.Instantiate(fragmentPrefab, debuff.transform).GetComponent<Fragment>();
-                frg.gameObject.name = "IcosahedronFragment" + (i + 1);
-                frg.gameObject.layer = LayerMask.NameToLayer("Debuff");
-                frg.meshF.mesh = mm.NewMesh(frg.gameObject.name, Vector3.one * canvasBallDiameter * multiplier);
-                frg.col = frg.AddComponent<MeshCollider>();
-                (frg.col as MeshCollider).sharedMesh = frg.meshF.mesh;
-                (frg.col as MeshCollider).convex = true;
-                frg.col.isTrigger = false;
-                frg.col.sharedMaterial = bouncyMaterial;
-                frg.parent = debuff;
-                frg.meshR.material = mm.materials.ballFragmentsMaterials.burnFragmentMaterial;
-                newFragmentList.Add(new DebuffFragment(frg, orbiting));
-            }
-        }
-        return newFragmentList;
-    }
     public FragmentStore MakeFragmentStore()
     {
-        FragmentStore newFragmentStore = new FragmentStore();
+        List<Fragment> leftPadFragments = new List<Fragment>();
+        List<Fragment> rightPadFragments = new List<Fragment>();
+        List<Fragment> cubeFragments = new List<Fragment>();
+        List<Fragment> icosahedronFreezeFragments = new List<Fragment>();
+        List<Fragment> icosahedronBurnFragments = new List<Fragment>();
+        List<Fragment> octacontagonFragments = new List<Fragment>();
 
+        //make pad fragments
+        for (int i = 0; i < 4; i++)
+        {
+            Fragment leftFrg = GameObject.Instantiate(fragmentPrefab).GetComponent<Fragment>();
+            Fragment rightFrg = GameObject.Instantiate(fragmentPrefab).GetComponent<Fragment>();
+            leftFrg.gameObject.name = "LeftPadFragment" + (i + 1);
+            rightFrg.gameObject.name = "RightPadFragment" + (i + 1);
+
+            leftPadFragments.Add(leftFrg);
+            rightPadFragments.Add(rightFrg);
+
+            leftFrg.meshF.mesh = mm.NewMesh("PadFragment" + (i + 1), Vector3.one * canvasPadWidth);
+            rightFrg.meshF.mesh = mm.NewMesh("PadFragment" + (i + 1), Vector3.one * canvasPadWidth);
+
+            leftFrg.col = leftFrg.AddComponent<MeshCollider>();
+            rightFrg.col = rightFrg.AddComponent<MeshCollider>();
+            (leftFrg.col as MeshCollider).sharedMesh = leftFrg.meshF.mesh;
+            (rightFrg.col as MeshCollider).sharedMesh = rightFrg.meshF.mesh;
+
+            (leftFrg.col as MeshCollider).convex = (rightFrg.col as MeshCollider).convex = true;
+            leftFrg.col.isTrigger = rightFrg.col.isTrigger = false;
+            leftFrg.col.sharedMaterial = rightFrg.col.sharedMaterial = notSoBouncyMaterial;
+            leftFrg.meshR.material = rightFrg.meshR.material = mm.materials.padMaterial;
+            leftFrg.gameObject.layer = rightFrg.gameObject.layer = LayerMask.NameToLayer("Fragment");
+
+            leftFrg.gameObject.SetActive(false);
+            rightFrg.gameObject.SetActive(false);
+
+        }
+
+        //make cube fragments
+        for (int i = 0; i < 4; i++)
+        {
+            Fragment cubeFrg = GameObject.Instantiate(fragmentPrefab).GetComponent<Fragment>();
+            cubeFrg.gameObject.name = "CubeFragment" + (i + 1);
+            cubeFrg.meshF.mesh = mm.NewMesh(cubeFrg.gameObject.name, Vector3.one * canvasBallDiameter * pm.initialSizes.ballSizeMultiplier);
+            cubeFrg.col = cubeFrg.AddComponent<MeshCollider>();
+            (cubeFrg.col as MeshCollider).sharedMesh = cubeFrg.meshF.mesh;
+            (cubeFrg.col as MeshCollider).convex = true;
+            cubeFrg.col.isTrigger = false;
+            cubeFrg.col.sharedMaterial = notSoBouncyMaterial;
+            cubeFrg.meshR.material = mm.materials.ballFragmentsMaterials.cubeFragmentsMaterials[i];
+            cubeFragments.Add(cubeFrg);
+            cubeFrg.gameObject.layer = LayerMask.NameToLayer("Fragment");
+            cubeFrg.gameObject.SetActive(false);
+        }
+
+        //make icosahedron fragments
+        for (int i = 0; i < 20; i++)
+        {
+            Fragment icosahedronFrg = GameObject.Instantiate(fragmentPrefab).GetComponent<Fragment>();
+            icosahedronFrg.gameObject.name = "IcosahedronFragment" + (i + 1);
+            icosahedronFrg.meshF.mesh = mm.NewMesh(icosahedronFrg.gameObject.name, Vector3.one * canvasBallDiameter * pm.initialSizes.ballSizeMultiplier);
+            icosahedronFrg.col = icosahedronFrg.AddComponent<MeshCollider>();
+            (icosahedronFrg.col as MeshCollider).sharedMesh = icosahedronFrg.meshF.mesh;
+            (icosahedronFrg.col as MeshCollider).convex = true;
+            icosahedronFrg.col.isTrigger = false;
+            icosahedronFrg.col.sharedMaterial = notSoBouncyMaterial;
+            if ((i + 1) % 2 == 0)
+            {
+                icosahedronFrg.meshR.material = mm.materials.ballFragmentsMaterials.burnFragmentMaterial;
+                icosahedronBurnFragments.Add(icosahedronFrg);
+            }
+            else
+            {
+                icosahedronFrg.meshR.material = mm.materials.ballFragmentsMaterials.freezeFragmentMaterial;
+                icosahedronFreezeFragments.Add(icosahedronFrg);
+            }
+            icosahedronFrg.gameObject.layer = LayerMask.NameToLayer("Fragment");
+            icosahedronFrg.gameObject.SetActive(false);
+        }
+
+        //make octacontagon fragments
+        for (int i = 0; i < 4; i++)
+        {
+            Fragment octacontagonFrg = GameObject.Instantiate(fragmentPrefab).GetComponent<Fragment>();
+            octacontagonFrg.gameObject.name = "OctacontagonFragment" + (i + 1);
+            octacontagonFrg.meshF.mesh = mm.NewMesh(octacontagonFrg.gameObject.name, Vector3.one * canvasBallDiameter * pm.initialSizes.ballSizeMultiplier);
+            octacontagonFrg.col = octacontagonFrg.AddComponent<MeshCollider>();
+            (octacontagonFrg.col as MeshCollider).sharedMesh = octacontagonFrg.meshF.mesh;
+            (octacontagonFrg.col as MeshCollider).convex = true;
+            octacontagonFrg.col.isTrigger = false;
+            octacontagonFrg.col.sharedMaterial = notSoBouncyMaterial;
+            octacontagonFrg.meshR.material = mm.materials.ballFragmentsMaterials.ballFragmentMaterial;
+            octacontagonFragments.Add(octacontagonFrg);
+            octacontagonFrg.gameObject.layer = LayerMask.NameToLayer("Fragment");
+            octacontagonFrg.gameObject.SetActive(false);
+        }
+
+        FragmentStore newFragmentStore = new FragmentStore(leftPadFragments, rightPadFragments, cubeFragments, icosahedronFreezeFragments, icosahedronBurnFragments, octacontagonFragments);
         return newFragmentStore;
     }
     public SpikeEntity MakeSpike(SpikeType t, SpikeMesh sm)
@@ -517,9 +466,7 @@ public class Builder : PongManager
                 (debuff.col as MeshCollider).convex = true;
                 debuff.transform.localPosition = Vector3.zero;
                 debuff.gameObject.name = t.ToString();
-                //NO COLLIDERS ON DEBUFF FREEZE & BURN
-                // (debuff.col as SphereCollider).radius = debuff.meshF.mesh.bounds.size.x * 0.5f;
-                // debuff.col.isTrigger = false;
+                debuff.col.isTrigger = false;
                 debuff.col.sharedMaterial = bouncyMaterial;
                 debuff.transform.SetParent(fieldParent.transform);
                 debuff.rbd.excludeLayers = rigidBodiesExcludeLayers.debuffExclude;
@@ -573,7 +520,6 @@ public class Builder : PongManager
         (energyShield.col as MeshCollider).convex = true;
         energyShield.col.isTrigger = false;
         energyShield.col.sharedMaterial = bouncyMaterial;
-        energyShield.parent = pad;
         energyShield.meshR.material = vfx.energyShieldMaterial;
         energyShield.transform.localPosition = new Vector3(0, 0, pad.col.bounds.size.z / pad.transform.localScale.z);
         energyShield.transform.localScale *= 1.5f;

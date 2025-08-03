@@ -26,19 +26,11 @@ public class DebuffFreeze : DebuffEntity
     protected override void OnEnable()
     {
         base.OnEnable();
-        field.fragmentStore.removedAllIcosahedronFreezeFragments.RemoveAllListeners();
-        field.fragmentStore.droppedIcosahedronFreezeFragment.RemoveAllListeners();
-        if (fragments.Count == 0 && currentStage == Stage.FireAndIce)
+        field.fragmentStore.droppedAllIcosahedronFragments.RemoveListener(OnAllBallFragmentsDropped);
+        if (field.fragmentStore.droppedIcosahedronFragmentsIndex == 0 && currentStage == Stage.FireAndIce)
         {
-            field.fragmentStore.removedAllIcosahedronFreezeFragments.AddListener(() => OnAllBallFragmentsDropped());
-            field.fragmentStore.droppedIcosahedronFreezeFragment.AddListener(frg => AddFragment(frg));
+            field.fragmentStore.droppedAllIcosahedronFragments.AddListener(OnAllBallFragmentsDropped);
         }
-        else
-        {
-            fragments = builder.MakeFreshFreezeFragments(this, false, 1.2f);
-            readyForStage = true;
-        }
-
     }
     public override void OnGobbledAllFragments()
     {
@@ -53,55 +45,20 @@ public class DebuffFreeze : DebuffEntity
         transform.position = new Vector3(transform.position.x, transform.position.y, stagePosZ);
         rbd.AddForce(initialDebuffVelocity, ForceMode.VelocityChange);
         col.enabled = true;
-        // foreach (DebuffFragment debuffFragment in fragments)
-        // {
-        //     debuffFragment.fragment.col.enabled = true;
-        // }
-
     }
-    // void OnDisable()
-    // {
-
-    //     foreach (DebuffFragment debuffFragment in fragments)
-    //     {
-    //         GameObject.Destroy(debuffFragment.fragment.gameObject);
-    //     }
-    //     fragments.Clear();
-    // }
     public void TriggerExplosion()
     {
         if (!exploded)
         {
-            readyForStage = false;
             exploded = true;
             orbiting = true;
-            foreach (DebuffFragment debuffFragment in fragments)
-            {
-                if (debuffFragment.fragment.rbd == null)
-                {
-                    debuffFragment.fragment.rbd = debuffFragment.fragment.AddComponent<Rigidbody>();
-                    debuffFragment.fragment.rbd.mass = 1;
-                    debuffFragment.fragment.rbd.angularDrag = 0;
-                    debuffFragment.fragment.rbd.drag = 0;
-                    debuffFragment.fragment.col.sharedMaterial = null;
-                }
-                if (debuffFragment.fragment.col != null)
-                {
-                    debuffFragment.fragment.col.enabled = true;
-                }
-                debuffFragment.fragment.rbd.AddExplosionForce(20, transform.position, 0, 0, ForceMode.Acceleration);
-                debuffFragment.fragment.transform.SetParent(PongManager.fieldParent.transform, true);
-                debuffFragment.fragment.gameObject.layer = LayerMask.NameToLayer("Fragment");
-            }
+            fragmentListForDebuff.ForEach(frg => field.fragmentStore.DropFragment(frg));
             StartCoroutine("CyclePostExplosion");
             rbd.angularVelocity = Vector3.zero;
             rbd.velocity = Vector3.zero;
+            rbd.isKinematic = true;
+            col.enabled = false;
         }
-    }
-    public override void DestroyAllFragments()
-    {
-        field.fragmentStore.icosahedronFreezeFragments.ForEach(frg => GameObject.Destroy(frg.gameObject));
-        base.DestroyAllFragments();
     }
     IEnumerator CyclePostExplosion()
     {

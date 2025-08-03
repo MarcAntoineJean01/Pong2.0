@@ -235,21 +235,14 @@ public class NewGameManager : PongManager
             {
                 FieldDoMoveZ();
             }
-            if (field.debuffStore.debuffFreeze.readyForStage)
+            if (currentStage > Stage.FireAndIce)
             {
                 field.debuffStore.debuffFreeze.EnterStage();
-            }
-            if (field.debuffStore.debuffBurn.readyForStage)
-            {
                 field.debuffStore.debuffBurn.EnterStage();
             }
             if (currentStage == Stage.Neon)
             {
-                foreach (Fragment fragment in field.fragmentStore.allPadFragments)
-                {
-                    ConstantForce cs = fragment.AddComponent<ConstantForce>();
-                    cs.force = new Vector3(0, 0, 25);
-                }
+                field.fragmentStore.allPadFragments.ForEach(frg => field.fragmentStore.AddFragmentConstantForce(frg, new Vector3(0, 0, 25)));
             }
         }
 
@@ -307,6 +300,7 @@ public class NewGameManager : PongManager
         Application.Quit();
 #endif
     }
+    //MAKE THIS BETTER, UNEFFICIENT TO MAKE A NEW LIST EACH TIME
     public void PickASpike()
     {
         bool canAddPieces = field.leftPad.CanAddPiece() || field.rightPad.CanAddPiece();

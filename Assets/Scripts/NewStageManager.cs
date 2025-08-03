@@ -99,15 +99,13 @@ public class NewStageManager : PongManager
         if (currentStage == Stage.FireAndIce)
         {
             field.debuffStore.debuffBurn.gameObject.SetActive(true);
-            field.debuffStore.debuffFreeze.gameObject.SetActive(true);
-            // field.debuffStore.debuffFreeze.Orbit();
-            // field.debuffStore.debuffBurn.Orbit();
-            // field.ball.ballType = BallMesh.Octacontagon;            
+            field.debuffStore.debuffFreeze.gameObject.SetActive(true);        
         }
         foreach (SpikeEntity spike in field.spikeStore.allSpikes)
         {
             spike.SetSpikeForStage();
         }
+        field.fragmentStore.SetFragmentsForStage(currentStage);
         foreach (DebuffEntity debuff in field.debuffStore.allDebuffs)
         {
             debuff.SetDebuffForStage();
@@ -144,14 +142,12 @@ public class NewStageManager : PongManager
         {
             StartCoroutine("CycleSetupUniverse");
         }
-        if (currentStage > Stage.FireAndIce)
+        if (currentStage >= Stage.FireAndIce)
         {
             field.debuffStore.debuffBurn.gameObject.SetActive(true);
             field.debuffStore.debuffFreeze.gameObject.SetActive(true);
             field.debuffStore.debuffBurn.orbiting = true;
             field.debuffStore.debuffFreeze.orbiting = true;
-            // field.debuffStore.debuffBurn.readyForStage = true;
-            // field.debuffStore.debuffFreeze.readyForStage = true;
             field.debuffStore.debuffBurn.IdleOrbit();
             field.debuffStore.debuffFreeze.IdleOrbit();
 
@@ -169,14 +165,7 @@ public class NewStageManager : PongManager
         CinemachineBasicMultiChannelPerlin noise = CameraManager.activeVCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         noise.m_AmplitudeGain = 0;
         noise.m_FrequencyGain = 0;
-        foreach (Fragment fragment in field.fragmentStore.allPadFragments)
-        {
-            ConstantForce cs = fragment.GetComponent<ConstantForce>();
-            if (cs != null)
-            {
-                GameObject.Destroy(cs);
-            }
-        }
+        field.fragmentStore.allPadFragments.ForEach(frg => field.fragmentStore.RemoveFragmentConstantForce(frg));
         if (fmfm != null)
         {
             GameObject.Destroy(fmfm.gameObject);
@@ -242,38 +231,29 @@ public class NewStageManager : PongManager
                 field.ReplaceEntity(Entity.Ball, newBall);
                 break;
             case Stage.Universe:
-                newBall = builder.MakeFragmentedBall(BallMesh.Cube);
+                newBall = builder.MakeFullBall(BallMesh.IcosahedronRough);
                 field.ReplaceEntity(Entity.Ball, newBall);
+                field.fragmentStore.GatherBallFragments(newBall.ballType);
                 break;
             case Stage.GravityWell:
-                newBall = builder.MakeFullBall(BallMesh.Icosahedron, 1.2f);
+                newBall = builder.MakeFullBall(BallMesh.Icosahedron);
                 field.ReplaceEntity(Entity.Ball, newBall);
                 break;
             case Stage.FreeMove:
-                newBall = builder.MakeFullBall(BallMesh.Icosahedron, 1.2f);
+                newBall = builder.MakeFullBall(BallMesh.Icosahedron);
                 field.ReplaceEntity(Entity.Ball, newBall);
                 break;
             case Stage.FireAndIce:
-                field.fragmentStore.DestroyBallFragmentsForMesh(BallMesh.Icosahedron);
-                if (field.debuffStore.debuffBurn.hasAllFragments && field.debuffStore.debuffFreeze.hasAllFragments)
-                {
-                    newBall = builder.MakeFullBall(BallMesh.Octacontagon, 1.2f);
-                }
-                else
-                {
-                    field.debuffStore.debuffBurn.DestroyAllFragments();
-                    field.debuffStore.debuffFreeze.DestroyAllFragments();
-                    newBall = builder.MakeFragmentedBall(BallMesh.Icosahedron, 1.2f);
-                }
-                newBall.SetBallForStage();
+                newBall = builder.MakeFullBall(BallMesh.Octacontagon);
                 field.ReplaceEntity(Entity.Ball, newBall);
+                field.fragmentStore.GatherBallFragments(newBall.ballType);
                 break;
             case Stage.Neon:
-                newBall = builder.MakeFullBall(BallMesh.Octacontagon, 1.2f);
+                newBall = builder.MakeFullBall(BallMesh.Octacontagon);
                 field.ReplaceEntity(Entity.Ball, newBall);
                 break;
             case Stage.Final:
-                newBall = builder.MakeFullBall(BallMesh.Octacontagon, 1.2f);
+                newBall = builder.MakeFullBall(BallMesh.Octacontagon);
                 field.ReplaceEntity(Entity.Ball, newBall);
                 break;
 
@@ -325,7 +305,6 @@ public class NewStageManager : PongManager
             yield return null;
         }
         field.debuffStore.debuffSlow.gameObject.SetActive(true);
-        // field.debuffStore.debuffSlow.OnGobbledAllFragments();
         transitioning = false;
     }
 

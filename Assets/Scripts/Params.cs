@@ -11,6 +11,8 @@ public class InitialSizes
     public int padSize;
     [Range(1, 100)]
     public int debuffSize;
+    [Range(1, 10)]
+    public float ballSizeMultiplier;
 }
 [System.Serializable]
 public class Speeds

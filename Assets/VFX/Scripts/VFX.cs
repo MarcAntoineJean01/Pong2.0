@@ -261,45 +261,22 @@ public class VFX : PongManager
 
         }
     }
-
-    // public void RebuildPads()
-    // {
-    //     field.fragmentStore.TransferPadFragments(field.leftPad);
-    //     field.fragmentStore.TransferPadFragments(field.rightPad);
-    //     foreach (Fragment fragment in field.fragmentStore.leftPadFragments)
-    //     {
-    //         fragment.transform.DOLocalMove(Vector3.zero, 1).OnComplete(() => field.fragmentStore.leftPadFragments.Remove(fragment));
-    //         fragment.transform.DOLocalRotate(Vector3.zero, 1);
-    //     }
-    //     foreach (Fragment fragment in field.fragmentStore.rightPadFragments)
-    //     {
-    //         fragment.transform.DOLocalMove(Vector3.zero, 1).OnComplete(() => field.fragmentStore.rightPadFragments.Remove(fragment));
-    //         fragment.transform.DOLocalRotate(Vector3.zero, 1);
-    //     }
-    // }
-    public void RebuildPad(Side padSide)
+    public void RebuildPads()
     {
-        switch (padSide)
+
+        field.leftPad.SetPadForStage();
+        field.rightPad.SetPadForStage();
+        field.fragmentStore.GatherPadFragments(false);
+        field.fragmentStore.leftPadFragments.ForEach(frg =>
         {
-            case Side.Left:
-                field.leftPad.SetPadForStage();
-                field.fragmentStore.TransferPadFragments(field.leftPad);
-                foreach (Fragment fragment in field.fragmentStore.leftPadFragments)
-                {
-                    fragment.transform.DOLocalMove(Vector3.zero, 1).OnComplete(() => field.fragmentStore.leftPadFragments.Remove(fragment)).SetAutoKill(true);
-                    fragment.transform.DOLocalRotate(Vector3.zero, 1).SetAutoKill(true);
-                }
-                break;
-            case Side.Right:
-                field.rightPad.SetPadForStage();
-                field.fragmentStore.TransferPadFragments(field.rightPad);
-                foreach (Fragment fragment in field.fragmentStore.rightPadFragments)
-                {
-                    fragment.transform.DOLocalMove(Vector3.zero, 1).OnComplete(() => field.fragmentStore.rightPadFragments.Remove(fragment)).SetAutoKill(true);
-                    fragment.transform.DOLocalRotate(Vector3.zero, 1).SetAutoKill(true);
-                }
-                break;
-        }
+            frg.transform.DOLocalMove(Vector3.zero, 1).SetAutoKill(true);
+            frg.transform.DOLocalRotate(Vector3.zero, 1).SetAutoKill(true);
+        });
+        field.fragmentStore.rightPadFragments.ForEach(frg =>
+        {
+            frg.transform.DOLocalMove(Vector3.zero, 1).SetAutoKill(true);
+            frg.transform.DOLocalRotate(Vector3.zero, 1).SetAutoKill(true);
+        });
     }
     public void StartPolyIdleAnimation()
     {

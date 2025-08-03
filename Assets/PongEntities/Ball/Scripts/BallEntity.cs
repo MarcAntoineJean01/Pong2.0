@@ -159,43 +159,22 @@ public class BallEntity : PongEntity
         if (lct != Time.time)
         {
             lct = Time.time;
-            // if (currentStage == Stage.Universe && st == State.Live)
-            // {
-            //     if (field.debuffStore.debuffSlow != null && field.debuffStore.debuffSlow.doneSpawningBlackhole && !field.debuffStore.debuffSlow.enteredStage && (collision.gameObject.GetComponent<Wall>() != null || collision.gameObject.GetComponent<Pad>()))
-            //     {
-            //         field.debuffStore.debuffSlow.EnterStage();
-            //     }
-
-            // }
-            if (!field.fragmentStore.NoFragmentsForBall(ballType))
+            if ((currentStage == Stage.Universe || currentStage == Stage.FireAndIce) && !field.fragmentStore.NoMoreFragmentsForBall(ballType))
             {
-                field.fragmentStore.DropBallFragmentsForMesh(ballType);
-                if (field.fragmentStore.cubeFragmentsEmpty && field.ball.ballType == BallMesh.Cube)
+                field.fragmentStore.DropBallFragments(ballType);
+                if ((field.ball.ballType == BallMesh.IcosahedronRough || field.ball.ballType == BallMesh.Octacontagon) && field.fragmentStore.NoMoreFragmentsForBall(ballType))
                 {
-                    BallEntity newBall = builder.MakeFullBall(BallMesh.IcosahedronRough, 1.2f);
+                    BallEntity newBall = builder.MakeFullBall(field.ball.ballType == BallMesh.IcosahedronRough ? BallMesh.IcosahedronRough : BallMesh.Octacontagon);
                     newBall.SetBallForStage();
                     field.ReplaceEntity(Entity.Ball, newBall);
-                    if (PongManager.mainSettings.cutScenesOn)
+                    if (PongManager.mainSettings.cutScenesOn && field.ball.ballType == BallMesh.IcosahedronRough)
                     {
                         csm.PlayScene(CutScene.PolyFeelsEvenLighter);
                     }
-
                 }
-
-                if (field.fragmentStore.cubeFragments.Count == 3 && field.ball.ballType == BallMesh.Cube && PongManager.mainSettings.cutScenesOn)
+                if (PongManager.mainSettings.cutScenesOn && field.ball.ballType == BallMesh.IcosahedronRough && field.fragmentStore.cubeFragments.Count == 3)
                 {
                     csm.PlayScene(CutScene.PolyFeelsLighter);
-                }
-                if (field.fragmentStore.icosahedronFragmentsEmpty && field.ball.ballType == BallMesh.Icosahedron)
-                {
-                    BallEntity newBall = builder.MakeFullBall(BallMesh.Octacontagon, 1.2f);
-                    newBall.SetBallForStage();
-                    field.ReplaceEntity(Entity.Ball, newBall);
-                    if (PongManager.mainSettings.cutScenesOn)
-                    {
-                        csm.PlayScene(CutScene.PolyFeelsEvenLighter);
-                    }
-
                 }
             }
 
@@ -453,7 +432,6 @@ public class BallEntity : PongEntity
         meshR.material.SetFloat("_FrostAmmount", 0);
         meshR.material.SetFloat("_SuctionRange", 0);
         meshR.material.SetFloat("_SuctionThreshold", 0);
-        field.fragmentStore.ResetBallFragmentsMaterials();
         dissolveSide = Side.None;            
     }
     public void RandomDirection()

@@ -1,4 +1,6 @@
+using UnityEngine;
+
 public class Fragment : PongEntity
 {
-    public PongEntity parent;
+    public ConstantForce cf;
 }

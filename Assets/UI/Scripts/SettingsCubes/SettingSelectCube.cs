@@ -225,22 +225,6 @@ public class SettingSelectCube : PongUiCube
             release = false;
         }
     }
-    // Vector3 RotationForSplitScreen(Side side)
-    // {
-    //     switch (side)
-    //     {
-    //         case Side.Left:
-    //             return  new Vector3(180, 0, 270);
-    //         case Side.Right:
-    //             return new Vector3(0, 0, 270);
-    //         case Side.Top:
-    //             return new Vector3(180, 0, 180);
-    //         case Side.Bottom:
-    //             return  new Vector3(270, 0, 90);
-    //         default:
-    //             return Vector3.zero;
-    //     }
-    // }
     void SwitchSide(Side dir)
     {
         NextCubeSettingOption(dir == Side.Bottom || dir == Side.Left);
@@ -479,8 +463,6 @@ public class SettingSelectCube : PongUiCube
         }
         cubeControls.UiCubeControls.Disable();
         transform.DOComplete();
-        // usingCube = false;
-        // release = true;
     }
     IEnumerator CycleActivate()
     {

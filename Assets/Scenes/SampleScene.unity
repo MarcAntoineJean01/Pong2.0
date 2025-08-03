@@ -9443,6 +9443,8 @@ MonoBehaviour:
   blockPrefab: {fileID: 1135480189291848531, guid: e3d820f5657253d4e9786994177467bc,
     type: 3}
   bouncyMaterial: {fileID: 13400000, guid: 87ea570ad2b5bfc48b0084b3df6d1b00, type: 2}
+  notSoBouncyMaterial: {fileID: 13400000, guid: 2a465ab455585be49a637c6113853b30,
+    type: 2}
   canvasBallDiameter: 0
   storedMeshForVirtualDebuffs: {fileID: 0}
 --- !u!4 &571170448
@@ -24774,6 +24776,7 @@ MonoBehaviour:
     spikeSize: 10
     padSize: 3
     debuffSize: 8
+    ballSizeMultiplier: 1.2
   speeds:
     entitySpeeds:
       ballMinLinearVelocity: 30

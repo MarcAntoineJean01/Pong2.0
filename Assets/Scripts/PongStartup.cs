@@ -41,9 +41,7 @@ public class PongStartup : MonoBehaviour
             {
                 for (int i = 0; i < 16 - initialChildCount; i++)
                 {
-                    // menu.fakeUiCubes.Add(GameObject.Instantiate(uiManager.debugFakeCubePrefab, menu.grid.transform).GetComponent<FakeUiCube>());
                     GameObject.Instantiate(uiManager.debugFakeCubePrefab, menu.grid.transform).GetComponent<FakeUiCube>().transform.SetAsFirstSibling();
-                    // menu.fakeUiCubes.Last().transform.SetAsFirstSibling();
                 }
             }
         }
@@ -88,7 +86,7 @@ public class PongStartup : MonoBehaviour
         PongManager.mainSettings.gameMode = GameMode.Time;
         PongManager.mainSettings.cutScenesOn = false;
         PongManager.mainSettings.inGameDialogsOn = false;
-        PongManager.mainSettings.tutorialsOn = false;
+        PongManager.mainSettings.tutorialsOn = true;
         PongManager.mainSettings.leftPlayerController = PlayerController.Player;
         PongManager.mainSettings.rightPlayerController = PlayerController.Player;
         PongManager.options.soundVolume = 0.1f;
