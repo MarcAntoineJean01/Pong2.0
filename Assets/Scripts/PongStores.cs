@@ -43,11 +43,11 @@ public class FragmentStore
     {
         switch (currentStage)
         {
-            case Stage.DD:
-            case Stage.DDD:
             case Stage.Universe:
                 icosahedronFragments.ForEach(frg => frg.gameObject.SetActive(false));
                 break;
+            case Stage.DD:
+            case Stage.DDD:
             case Stage.GravityWell:
             case Stage.FreeMove:
                 cubeFragments.ForEach(frg => frg.gameObject.SetActive(false));
@@ -332,6 +332,10 @@ public struct DebuffStore
         debuffFreeze.gameObject.SetActive(false);
         debuffFreeze.transform.position = debuffFreeze.calculatedPath[0];
         debuffFreeze.transform.rotation = Quaternion.Euler(Vector3.zero);
+        debuffBurn.exploded = false;
+        debuffFreeze.exploded = false;
+        debuffBurn.orbiting = true;
+        debuffFreeze.orbiting = true;
         if (PongBehaviour.nextStage > Stage.FireAndIce)
         {
             PongBehaviour.field.fragmentStore.GatherDebuffFragments();

@@ -730,13 +730,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1613299888}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1613299888}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 448691517}
   - {fileID: 1703021183}
@@ -3387,13 +3383,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 491985958}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 491985958}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1416000987}
   - {fileID: 1775964085}
@@ -3491,13 +3483,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 2102001442}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 2102001442}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 324906418}
   - {fileID: 1833520003}
@@ -5314,13 +5302,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1709496046}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1709496046}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 58459990}
   - {fileID: 1061949370}
@@ -5688,13 +5672,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 821562705}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 821562705}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1971859965}
   - {fileID: 1924371754}
@@ -12848,13 +12828,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1647860811}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1647860811}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1168667958}
   - {fileID: 1947291496}
@@ -15261,13 +15237,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1665200427}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1665200427}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1670652274}
   - {fileID: 193888762}
@@ -15770,13 +15742,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 969693742}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 969693742}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1284298521}
   - {fileID: 1085656076}
@@ -18099,13 +18067,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1502240991}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1502240991}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 801107660}
   - {fileID: 938857696}
@@ -18473,13 +18437,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 636993857}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 636993857}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 501517844}
   - {fileID: 794049165}
@@ -20494,13 +20454,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1963480131}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1963480131}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1886231124}
   - {fileID: 1190205970}
@@ -21408,13 +21364,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 514215367}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 514215367}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1250225650}
   - {fileID: 1221146920}
@@ -26036,13 +25988,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 259290361}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 259290361}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 389377602}
   - {fileID: 1623227456}
@@ -26216,13 +26164,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 259290361}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 259290361}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 896530217}
   - {fileID: 233180468}
@@ -27329,13 +27273,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 58575764}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 58575764}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 105851267}
   - {fileID: 1201200507}
@@ -27644,13 +27584,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 259936818}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 259936818}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1059257603}
   - {fileID: 265253396}
@@ -28879,13 +28815,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 855755071}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 855755071}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1526099733}
   - {fileID: 421611592}
@@ -29692,13 +29624,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1962875272}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1962875272}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 20809097}
   - {fileID: 255997865}
@@ -30142,13 +30070,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1986838704}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1986838704}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 501578594}
   - {fileID: 501795021}
@@ -32110,13 +32034,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 2079963596}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 2079963596}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 603186468}
   - {fileID: 1781015858}
@@ -32538,13 +32458,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 504413403}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 504413403}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1938305850}
   - {fileID: 1965992033}
@@ -32559,6 +32475,89 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   submitted: 0
+--- !u!1 &433369790
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 433369793}
+  - component: {fileID: 433369792}
+  - component: {fileID: 433369791}
+  m_Layer: 0
+  m_Name: LeftPad (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &433369791
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433369790}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: e60dd1fa2febdb34b8ca7ebaf431f9ae, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &433369792
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433369790}
+  m_Mesh: {fileID: 4300000, guid: 8b2e7569cf989cb49991e0bf68a1ffa9, type: 2}
+--- !u!4 &433369793
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433369790}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.3, y: -5.47, z: 56.8}
+  m_LocalScale: {x: 1.58, y: 1.58, z: 1.58}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &434616959
 GameObject:
   m_ObjectHideFlags: 0
@@ -34836,13 +34835,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 987853758}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 987853758}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1409484980}
   - {fileID: 635828272}
@@ -36827,13 +36822,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 103284738}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 103284738}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1623693385}
   - {fileID: 1433413248}
@@ -37702,13 +37693,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1047507806}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1047507806}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 13483251}
   - {fileID: 1426557533}
@@ -37806,13 +37793,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1358652423}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1358652423}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1922199234}
   - {fileID: 1675569323}
@@ -38506,13 +38489,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 768621310}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 768621310}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1495206362}
   - {fileID: 558330421}
@@ -40353,13 +40332,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1541479669}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1541479669}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 826813751}
   - {fileID: 242733323}
@@ -42145,13 +42120,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 59150529}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 59150529}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1387909063}
   - {fileID: 979731108}
@@ -43391,13 +43362,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 2049436875}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 2049436875}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 73174003}
   - {fileID: 1008832075}
@@ -46999,13 +46966,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 712574858}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 712574858}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 512476940}
   - {fileID: 790273735}
@@ -48770,13 +48733,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 243735095}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 243735095}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 2131223401}
   - {fileID: 1798283076}
@@ -53354,13 +53313,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 596482548}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 596482548}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1758891867}
   - {fileID: 25503429}
@@ -54298,13 +54253,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1541479669}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1541479669}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1109723139}
   - {fileID: 117332097}
@@ -56250,7 +56201,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &801858281
 Transform:
   m_ObjectHideFlags: 0
@@ -56270,6 +56221,7 @@ Transform:
   - {fileID: 1144824293}
   - {fileID: 911167}
   - {fileID: 1880301121}
+  - {fileID: 1875592432}
   - {fileID: 579736521}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -57200,13 +57152,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1047507806}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1047507806}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 676286385}
   - {fileID: 1952759304}
@@ -59609,13 +59557,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 712190773}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 712190773}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 462371709}
   - {fileID: 1796413865}
@@ -60677,13 +60621,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 2014523858}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 2014523858}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1032446952}
   - {fileID: 1413221851}
@@ -60933,13 +60873,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1986838704}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1986838704}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 28846970}
   - {fileID: 1214640527}
@@ -61172,13 +61108,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 2014523858}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 2014523858}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 522959364}
   - {fileID: 2081357203}
@@ -62268,13 +62200,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 177857812}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 177857812}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1193800620}
   - {fileID: 1018860954}
@@ -63049,7 +62977,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &930539985
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63109,7 +63037,7 @@ Transform:
   m_GameObject: {fileID: 930539984}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -47.9, y: 0, z: 11.04}
+  m_LocalPosition: {x: -9.9, y: -5.47, z: 56.8}
   m_LocalScale: {x: 1.58, y: 1.58, z: 1.58}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -63350,13 +63278,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 2090770048}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 2090770048}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1268335617}
   - {fileID: 1811870050}
@@ -66185,13 +66109,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1411885598}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1411885598}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 652569845}
   - {fileID: 111164377}
@@ -67729,13 +67649,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 177857812}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 177857812}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 662257513}
   - {fileID: 918297558}
@@ -68120,13 +68036,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1595230646}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1595230646}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 628350371}
   - {fileID: 165461094}
@@ -69396,13 +69308,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1186179652}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1186179652}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1150951973}
   - {fileID: 304596337}
@@ -71227,13 +71135,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1595230646}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1595230646}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 2111633370}
   - {fileID: 1360475539}
@@ -74385,13 +74289,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 137310170}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 137310170}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 80922361}
   - {fileID: 366686266}
@@ -76494,13 +76394,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 103284738}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 103284738}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 46119391}
   - {fileID: 507952608}
@@ -77584,13 +77480,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1881581473}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1881581473}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 477932644}
   - {fileID: 1908358441}
@@ -78117,13 +78009,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 324749968}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 324749968}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 513286149}
   - {fileID: 743244123}
@@ -80493,13 +80381,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 896535509}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 896535509}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1804219285}
   - {fileID: 710398747}
@@ -82384,13 +82268,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1357617737}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1357617737}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 643821685}
   - {fileID: 2056220467}
@@ -89042,13 +88922,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 911201155}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 911201155}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 443197693}
   - {fileID: 1968034623}
@@ -90635,13 +90511,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1857361374}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1857361374}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1971622261}
   - {fileID: 1650388405}
@@ -94556,13 +94428,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1062431903}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1062431903}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1194841072}
   - {fileID: 2075128857}
@@ -94660,13 +94528,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1357617737}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1357617737}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1739972748}
   - {fileID: 1901866783}
@@ -99200,13 +99064,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 2014523858}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 2014523858}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 2055024890}
   - {fileID: 422016751}
@@ -99380,13 +99240,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1850035955}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1850035955}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1844041963}
   - {fileID: 1473734568}
@@ -100765,13 +100621,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 987853758}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 987853758}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 243369057}
   - {fileID: 1914426020}
@@ -101004,13 +100856,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1265836467}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1265836467}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1065557678}
   - {fileID: 674193701}
@@ -104555,13 +104403,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 2097380417}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 2097380417}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1012005865}
   - {fileID: 610663436}
@@ -105171,13 +105015,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1595230646}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1595230646}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 263257897}
   - {fileID: 95733443}
@@ -106657,13 +106497,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 2145240336}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 2145240336}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1616991390}
   - {fileID: 727643693}
@@ -108074,13 +107910,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1222896629}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1222896629}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 114309988}
   - {fileID: 734114172}
@@ -110016,13 +109848,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 768621310}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 768621310}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1655884727}
   - {fileID: 1941556831}
@@ -110466,13 +110294,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 746394855}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 746394855}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 2067335613}
   - {fileID: 468103286}
@@ -111110,13 +110934,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 764749680}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 764749680}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 80237227}
   - {fileID: 1779115570}
@@ -111840,13 +111660,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 59150529}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 59150529}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 774779902}
   - {fileID: 503238212}
@@ -113058,13 +112874,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1925097354}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1925097354}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 13704072}
   - {fileID: 1790555915}
@@ -114374,13 +114186,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 504413403}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 504413403}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1771666362}
   - {fileID: 811197317}
@@ -114713,13 +114521,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1541479669}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1541479669}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1047731469}
   - {fileID: 1100431825}
@@ -114952,13 +114756,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 664155583}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 664155583}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 944494781}
   - {fileID: 1205678083}
@@ -115181,13 +114981,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 686498090}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 686498090}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1876451763}
   - {fileID: 1370981625}
@@ -116767,13 +116563,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1357617737}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1357617737}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 749822317}
   - {fileID: 1823038562}
@@ -116871,13 +116663,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 2145240336}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 2145240336}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 99485566}
   - {fileID: 1581163015}
@@ -117051,13 +116839,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 2049436875}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 2049436875}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1836333479}
   - {fileID: 1618202249}
@@ -118998,13 +118782,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 504413403}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 504413403}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1358269828}
   - {fileID: 1972793168}
@@ -120204,13 +119984,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 259290361}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 259290361}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 884980207}
   - {fileID: 1048825833}
@@ -123976,13 +123752,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 2145240336}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 2145240336}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 2108002599}
   - {fileID: 1120773111}
@@ -125923,13 +125695,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 987853758}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 987853758}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1278621779}
   - {fileID: 1038745165}
@@ -125944,6 +125712,89 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   submitted: 0
+--- !u!1 &1875592431
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1875592432}
+  - component: {fileID: 1875592434}
+  - component: {fileID: 1875592433}
+  m_Layer: 0
+  m_Name: Cube (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1875592432
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875592431}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.3899422, y: 0.31296176, z: -0.052652508, w: 0.86442333}
+  m_LocalPosition: {x: -3.89, y: -4.8, z: 59.3}
+  m_LocalScale: {x: 3.7599998, y: 3.7599998, z: 3.7599998}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 801858281}
+  m_LocalEulerAnglesHint: {x: 45, y: 45, z: 12.5}
+--- !u!23 &1875592433
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875592431}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: e96b4c9d34031e34390677859d736d5e, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1875592434
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875592431}
+  m_Mesh: {fileID: 4300000, guid: 846b8b01d3ce70a4c9ad6441a04844c7, type: 2}
 --- !u!1 &1876451763
 GameObject:
   m_ObjectHideFlags: 0
@@ -126182,7 +126033,7 @@ Transform:
   m_GameObject: {fileID: 1880301120}
   serializedVersion: 2
   m_LocalRotation: {x: 0.3899422, y: 0.31296176, z: -0.052652508, w: 0.86442333}
-  m_LocalPosition: {x: 6.91, y: 0, z: 0}
+  m_LocalPosition: {x: -7.3, y: -4.6, z: 59.3}
   m_LocalScale: {x: 3.7599998, y: 3.7599998, z: 3.7599998}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -127217,13 +127068,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1063208323}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1063208323}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1351889260}
   - {fileID: 578420274}
@@ -128587,13 +128434,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 2044148383}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 2044148383}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1330996074}
   - {fileID: 1646623929}
@@ -130753,13 +130596,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 103284738}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 103284738}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 842026150}
   - {fileID: 1907709619}
@@ -131524,13 +131363,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 652590521}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 652590521}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1415012323}
   - {fileID: 416665383}
@@ -131763,13 +131598,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1358652423}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1358652423}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 648368160}
   - {fileID: 1377163051}
@@ -131867,13 +131698,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1047507806}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1047507806}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 2009583022}
   - {fileID: 1476902353}
@@ -135948,13 +135775,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1986838704}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1986838704}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 924517662}
   - {fileID: 2110742131}
@@ -136398,13 +136221,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1358652423}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1358652423}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 2114819757}
   - {fileID: 630151076}
@@ -137199,13 +137018,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 2049436875}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 2049436875}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1426383624}
   - {fileID: 988644211}
@@ -137666,13 +137481,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1594146335}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1594146335}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 143721481}
   - {fileID: 771526795}
@@ -141140,13 +140951,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 177857812}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 177857812}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 200716221}
   - {fileID: 784584966}
@@ -141671,13 +141478,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 445815988}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 445815988}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 253643517}
   - {fileID: 342418512}
@@ -143304,13 +143107,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 1965359384}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 1965359384}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1650959255}
   - {fileID: 1149673948}
@@ -143482,13 +143281,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 668091164}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 668091164}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1605752082}
   - {fileID: 781960675}
@@ -146241,13 +146036,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 768621310}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 768621310}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1694563309}
   - {fileID: 976962910}
@@ -146554,13 +146345,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 440526093}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 440526093}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 1036825531}
   - {fileID: 1213500122}
@@ -147158,13 +146945,14 @@ MonoBehaviour:
   speedModifier: 1
   magnetized: 0
   slowed: 0
-  sd: 0
+  exploded: 0
+  orbitWheIdle: 1
+  activeOrbitPaths: 0
+  delayBetweenFragments: 0
+  inverseIdleOrbit: 0
   orbiting: 1
   segments: 360
-  orbitPath: 1
   visualEffect: {fileID: 0}
-  doneSpawningBlackhole: 0
-  enteredStage: 0
 --- !u!222 &4926668986853845422
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -147901,13 +147689,9 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
+  mat: {fileID: 59150529}
   vanishMetaCubeOnClick: 1
   highlighted: 0
-  normalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
-  highlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
-  pressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
-  mat: {fileID: 59150529}
-  textColor: {r: 0.92549026, g: 0.60784316, b: 0.68235296, a: 1}
   sides:
   - {fileID: 2315916393871866239}
   - {fileID: 7421102880559351486}
@@ -148272,6 +148056,7 @@ SceneRoots:
   - {fileID: 801858281}
   - {fileID: 598454422}
   - {fileID: 930539987}
+  - {fileID: 433369793}
   - {fileID: 2031324561}
   - {fileID: 2089860279}
   - {fileID: 2033866468}

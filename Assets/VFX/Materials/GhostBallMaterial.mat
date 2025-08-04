@@ -54,7 +54,7 @@ Material:
     - _Softness: 0.31
     - _UseScreenSpace: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
+    - _BaseColor: {r: 0.546, g: 0.546, b: 0.546, a: 0}
     - _IntersectionColor: {r: 0.9414274, g: 0, b: 110.13089, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &8084348787431738030
