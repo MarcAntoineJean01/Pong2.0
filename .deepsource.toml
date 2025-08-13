@@ -1,4 +1,9 @@
 version = 1
 
+exclude_patterns = [
+  "Assets/Stuff/**",
+  "Assets/Input Sprites for TextMesh Pro/**"
+]
+
 [[analyzers]]
 name = "csharp"
