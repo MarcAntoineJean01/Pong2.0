@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using Cinemachine;
 using System.Linq;
 using DG.Tweening;
+using Unity.VisualScripting;
 public class NewStageManager : PongManager
 {
     public GameObject freeMoveManagerPrefab;
@@ -83,16 +84,26 @@ public class NewStageManager : PongManager
             pve.SetVirutalFieldForStage();
         }
         if (immediate)
+        {
+            if (mainSettings.gameMode == GameMode.NonStop)
             {
-                field.leftPad.transform.position = new Vector3(field.leftPad.transform.position.x, 0, stagePosZ);
-                field.rightPad.transform.position = new Vector3(field.rightPad.transform.position.x, 0, stagePosZ);
-                field.ball.transform.position = new Vector3(0, 0, stagePosZ);
+                field.leftPad.transform.position = new Vector3(field.leftPad.transform.position.x, field.leftPad.transform.position.y, stagePosZ);
+                field.rightPad.transform.position = new Vector3(field.rightPad.transform.position.x, field.rightPad.transform.position.y, stagePosZ);
+                field.ball.transform.position = new Vector3(field.ball.transform.position.x, field.ball.transform.position.y, stagePosZ);
             }
             else
             {
-                StopCoroutine("CyclePositionEntitiess");
-                StartCoroutine("CyclePositionEntitiess");
+                field.leftPad.transform.position = new Vector3(field.leftPad.transform.position.x, 0, stagePosZ);
+                field.rightPad.transform.position = new Vector3(field.rightPad.transform.position.x, 0, stagePosZ);
+                field.ball.transform.position = new Vector3(0, 0, stagePosZ);                
             }
+
+        }
+        else
+        {
+            StopCoroutine("CyclePositionEntitiess");
+            StartCoroutine("CyclePositionEntitiess");
+        }
     }
     public void SetEntitiesForStage()
     {
@@ -100,7 +111,7 @@ public class NewStageManager : PongManager
         if (currentStage == Stage.FireAndIce)
         {
             field.debuffStore.debuffBurn.gameObject.SetActive(true);
-            field.debuffStore.debuffFreeze.gameObject.SetActive(true);        
+            field.debuffStore.debuffFreeze.gameObject.SetActive(true);
         }
         field.fragmentStore.SetFragmentsForStage(currentStage);
         if (currentStage == Stage.FreeMove)
@@ -126,7 +137,7 @@ public class NewStageManager : PongManager
             nextStage = Stage.Final;
         }
 
-        SetStage(mainSettings.gameMode == GameMode.Time);
+        SetStage(mainSettings.gameMode != GameMode.Goals);
         if (mainSettings.cutScenesOn)
         {
             csm.PlayScene(CutScene.StageIntro);
@@ -147,31 +158,39 @@ public class NewStageManager : PongManager
         }
     }
 
-    public void TerminateStage(bool lerpGhostsFromWall = false, bool lerpGhostsToWall = false)
+    public void TerminateStage(bool lerpGhostsFromWall = false, bool lerpGhostsToWall = false, bool nonStopTransition = true)
     {
-        vfx.KillAllLiveEffects();
-        field.spikeStore.StoreSpikes();
         field.debuffStore.StoreDebuffs();
-        field.leftPad.StopAllPadCoroutines();
-        field.rightPad.StopAllPadCoroutines();
-        field.ball.SetBallState(State.Idle);
-        CinemachineBasicMultiChannelPerlin noise = CameraManager.activeVCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        noise.m_AmplitudeGain = 0;
-        noise.m_FrequencyGain = 0;
         field.fragmentStore.allPadFragments.ForEach(frg => field.fragmentStore.RemoveFragmentConstantForce(frg));
         if (fmfm != null)
         {
             GameObject.Destroy(fmfm.gameObject);
             fmfm = null;
         }
-        if (mainSettings.cutScenesOn)
+        if (mainSettings.gameMode == GameMode.NonStop && nonStopTransition)
         {
-            csm.PlayScene(CutScene.StageOutro);
+            StartCoroutine(CycleImmediateStageTransition());
         }
         else
         {
-            csm.TakeControl();
-            csm.SimpleStageTransitionScene(lerpGhostsFromWall, lerpGhostsToWall);
+            vfx.KillAllLiveEffects();
+            field.spikeStore.StoreSpikes();
+            field.leftPad.StopAllPadCoroutines();
+            field.rightPad.StopAllPadCoroutines();
+            field.ball.SetBallState(State.Idle);
+            CinemachineBasicMultiChannelPerlin noise = CameraManager.activeVCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            noise.m_AmplitudeGain = 0;
+            noise.m_FrequencyGain = 0;
+            field.fragmentStore.allPadFragments.ForEach(frg => field.fragmentStore.RemoveFragmentConstantForce(frg));
+            if (mainSettings.cutScenesOn)
+            {
+                csm.PlayScene(CutScene.StageOutro);
+            }
+            else
+            {
+                csm.TakeControl();
+                csm.SimpleStageTransitionScene(lerpGhostsFromWall, lerpGhostsToWall);
+            }
         }
     }
     public void SelectNewStage(int currentSelectedStage)
@@ -182,7 +201,7 @@ public class NewStageManager : PongManager
         nextStage = (Stage)currentSelectedStage;
         bool lerpGhostsToWall = nextStage == Stage.DD;
         newGameManager.StopListenForPads();
-        if (mainSettings.gameMode == GameMode.Time)
+        if (mainSettings.gameMode == GameMode.Time || mainSettings.gameMode == GameMode.NonStop)
         {
             newGameManager.KillFieldDoMoveZ();
             field.background.transform.position = TimeModeFieldPos(field.background);
@@ -190,17 +209,8 @@ public class NewStageManager : PongManager
             field.rightWall.transform.position = TimeModeFieldPos(field.rightWall);
             field.topFloor.transform.position = TimeModeFieldPos(field.topFloor);
             field.bottomFloor.transform.position = TimeModeFieldPos(field.bottomFloor);
-            // field.background.transform.DOMove(TimeModeFieldPos(field.background), pm.speeds.transitionSpeeds.cameraTransitionSpeed).SetAutoKill(true).OnComplete(() => TerminateStage(lerpGhostsFromWall, lerpGhostsToWall));
-            // field.leftWall.transform.DOMove(TimeModeFieldPos(field.leftWall), pm.speeds.transitionSpeeds.cameraTransitionSpeed).SetAutoKill(true);
-            // field.rightWall.transform.DOMove(TimeModeFieldPos(field.rightWall), pm.speeds.transitionSpeeds.cameraTransitionSpeed).SetAutoKill(true);
-            // field.topFloor.transform.DOMove(TimeModeFieldPos(field.topFloor), pm.speeds.transitionSpeeds.cameraTransitionSpeed).SetAutoKill(true);
-            // field.bottomFloor.transform.DOMove(TimeModeFieldPos(field.bottomFloor), pm.speeds.transitionSpeeds.cameraTransitionSpeed).SetAutoKill(true);
         }
-        // else
-        // {
-        //     TerminateStage(lerpGhostsFromWall, lerpGhostsToWall);
-        // }
-        TerminateStage(lerpGhostsFromWall, lerpGhostsToWall);
+        TerminateStage(lerpGhostsFromWall, lerpGhostsToWall, false);
     }
     public void ResetStage()
     {
@@ -287,7 +297,7 @@ public class NewStageManager : PongManager
     IEnumerator CycleSetupUniverse()
     {
         transitioning = true;
-        float t = 0f;   
+        float t = 0f;
         List<Edge> edges = new List<Edge>()
         {
             field.leftWall,
@@ -296,7 +306,7 @@ public class NewStageManager : PongManager
             field.bottomFloor,
             field.background
         };
-        edges.ForEach(edge => {edge.meshR.material.SetFloat("_EmissionIntensity", 1); edge.meshR.material.SetFloat("_DissolveEdgeDepth", 0.01f); });
+        edges.ForEach(edge => { edge.meshR.material.SetFloat("_EmissionIntensity", 1); edge.meshR.material.SetFloat("_DissolveEdgeDepth", 0.01f); });
         while (t < pm.gameEffects.wallDissolveSpeed)
         {
             t += Time.unscaledDeltaTime;
@@ -306,6 +316,133 @@ public class NewStageManager : PongManager
         }
         field.debuffStore.debuffSlow.gameObject.SetActive(true);
         transitioning = false;
+    }
+
+    IEnumerator CycleImmediateStageTransition()
+    {
+        bool materializeEdges = field.edges.Any(edge => Mathf.Approximately(edge.meshR.material.GetFloat("_DissolveProgress"), 1));
+        Vector3 initialLeftPadPos = field.leftPad.transform.position;
+        Vector3 initialRightPadPos = field.rightPad.transform.position;
+        Vector3 initialBallPos = field.ball.transform.position;
+        float initialBlockScale = field.blocks.Count > 0 ? field.blocks[0].transform.localScale.x : 0;
+        float t = 0f;
+        if (nextStage == Stage.Neon || CameraManager.leftPadVCamEnd.gameObject.activeSelf || CameraManager.rightPadVCamEnd.gameObject.activeSelf)
+        {
+            cm.MoveToNextCamera();
+        }
+        if (nextStage == Stage.Neon || nextStage == Stage.Final)
+        {
+            am.PlayMusic(MusicType.BackgroundMusic);
+        }
+        while (t < pm.speeds.transitionSpeeds.entitiesTransitionSpeed)
+        {
+            t += Time.unscaledDeltaTime;
+            if (t > pm.speeds.transitionSpeeds.entitiesTransitionSpeed) { t = pm.speeds.transitionSpeeds.entitiesTransitionSpeed; }
+            if (materializeEdges)
+            {
+                field.edges.ForEach(edge => edge.meshR.material.SetFloat("_DissolveProgress", Mathf.SmoothStep(1, 0, t / pm.speeds.transitionSpeeds.entitiesTransitionSpeed)));
+            }
+            Pad.ScalePadBlocks(t, initialBlockScale, initialLeftPadPos, initialRightPadPos);
+            field.leftPad.transform.position = new Vector3(field.leftPad.transform.position.x, field.leftPad.transform.position.y, Mathf.Lerp(initialLeftPadPos.z, stagePosZ, t / pm.speeds.transitionSpeeds.entitiesTransitionSpeed));
+            field.rightPad.transform.position = new Vector3(field.rightPad.transform.position.x, field.rightPad.transform.position.y, Mathf.Lerp(initialRightPadPos.z, stagePosZ, t / pm.speeds.transitionSpeeds.entitiesTransitionSpeed));
+            field.ball.transform.position = new Vector3(field.ball.transform.position.x, field.ball.transform.position.y, Mathf.Lerp(initialBallPos.z, stagePosZ, t / pm.speeds.transitionSpeeds.entitiesTransitionSpeed));
+            yield return null;
+        }
+        if (currentStage == Stage.DD)
+        {
+            vfx.DestroyIntersectionGhosts(true);
+        }
+        if (nextStage == Stage.FreeMove)
+        {
+            if (field.leftPad.energyShield == null || field.rightPad.energyShield == null)
+            {
+                if (field.leftPad.padType != PadType.Slick)
+                {
+                    Pad newLeftpad = builder.MakePad(PadType.Slick, Side.Left);
+                    field.ReplaceEntity(Entity.LeftPad, newLeftpad);
+                }
+                if (field.rightPad.padType != PadType.Slick)
+                {
+                    Pad newRightPad = builder.MakePad(PadType.Slick, Side.Right);
+                    field.ReplaceEntity(Entity.RightPad, newRightPad);
+                }
+                field.fragmentStore.GatherPadFragments();
+                vfx.SetFreeMovePad(Side.Left);
+                vfx.SetFreeMovePad(Side.Right);
+            }
+            yield return null;
+            while (field.fragmentStore.allPadFragments.Any(frg => DOTween.IsTweening(frg.transform))) { yield return null; }
+            if (field.leftPad.energyShield == null)
+            {
+                builder.MakeEnergyShield(field.leftPad);
+            }
+            if (field.rightPad.energyShield == null)
+            {
+                builder.MakeEnergyShield(field.rightPad);
+            }
+            t = 0f;
+            while (t < 1)
+            {
+                t += Time.unscaledDeltaTime;
+                if (t > 1) { t = 1; }
+                field.leftPad.energyShield.GetComponent<Fragment>().meshR.material.SetFloat("_Alpha", Mathf.Lerp(0, 0.7f, t / 1));
+                field.rightPad.energyShield.GetComponent<Fragment>().meshR.material.SetFloat("_Alpha", Mathf.Lerp(0, 0.7f, t / 1));
+                yield return null;
+            }
+        }
+        else // nextStage != Stage.FreeMove
+        {
+            if (field.leftPad.energyShield != null) { GameObject.Destroy(field.leftPad.energyShield); }
+            if (field.rightPad.energyShield != null) { GameObject.Destroy(field.rightPad.energyShield); }
+        }
+        if (nextStage < Stage.FreeMove)
+        {
+            if (field.leftPad.padType == PadType.Slick || field.rightPad.padType == PadType.Slick)
+            {
+                vfx.RebuildPads();
+            }
+            yield return null;
+            while (field.fragmentStore.allPadFragments.Any(frg => DOTween.IsTweening(frg.transform))) { yield return null; }
+            if (field.leftPad.padType == PadType.Slick)
+            {
+                Pad newLeftpad = builder.MakePad(PadType.Rough, Side.Left);
+                field.ReplaceEntity(Entity.LeftPad, newLeftpad);
+            }
+            if (field.rightPad.padType == PadType.Slick)
+            {
+                Pad newRightPad = builder.MakePad(PadType.Rough, Side.Right);
+                field.ReplaceEntity(Entity.RightPad, newRightPad);
+            }
+            field.fragmentStore.HidePadFragments();
+        }
+        else if (nextStage > Stage.FreeMove)
+        {
+            if (field.leftPad.padType != PadType.Slick || field.rightPad.padType != PadType.Slick)
+            {
+                Pad newLeftpad = builder.MakePad(PadType.Slick, Side.Left);
+                Pad newRightPad = builder.MakePad(PadType.Slick, Side.Right);
+                field.ReplaceEntity(Entity.LeftPad, newLeftpad);
+                field.ReplaceEntity(Entity.RightPad, newRightPad);
+                field.fragmentStore.GatherPadFragments();
+            }
+            field.fragmentStore.DropPadFragments();
+        }
+        StartStage();
+        
+        newGameManager.FieldDoMoveZ();
+        if (mainSettings.gameMode == GameMode.NonStop && currentStage == Stage.DD)
+        {
+            vfx.MoveGhostsWhilePlaying();
+        }
+        if (currentStage > Stage.FireAndIce)
+        {
+            field.debuffStore.debuffFreeze.EnterStage();
+            field.debuffStore.debuffBurn.EnterStage();
+        }
+        if (currentStage == Stage.Neon)
+        {
+            field.fragmentStore.allPadFragments.ForEach(frg => field.fragmentStore.AddFragmentConstantForce(frg, new Vector3(0, 0, 25)));
+        }
     }
 
 }

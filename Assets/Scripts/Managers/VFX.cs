@@ -14,9 +14,12 @@ public class VFX : PongManager
     public GameObject ballghost;
     public GameObject leftPadGhost;
     public GameObject rightPadGhost;
+    public GameObject leftSpikeGhost;
+    public GameObject rightSpikeGhost;
     public Material ghostBallMaterial;
     public Material ghostPadMaterial;
     public Material energyShieldMaterial;
+    public SpikeMaterials ghostSpikeMaterials;
     public Color webEdgeBaseColor;
     public Color webWallAttractorColor;
     public VisualEffect activeWallAttractor;
@@ -40,6 +43,7 @@ public class VFX : PongManager
     }
     public void MakeIntersectionGhosts()
     {
+        DestroyIntersectionGhosts(false);
         Vector3 currentPLeft = field.leftPad.transform.position;
         Vector3 currentPRight = field.rightPad.transform.position;
         Vector3 currentPBall = field.ball.transform.position;
@@ -65,15 +69,90 @@ public class VFX : PongManager
         field.leftPad.meshR.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
         field.rightPad.meshR.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
     }
+    public void MakeSpikeGhosts()
+    {
+        Vector3 currentPLeft = field.spikeStore.activeSpikes.spikeLeft.transform.position;
+        Vector3 currentPRight = field.spikeStore.activeSpikes.spikeRight.transform.position;
+        Quaternion currentRLeft = field.spikeStore.activeSpikes.spikeLeft.transform.rotation;
+        Quaternion currentRRight = field.spikeStore.activeSpikes.spikeRight.transform.rotation;
+
+        leftSpikeGhost = GameObject.Instantiate(intersectionGhostPrefab, currentPLeft, currentRLeft, fieldParent.transform);
+        rightSpikeGhost = GameObject.Instantiate(intersectionGhostPrefab, currentPRight, currentRRight, fieldParent.transform);
+
+        leftSpikeGhost.GetComponent<MeshRenderer>().material = rightSpikeGhost.GetComponent<MeshRenderer>().material = ghostSpikeMaterials.MaterialForCurrentMesh(field.spikeStore.activeSpikes.spikeLeft.spikeType);
+
+        leftSpikeGhost.GetComponent<MeshFilter>().mesh = rightSpikeGhost.GetComponent<MeshFilter>().mesh = field.spikeStore.activeSpikes.spikeLeft.meshF.mesh;
+
+        leftSpikeGhost.transform.localScale = field.spikeStore.activeSpikes.spikeLeft.transform.localScale;
+        rightSpikeGhost.transform.localScale = field.spikeStore.activeSpikes.spikeRight.transform.localScale;
+        field.spikeStore.activeSpikes.spikeLeft.meshR.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
+        field.spikeStore.activeSpikes.spikeRight.meshR.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
+
+        leftSpikeGhost.transform.SetParent(field.spikeStore.activeSpikes.spikeLeft.transform, true);
+        rightSpikeGhost.transform.SetParent(field.spikeStore.activeSpikes.spikeRight.transform, true);
+
+        leftSpikeGhost.transform.position = new Vector3(field.spikeStore.activeSpikes.spikeLeft.transform.position.x, field.spikeStore.activeSpikes.spikeLeft.transform.position.y, ballghost.transform.position.z);
+        rightSpikeGhost.transform.position = new Vector3(field.spikeStore.activeSpikes.spikeRight.transform.position.x, field.spikeStore.activeSpikes.spikeRight.transform.position.y, ballghost.transform.position.z);
+    }
+    public void DestroySpikeGhosts(Side spikeSide = Side.None)
+    {
+        if (leftSpikeGhost !=  null && (spikeSide == Side.Left || spikeSide == Side.None))
+        {
+            GameObject.Destroy(leftSpikeGhost);
+        }
+        if (rightSpikeGhost !=  null && (spikeSide == Side.Right || spikeSide == Side.None))
+        {
+            GameObject.Destroy(rightSpikeGhost);
+        }
+    }
     public void DestroyIntersectionGhosts(bool lerpGhostsFromWall)
     {
-        GameObject.Destroy(ballghost);
-        GameObject.Destroy(rightPadGhost);
-        GameObject.Destroy(leftPadGhost);
+        if (ballghost != null)
+        {
+            ballghost.transform.DOKill();
+            GameObject.Destroy(ballghost);
+        }
+        if (rightPadGhost != null)
+        {
+            rightPadGhost.transform.DOKill();
+            GameObject.Destroy(rightPadGhost);
+        }
+        if (leftPadGhost != null)
+        {
+            leftPadGhost.transform.DOKill();
+            GameObject.Destroy(leftPadGhost);
+        }
         if (lerpGhostsFromWall)
         {
             field.ball.meshR.shadowCastingMode = ShadowCastingMode.On;
         }
+        if (mainSettings.gameMode == GameMode.NonStop)
+        {
+            DestroySpikeGhosts();
+            if (field.spikeStore.activeSpikes.spikeLeft != null)
+            {
+                field.spikeStore.activeSpikes.spikeLeft.meshR.shadowCastingMode = ShadowCastingMode.On;
+            }
+            if (field.spikeStore.activeSpikes.spikeRight != null)
+            {
+                field.spikeStore.activeSpikes.spikeRight.meshR.shadowCastingMode = ShadowCastingMode.On;
+            }
+        }
+    }
+    public void MoveGhostsWhilePlaying()
+    {
+        MakeIntersectionGhosts();
+        ballghost.transform.SetParent(field.ball.transform, true);
+        leftPadGhost.transform.SetParent(field.leftPad.transform, true);
+        rightPadGhost.transform.SetParent(field.rightPad.transform, true);
+        ballghost.transform.position = new Vector3(field.ball.transform.position.x, field.ball.transform.position.y, field.background.transform.position.z + field.background.col.bounds.size.z / 2 + sizes.ballDiameter);
+        leftPadGhost.transform.position = new Vector3(field.leftPad.transform.position.x, field.leftPad.transform.position.y, field.background.transform.position.z + field.background.col.bounds.size.z / 2 + sizes.ballDiameter);
+        rightPadGhost.transform.position = new Vector3(field.rightPad.transform.position.x, field.rightPad.transform.position.y, field.background.transform.position.z + field.background.col.bounds.size.z / 2 + sizes.ballDiameter);
+
+        float distance = newGameManager.FieldMoveZ(field.background) - field.background.transform.position.z;
+        ballghost.transform.DOMoveZ(field.ball.transform.position.z + distance, options.timeThreshold).SetAutoKill(true);
+        leftPadGhost.transform.DOMoveZ(field.leftPad.transform.position.z + distance, options.timeThreshold).SetAutoKill(true);
+        rightPadGhost.transform.DOMoveZ(field.rightPad.transform.position.z + distance, options.timeThreshold).SetAutoKill(true);
     }
     public void TriggerExplosion(Vector3 pos)
     {

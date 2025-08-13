@@ -2,7 +2,8 @@ using UnityEngine;
 public enum GameMode
 {
     Time,
-    Goals
+    Goals,
+    NonStop
 }
 public enum GamePhase
 {

@@ -72,6 +72,13 @@ public struct Field
                 (newEnt as BallEntity).magnetized = this.ball.magnetized;
                 (newEnt as BallEntity).frozen = this.ball.frozen;
                 this.fragmentStore.UnParentBallFragments(ball.ballType);
+                if (PongManager.mainSettings.gameMode == GameMode.NonStop && this.ball.st == State.Live)
+                {
+                    (newEnt as BallEntity).rbd.velocity = this.ball.rbd.velocity;
+                    (newEnt as BallEntity).rbd.angularVelocity = this.ball.rbd.angularVelocity;
+                    (newEnt as BallEntity).rbd.maxAngularVelocity = this.ball.rbd.maxAngularVelocity;
+                    (newEnt as BallEntity).rbd.maxLinearVelocity = this.ball.rbd.maxLinearVelocity;
+                }
                 GameObject.Destroy(this.ball.gameObject);
                 this.ball = newEnt as BallEntity;
                 break;

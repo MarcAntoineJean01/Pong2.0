@@ -33,7 +33,7 @@ public class PongBehaviour : MonoBehaviour
     {
         get
         {
-            if (PongManager.mainSettings.gameMode == GameMode.Time)
+            if (PongManager.mainSettings.gameMode == GameMode.Time || PongManager.mainSettings.gameMode == GameMode.NonStop)
             {
                 if (currentStage <= Stage.DD)
                 {
@@ -64,7 +64,7 @@ public class PongBehaviour : MonoBehaviour
     {
         get
         {
-            if (PongManager.mainSettings.gameMode == GameMode.Time)
+            if (PongManager.mainSettings.gameMode == GameMode.Time || PongManager.mainSettings.gameMode == GameMode.NonStop)
             {
                 if (nextStage <= Stage.DD)
                 {

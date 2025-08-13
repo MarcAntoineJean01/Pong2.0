@@ -18314,10 +18314,25 @@ MonoBehaviour:
   ballghost: {fileID: 0}
   leftPadGhost: {fileID: 0}
   rightPadGhost: {fileID: 0}
+  leftSpikeGhost: {fileID: 0}
+  rightSpikeGhost: {fileID: 0}
   ghostBallMaterial: {fileID: 2100000, guid: e96b4c9d34031e34390677859d736d5e, type: 2}
   ghostPadMaterial: {fileID: 2100000, guid: e60dd1fa2febdb34b8ca7ebaf431f9ae, type: 2}
   energyShieldMaterial: {fileID: 2100000, guid: 1b9b0c3a27d9fee4298619e36430a901,
     type: 2}
+  ghostSpikeMaterials:
+    addPadPieceMaterial: {fileID: 2100000, guid: 02d5a1e0343eeba4383eacfd6878cc60,
+      type: 2}
+    addPadBlockMaterial: {fileID: 2100000, guid: 02d5a1e0343eeba4383eacfd6878cc60,
+      type: 2}
+    dissolveMaterial: {fileID: 2100000, guid: 02d5a1e0343eeba4383eacfd6878cc60, type: 2}
+    randomDirectionMaterial: {fileID: 2100000, guid: 02d5a1e0343eeba4383eacfd6878cc60,
+      type: 2}
+    attractorMaterial: {fileID: 2100000, guid: 02d5a1e0343eeba4383eacfd6878cc60, type: 2}
+    repulsorMaterial: {fileID: 2100000, guid: 02d5a1e0343eeba4383eacfd6878cc60, type: 2}
+    wallAttractorMaterial: {fileID: 2100000, guid: 02d5a1e0343eeba4383eacfd6878cc60,
+      type: 2}
+    healthUpMaterial: {fileID: 2100000, guid: 02d5a1e0343eeba4383eacfd6878cc60, type: 2}
   webEdgeBaseColor: {r: 0.99607843, g: 1, b: 0.76862746, a: 1}
   webWallAttractorColor: {r: 1, g: 0.36320752, b: 0.36320752, a: 0}
   activeWallAttractor: {fileID: 0}

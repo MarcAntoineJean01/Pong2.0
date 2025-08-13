@@ -83,7 +83,7 @@ public class PongStartup : MonoBehaviour
     {
         PongManager.mainSettings = new MainGameSettings();
         PongManager.options = new GameOptions();
-        PongManager.mainSettings.gameMode = GameMode.Time;
+        PongManager.mainSettings.gameMode = GameMode.NonStop;
         PongManager.mainSettings.cutScenesOn = false;
         PongManager.mainSettings.inGameDialogsOn = false;
         PongManager.mainSettings.tutorialsOn = true;

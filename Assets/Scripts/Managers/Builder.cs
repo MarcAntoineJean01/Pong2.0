@@ -416,7 +416,7 @@ public class Builder : PongManager
     {
         SpikeEntity spike = GameObject.Instantiate(spikePrefabs[(int)t], menuCanvas.transform).GetComponent<SpikeEntity>();
         spike.meshF.mesh = mm.NewMesh(sm.ToString(), Vector3.one * canvasSpikeDiameter);
-
+        spike.spikeType = t;
         spike.transform.localPosition = Vector3.zero;
         spike.gameObject.name = t.ToString() + "-" + sm.ToString();
         spike.col = spike.AddComponent<MeshCollider>();

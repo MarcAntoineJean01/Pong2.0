@@ -159,7 +159,7 @@ public class BallEntity : PongEntity
         if (lct != Time.time)
         {
             lct = Time.time;
-            if ((currentStage == Stage.Universe || currentStage == Stage.FireAndIce) && !field.fragmentStore.NoMoreFragmentsForBall(ballType))
+            if (((currentStage == Stage.Universe && field.debuffStore.debuffSlow.gameObject.activeSelf) || currentStage == Stage.FireAndIce) && !field.fragmentStore.NoMoreFragmentsForBall(ballType))
             {
                 field.fragmentStore.DropBallFragments(ballType);
                 if ((field.ball.ballType == BallMesh.IcosahedronRough || field.ball.ballType == BallMesh.Octacontagon) && field.fragmentStore.NoMoreFragmentsForBall(ballType))
@@ -235,7 +235,10 @@ public class BallEntity : PongEntity
     }
     public void SetBallForStage()
     {
-        StopAllBallCoroutines();
+        if (PongManager.mainSettings.gameMode != GameMode.NonStop)
+        {
+            StopAllBallCoroutines();
+        }
         switch (currentStage)
         {
             case Stage.StartMenu:

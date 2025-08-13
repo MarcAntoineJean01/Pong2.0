@@ -26,7 +26,7 @@ public class FreeMoveFieldManager : PongManager
         zLine.endWidth = 3;
         foregroundCollider.size = (field.background.col as BoxCollider).size;
         foreground.transform.localScale = field.background.transform.localScale;
-        foreground.transform.position = new Vector3(field.background.transform.position.x, field.background.transform.position.y, mainSettings.gameMode == GameMode.Time ? stagePosZ - 0.6566f : CameraManager.activeVCam.transform.position.z + menuCanvas.planeDistance + 0.73056f); // 0.6566 | 0.73056 sweet spot to match main camera
+        foreground.transform.position = new Vector3(field.background.transform.position.x, field.background.transform.position.y, (mainSettings.gameMode == GameMode.Time || mainSettings.gameMode == GameMode.NonStop) ? stagePosZ - 0.6566f : CameraManager.activeVCam.transform.position.z + menuCanvas.planeDistance + 0.73056f); // 0.6566 | 0.73056 sweet spot to match main camera
         foregroundCollider.center = new Vector3(0, 0, sizes.ballDiameter * 1.5f / field.ball.transform.localScale.z);
         xLine.SetPosition(0, new Vector3(field.ball.transform.position.x, foregroundCollider.transform.position.y - (foregroundCollider.size.y * 0.5f * foreground.transform.localScale.x), stagePosZ));
         xLine.SetPosition(1, new Vector3(field.ball.transform.position.x, field.background.transform.position.y - (foregroundCollider.size.y * 0.5f * foreground.transform.localScale.x), field.background.transform.position.z - (foregroundCollider.size.z * 0.5f * foreground.transform.localScale.x)));

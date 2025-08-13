@@ -243,7 +243,9 @@ public class SettingSelectCube : PongUiCube
         switch (cubeSetting)
         {
             case Setting.GameMode:
-                settings.gameMode = (int)settings.gameMode > 0 ? 0 : (GameMode)1;
+                settings.gameMode += add ? 1 : -1;
+                if ((int)settings.gameMode < 1) { settings.gameMode = (GameMode)System.Enum.GetValues(typeof(GameMode)).Length - 1; }
+                if ((int)settings.gameMode >= System.Enum.GetValues(typeof(GameMode)).Length) { settings.gameMode = (GameMode)1; }
                 break;
             case Setting.CutScenesOn:
                 settings.cutScenesOn = !settings.cutScenesOn;

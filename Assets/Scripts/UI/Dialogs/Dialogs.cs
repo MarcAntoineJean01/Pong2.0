@@ -38,7 +38,7 @@ public static class Dialogs
         "<sprite name=\"z\"> | <sprite name=\"fe\"> Cancel\n\n"+
         "<sprite name=\"p\"> | <sprite name=\"xmenu\"> Pause\n\n\n"+
         "<sprite=\"PadIcon\" name=\"PadIcon\"> Increases paddle size\n"+
-        (PongManager.mainSettings.gameMode == GameMode.Time ? "Time limit: " + PongManager.options.timeThreshold : "Total Goals needed for next stage: " + PongManager.options.goalsThreshold) + "\n\n" +
+        ((PongManager.mainSettings.gameMode == GameMode.Time || PongManager.mainSettings.gameMode == GameMode.NonStop) ? "Time limit: " + PongManager.options.timeThreshold : "Total Goals needed for next stage: " + PongManager.options.goalsThreshold) + "\n\n" +
 
 
         "CLOSE: \"Confirm\"|\"Cancel\""
@@ -70,7 +70,7 @@ public static class Dialogs
         {Stage.Neon, 10},
         {Stage.Final, 11}
     };
-    public static string goalForStage => PongManager.mainSettings.gameMode == GameMode.Time ? "Time limit: " + PongManager.options.timeThreshold : "Total Goals needed for next stage: " + PongManager.totalGoalsThresholdForStage + "\nCurrent Goals: " + PongManager.goals + "\nRemaining Goals needed: "+ PongManager.remainingGoalsThresholdForStage;
+    public static string goalForStage => (PongManager.mainSettings.gameMode == GameMode.Time || PongManager.mainSettings.gameMode == GameMode.NonStop) ? "Time limit: " + PongManager.options.timeThreshold : "Total Goals needed for next stage: " + PongManager.totalGoalsThresholdForStage + "\nCurrent Goals: " + PongManager.goals + "\nRemaining Goals needed: "+ PongManager.remainingGoalsThresholdForStage;
     public static List<string> spikesAndDebuffsForStage => new List<string>() { string.Join("\n\n", spikesAndDebuffs.GetRange(0, spikesAndDebuffsCount[PongBehaviour.currentStage]))+"\n\n"+ goalForStage };
     public static List<string> explainDebuffs = new List<string>()
     {

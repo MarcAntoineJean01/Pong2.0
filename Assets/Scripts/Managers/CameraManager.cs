@@ -27,7 +27,7 @@ public class CameraManager : PongManager
     {
         SetUpCameras();
         SetUpSplitScreenVirtualCameras();
-        if (mainSettings.gameMode == GameMode.Time)
+        if (mainSettings.gameMode == GameMode.Time || mainSettings.gameMode == GameMode.NonStop)
         {
             SetupVirtualCamera(Stage.StartMenu);
             SetupVirtualCamera(Stage.DD);

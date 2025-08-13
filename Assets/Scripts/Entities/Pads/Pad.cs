@@ -66,7 +66,7 @@ public class Pad : PongEntity
             }
             else
             {
-                if (transform.localPosition.y < targetY && Vector2.Distance(new Vector2(0,transform.localPosition.y), new Vector2(0,targetY)) > targetThreshold)
+                if (transform.localPosition.y < targetY && Vector2.Distance(new Vector2(0, transform.localPosition.y), new Vector2(0, targetY)) > targetThreshold)
                 {
                     return true;
                 }
@@ -94,7 +94,7 @@ public class Pad : PongEntity
             }
             else
             {
-                if (transform.localPosition.y > targetY && Vector2.Distance(new Vector2(0,transform.localPosition.y), new Vector2(0,targetY)) > targetThreshold)
+                if (transform.localPosition.y > targetY && Vector2.Distance(new Vector2(0, transform.localPosition.y), new Vector2(0, targetY)) > targetThreshold)
                 {
                     return true;
                 }
@@ -111,11 +111,11 @@ public class Pad : PongEntity
         {
             if (playerInputs)
             {
-                return sd == Side.Left ?  horizontalAxis > 0 :  horizontalAxis < 0;
+                return sd == Side.Left ? horizontalAxis > 0 : horizontalAxis < 0;
             }
             else
             {
-                if (transform.localPosition.z < targetZ && Vector2.Distance(new Vector2(0,transform.localPosition.z), new Vector2(0,targetZ)) > targetThreshold)
+                if (transform.localPosition.z < targetZ && Vector2.Distance(new Vector2(0, transform.localPosition.z), new Vector2(0, targetZ)) > targetThreshold)
                 {
                     return true;
                 }
@@ -136,7 +136,7 @@ public class Pad : PongEntity
             }
             else
             {
-                if (transform.localPosition.z > targetZ && Vector2.Distance(new Vector2(0,transform.localPosition.z), new Vector2(0,targetZ)) > targetThreshold)
+                if (transform.localPosition.z > targetZ && Vector2.Distance(new Vector2(0, transform.localPosition.z), new Vector2(0, targetZ)) > targetThreshold)
                 {
                     return true;
                 }
@@ -236,12 +236,12 @@ public class Pad : PongEntity
             case "IceSphere":
                 Frozen();
                 break;
-        }            
+        }
     }
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (!PongManager.stillTransitioning)
+        if (!PongManager.stillTransitioning || (PongManager.mainSettings.gameMode == GameMode.NonStop && field.ball.st == State.Live))
         {
             UpdatePad();
         }
@@ -642,7 +642,7 @@ public class Pad : PongEntity
         speedModifier = 1;
 
     }
-    
+
     IEnumerator CycleEnergyShieldIndent(Vector3 collisionPosition)
     {
         float t = 0;
@@ -661,6 +661,28 @@ public class Pad : PongEntity
             if (t > 0.5f) { t = 0.5f; }
             energyShield.GetComponent<Fragment>().meshR.material.SetFloat("_IndentStrength", Mathf.Lerp(-0.5f, 0, t / 0.5f));
             yield return null;
+        }
+    }
+    public static void ScalePadBlocks(float t, float initialBlockScale, Vector3 initialLeftPadPos, Vector3 initialRightPadPos)
+    {
+        var normalizedProgress = t / pm.speeds.transitionSpeeds.entitiesTransitionSpeed;
+        var easing = newStageManager.moveEntitiesCurve.Evaluate(normalizedProgress);
+        foreach (Block block in field.blocks)
+        {
+            if (nextStage == Stage.FreeMove)
+            {
+                block.transform.localScale = new Vector3(
+                    block.transform.localScale.x,
+                    block.transform.localScale.y,
+                    Mathf.Lerp(initialBlockScale, initialBlockScale * PongManager.sizes.fieldDepth, easing));
+            }
+            else if (block.transform.localScale.z > initialBlockScale)
+            {
+                block.transform.localScale = new Vector3(
+                    block.transform.localScale.x,
+                    block.transform.localScale.y,
+                    Mathf.Lerp(initialBlockScale * PongManager.sizes.fieldDepth, initialBlockScale, easing));
+            }
         }
     }
 }

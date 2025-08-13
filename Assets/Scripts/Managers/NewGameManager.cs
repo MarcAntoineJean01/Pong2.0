@@ -19,7 +19,7 @@ public class NewGameManager : PongManager
     public float ellapsedGameTime = 0;
     bool scoreCoolingDown = false;
 
-    float FieldMoveZ(Edge edge)
+    public float FieldMoveZ(Edge edge)
     {
         switch (currentStage)
         {
@@ -174,6 +174,11 @@ public class NewGameManager : PongManager
                 vfx.FragmentWall(sd);
             }
             goals += 1;
+            if (mainSettings.gameMode == GameMode.NonStop)
+            {
+                field.ball.speedOverTimeModifier -= 0.4f;
+                if ( field.ball.speedOverTimeModifier < 1) { field.ball.speedOverTimeModifier = 1; }                
+            }
             displayHud.Invoke(sd);
             newStageManager.CheckStage(sd);
             StopCoroutine("CycleScoreDelay");
@@ -205,9 +210,13 @@ public class NewGameManager : PongManager
             field.ball.SetBallState(State.Live);
             am.PlayAudio(AudioType.LaunchBall, Vector3.zero);
             launchCalled = true;
-            if (mainSettings.gameMode == GameMode.Time)
+            if (mainSettings.gameMode == GameMode.Time || mainSettings.gameMode == GameMode.NonStop)
             {
                 FieldDoMoveZ();
+                if (mainSettings.gameMode == GameMode.NonStop && currentStage == Stage.DD)
+                {
+                    vfx.MoveGhostsWhilePlaying();
+                }
             }
             if (currentStage > Stage.FireAndIce)
             {
@@ -224,7 +233,7 @@ public class NewGameManager : PongManager
     public void FieldDoMoveZ()
     {
         KillFieldDoMoveZ();
-        field.background.transform.DOMoveZ(FieldMoveZ(field.background), options.timeThreshold).OnComplete(() => { newStageManager.stageTimedOut.Invoke(); roundStopped.Invoke(); });
+        field.background.transform.DOMoveZ(FieldMoveZ(field.background), options.timeThreshold).OnComplete(() => { newStageManager.stageTimedOut.Invoke(); if (mainSettings.gameMode != GameMode.NonStop) { roundStopped.Invoke(); } });
         field.topFloor.transform.DOMoveZ(FieldMoveZ(field.topFloor), options.timeThreshold);
         field.bottomFloor.transform.DOMoveZ(FieldMoveZ(field.bottomFloor), options.timeThreshold);
         field.leftWall.transform.DOMoveZ(FieldMoveZ(field.leftWall), options.timeThreshold);
@@ -351,6 +360,10 @@ public class NewGameManager : PongManager
                 PickASpike();
                 yield return null;
                 field.spikeStore.activeSpikes.ActivateSpikes();
+                if (mainSettings.gameMode == GameMode.NonStop && currentStage == Stage.DD)
+                {
+                    vfx.MakeSpikeGhosts();
+                }
                 spawnedSpikes.Invoke();
                 if (mainSettings.cutScenesOn && mainSettings.tutorialsOn && currentPhase == GamePhase.Playing && !explainedSpikes)
                 {

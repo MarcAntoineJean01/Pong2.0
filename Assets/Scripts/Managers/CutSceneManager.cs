@@ -252,28 +252,6 @@ public class CutSceneManager : PongManager
             block.transform.position = new Vector3(block.transform.position.x, block.transform.position.y, Mathf.Lerp(block.sd == Side.Left ? initialLeftPadPos.z : initialRightPadPos.z, nextStagePosZ, easing));
         }
     }
-    void ScalePadBlocks(float t, float initialBlockScale, Vector3 initialLeftPadPos, Vector3 initialRightPadPos)
-    {
-        var normalizedProgress = t / pm.speeds.transitionSpeeds.entitiesTransitionSpeed;
-        var easing = newStageManager.moveEntitiesCurve.Evaluate(normalizedProgress);
-        foreach (Block block in field.blocks)
-        {
-            if (nextStage == Stage.FreeMove)
-            {
-                block.transform.localScale = new Vector3(
-                    block.transform.localScale.x,
-                    block.transform.localScale.y,
-                    Mathf.Lerp(initialBlockScale, initialBlockScale * sizes.fieldDepth, easing));
-            }
-            else if (block.transform.localScale.z > initialBlockScale)
-            {
-                block.transform.localScale = new Vector3(
-                    block.transform.localScale.x,
-                    block.transform.localScale.y,
-                    Mathf.Lerp(initialBlockScale * sizes.fieldDepth, initialBlockScale, easing));
-            }
-        }
-    }
     IEnumerator CycleSimpleStageTransitionScene(bool lerpGhostsFromWall, bool lerpVfxGhostsToWall)
     {
         vfx.StartPolyIdleAnimation();
@@ -319,7 +297,7 @@ public class CutSceneManager : PongManager
                 field.ball.meshR.material.SetFloat("_DissolveEdgeDepth", Mathf.Lerp(1, 0, t / pm.speeds.transitionSpeeds.entitiesTransitionSpeed));
             }
             LerpEntitiesPositions(t, initialBallPos, initialLeftPadPos, initialRightPadPos);
-            ScalePadBlocks(t, initialBlockScale, initialLeftPadPos, initialRightPadPos);
+            Pad.ScalePadBlocks(t, initialBlockScale, initialLeftPadPos, initialRightPadPos);
             yield return null;
         }
         if (nextStage == Stage.DD || currentStage == Stage.DD || lerpGhostsFromWall)

@@ -3,6 +3,7 @@ using UnityEngine.Rendering;
 public class SpikeEntity : PongEntity
 {
     protected int bounceLimit = 10; //THIS IS TO KILL THE SPIKE AFTER AN N AMOUNT OF BOUNCES
+    public SpikeType spikeType;
     public int bounces = 0;
     public Side sd;
     public float sqrSpikeSpeed => pm.speeds.entitySpeeds.spikeLinearVelocity * pm.speeds.entitySpeeds.spikeLinearVelocity * speedModifier;
@@ -97,5 +98,6 @@ public class SpikeEntity : PongEntity
         }
         newGameManager.SpikeSpawn();
         KillSpike();
+        vfx.DestroySpikeGhosts(sd);
     }
 }
