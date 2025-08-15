@@ -181,5 +181,9 @@ public class PongStartup : MonoBehaviour
         vfx.LerpStartMenuStyle();
         uiManager.currentActiveMenu.MenuInteractionOn();
         uiManager.inputSystemUI.actionsAsset.Enable();
+        if (uiManager.useMeshForUiCubes)
+        {
+           uiManager.HideOverlappingCubes(0);
+        }
     }
 }

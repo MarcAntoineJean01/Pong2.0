@@ -21200,6 +21200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07de3ec9d3c0a0947bc7c30ce4260105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useMeshForUiCubes: 1
   cubeNormalColor: {r: 1.0592737, g: 0.37474307, b: 0.5353118, a: 1}
   cubeHighlightedColor: {r: 1.4528302, g: 0.25355998, b: 0.53446966, a: 1}
   cubePressedColor: {r: 1.3503467, g: 0.29593804, b: 2.987565, a: 1}
@@ -28985,7 +28986,7 @@ Canvas:
   m_RenderMode: 1
   m_Camera: {fileID: 1618154063}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0

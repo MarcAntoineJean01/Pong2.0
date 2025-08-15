@@ -32,15 +32,27 @@ public class FakeUiCube : MonoBehaviour
 
         sides[5].transform.localPosition = new Vector3(size * 0.5f, 0, 0);
         sides[5].transform.localRotation = Quaternion.Euler(0, 270, 0);
+        if (PongBehaviour.um.useMeshForUiCubes)
+        {
+            gameObject.AddComponent<MeshRenderer>().material = mat;
+            gameObject.AddComponent<MeshFilter>().mesh = MeshManager.uiFinalMesh;
+            foreach (GameObject side in sides)
+            {
+                GameObject.Destroy(side.GetComponent<Image>());
+            }
+        }
     }
     void Start()
     {
         SetCube();
-        mat = new Material(mat);
-        foreach (GameObject side in sides)
-        {
-            side.GetComponent<Image>().material = mat;
-        }
+        // mat = new Material(mat);
+        // if (!PongBehaviour.um.useMeshForUiCubes)
+        // {
+        //     foreach (GameObject side in sides)
+        //     {
+        //         side.GetComponent<Image>().material = mat;
+        //     } 
+        // }
         transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -(size * 0.5f));
         sqnc = DOTween.Sequence();
         sqnc.Append(transform.DORotate(new Vector3(2.5f, 2.5f, 2.5f), 0.2f).SetEase(Ease.Linear));

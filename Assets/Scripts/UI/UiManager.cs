@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class UiManager : PongManager
 {
+    public bool useMeshForUiCubes;
     [SerializeField]
     [ColorUsage(true, true)]
     public Color cubeNormalColor;
@@ -29,7 +30,7 @@ public class UiManager : PongManager
     public RectTransform metaCube;
     public List<PongUiMenu> metaCubeSides = new List<PongUiMenu>(6);
     public float uiCubePadding => menuCanvas.GetComponent<RectTransform>().sizeDelta.y / 25;
-    float uiCubeSize => (menuCanvas.GetComponent<RectTransform>().sizeDelta.y - (uiCubePadding * 5)) / 4;
+    public float uiCubeSize => (menuCanvas.GetComponent<RectTransform>().sizeDelta.y - (uiCubePadding * 5)) / 4;
     float metaCubeSize => uiCubeSize * 4 + uiCubePadding * 3;
     public InputSystemUIInputModule inputSystemUI;
     public Material menuBackgroundMaterial;
@@ -376,6 +377,10 @@ public class UiManager : PongManager
             for (int i = 0; i < 16; i++)
             {
                 menu.transform.GetChild(i).GetComponent<CanvasGroup>().alpha = 1;
+                if (menu.transform.GetChild(i).GetComponent<MeshRenderer>() != null)
+                {
+                    menu.transform.GetChild(i).GetComponent<MeshRenderer>().enabled = true;
+                }
             }
         }
     }
@@ -386,6 +391,10 @@ public class UiManager : PongManager
             foreach (int cube in cubesToHideFromFace.cubesToHide)
             {
                 metaCubeSides[cubesToHideFromFace.face].transform.GetChild(cube).GetComponent<CanvasGroup>().alpha = 0;
+                if (metaCubeSides[cubesToHideFromFace.face].transform.GetChild(cube).GetComponent<MeshRenderer>() != null)
+                {
+                    metaCubeSides[cubesToHideFromFace.face].transform.GetChild(cube).GetComponent<MeshRenderer>().enabled = false;
+                }
             }
         }
         List<int> metaCubeFaces = new List<int>(){0,1,2,3,4,5};

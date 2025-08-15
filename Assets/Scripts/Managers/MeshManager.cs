@@ -5,10 +5,32 @@ using System.Linq;
 
 public class MeshManager : PongManager
 {
+    public static Mesh uiCubeMesh;
+    public static Mesh uiSphereMesh;
+    public static Mesh uiFinalMesh;
     bool fieldMeshesExpanded = false;
     public Materials materials;
     public Materials webMaterials;
     public static bool transitioning = false;
+    void OnEnable()
+    {
+        uiCubeMesh = NewMesh("UICube", Vector3.one*um.uiCubeSize);
+        uiSphereMesh = NewMesh("UISphere", Vector3.one*um.uiCubeSize);
+
+        uiFinalMesh = new Mesh();
+        uiFinalMesh.MarkDynamic();
+        uiFinalMesh.vertices = uiCubeMesh.vertices;
+        uiFinalMesh.triangles = uiCubeMesh.triangles;
+        uiFinalMesh.uv = uiCubeMesh.uv;
+        uiFinalMesh.normals = uiCubeMesh.normals;
+        uiFinalMesh.colors = uiCubeMesh.colors;
+        uiFinalMesh.tangents = uiCubeMesh.tangents;
+        PostResize(uiFinalMesh.vertices, uiFinalMesh);
+        Debug.Log("created final mesh");
+
+
+
+    }
     public Mesh NewMesh(string type, Vector3 multiplier)
     {
         Mesh mesh = Resources.Load("PongMeshes/" + type.Replace("Fragmented", ""), typeof(Mesh)) as Mesh;
@@ -132,35 +154,21 @@ public class MeshManager : PongManager
         }
         PostResize(vertices, mesh);
     }
-    public List<VertexPair> CreatePairs1(Vector3[] oldVertices, Vector3[] newVertices)
+    public List<VertexPair> CreateVertexPairs(Vector3[] oldVertices, Vector3[] newVertices, bool startingMesh)
     {
-        List<VertexPair> pairsOfVertices1 = new List<VertexPair>();
-
-        for (int i = 0; i < oldVertices.Length; i++)
+        List<VertexPair> vertexPair = new List<VertexPair>();
+        int count = startingMesh ? oldVertices.Length : newVertices.Length;
+        for (int i = 0; i < count; i++)
         {
-            var oldVertex = oldVertices[i];
+            var vertex = startingMesh ? oldVertices[i] : newVertices[i];
 
-            var nearestToOldVertex = newVertices.OrderBy(v => Vector3.Distance(v, oldVertex)).FirstOrDefault();
+            var nearestToCurrentVertex = startingMesh ? newVertices.OrderBy(v => Vector3.Distance(v, vertex)).FirstOrDefault() : oldVertices.OrderBy(v => Vector3.Distance(v, vertex)).FirstOrDefault();
 
-            pairsOfVertices1.Add(new VertexPair(oldVertex, nearestToOldVertex));
+            vertexPair.Add(new VertexPair(vertex, nearestToCurrentVertex));
         }
-        return pairsOfVertices1;
+        return vertexPair;
     }
-    public List<VertexPair> CreatePairs2(Vector3[] oldVertices, Vector3[] newVertices)
-    {
-        List<VertexPair> pairsOfVertices2 = new List<VertexPair>();
-
-        for (int i = 0; i < newVertices.Length; i++)
-        {
-            var newVertex = newVertices[i];
-
-            var nearestToNewVertex = oldVertices.OrderBy(v => Vector3.Distance(v, newVertex)).FirstOrDefault();
-
-            pairsOfVertices2.Add(new VertexPair(newVertex, nearestToNewVertex));
-        }
-        return pairsOfVertices2;
-    }
-    void Deform(MeshRenderer renderer, Mesh oldMesh, Mesh newMesh, float ammount, int[] oldTriangles, int[] newTriangles, List<Vector3> finalVertices, Mesh interpolatedMesh, List<VertexPair> pairsOfVertices1, List<VertexPair> pairsOfVertices2)
+    void Deform(Mesh oldMesh, Mesh newMesh, float ammount, int[] oldTriangles, int[] newTriangles, List<Vector3> finalVertices, Mesh interpolatedMesh, List<VertexPair> pairsOfVertices1, List<VertexPair> pairsOfVertices2)
     {
         if (ammount < 0.5f)
         {
@@ -180,6 +188,22 @@ public class MeshManager : PongManager
         interpolatedMesh.uv = ammount < 0.5f ? oldMesh.uv : newMesh.uv;
         interpolatedMesh.uv2 = ammount < 0.5f ? oldMesh.uv2 : newMesh.uv2;
         interpolatedMesh.uv3 = ammount < 0.5f ? oldMesh.uv3 : newMesh.uv3;
+
+        interpolatedMesh.RecalculateNormals();
+    }
+    void DeformSameVertexCount(Mesh startingMesh, float ammount, int[] startingTriangles, List<Vector3> finalVertices, Mesh interpolatedMesh, List<VertexPair> pairsOfVertices)
+    {
+        finalVertices = pairsOfVertices.Select(p => Vector3.Lerp(p.Vertex1, p.Vertex2, ammount)).ToList();
+
+        interpolatedMesh.Clear();
+
+        interpolatedMesh.SetVertices(finalVertices);
+        interpolatedMesh.triangles = startingTriangles;
+
+        interpolatedMesh.bounds = startingMesh.bounds;
+        interpolatedMesh.uv = startingMesh.uv;
+        interpolatedMesh.uv2 = startingMesh.uv2;
+        interpolatedMesh.uv3 = startingMesh.uv3;
 
         interpolatedMesh.RecalculateNormals();
     }
@@ -209,7 +233,7 @@ public class MeshManager : PongManager
             {
                 t += Time.unscaledDeltaTime;
                 if (t > pm.speeds.transitionSpeeds.meshSwappingSpeed) { t = pm.speeds.transitionSpeeds.meshSwappingSpeed; }
-                Deform(entity.meshR, oldMesh, newMesh, t / pm.speeds.transitionSpeeds.meshSwappingSpeed, oldTriangles, newTriangles, finalVertices, interpolatedMesh, CreatePairs1(oldVertices, newVertices), CreatePairs2(oldVertices, newVertices));
+                Deform(oldMesh, newMesh, t / pm.speeds.transitionSpeeds.meshSwappingSpeed, oldTriangles, newTriangles, finalVertices, interpolatedMesh, CreateVertexPairs(oldVertices, newVertices, true), CreateVertexPairs(oldVertices, newVertices, false));
                 yield return null;
             }
         }
@@ -228,6 +252,10 @@ public class MeshManager : PongManager
         entity.col.isTrigger = false;
         entity.col.sharedMaterial = builder.bouncyMaterial;
         transitioning = false;
+    }
+    public void UpdateUICubeMesh(float t)
+    {
+        DeformSameVertexCount(uiCubeMesh, t, uiCubeMesh.triangles, uiFinalMesh.vertices.ToList(), uiFinalMesh, CreateVertexPairs(uiCubeMesh.vertices, uiSphereMesh.vertices, true));
     }
     public void TransitionFieldMeshes(bool expand = true)
     {

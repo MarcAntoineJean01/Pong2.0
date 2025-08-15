@@ -609,6 +609,7 @@ public class VFX : PongManager
                 menu.grid.spacing = Vector2.Lerp(Vector2.zero, Vector2.one * um.uiCubePadding, t / duration);
             }
             um.fontMaterial.SetColor("_OutlineColor", Color.Lerp(Color.white, um.fontGlowColor, t / duration));
+            mm.UpdateUICubeMesh(t / duration);
             yield return null;
         }
     }
