@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-
+using PongLocker;
 public class Edge : PongEntity
 {
     public Side sd;

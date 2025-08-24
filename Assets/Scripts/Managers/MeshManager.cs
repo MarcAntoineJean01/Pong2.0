@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+using PongLocker;
+using MeshLocker;
 public class MeshManager : PongManager
 {
     public static Mesh uiCubeMesh;
@@ -26,10 +27,6 @@ public class MeshManager : PongManager
         uiFinalMesh.colors = uiCubeMesh.colors;
         uiFinalMesh.tangents = uiCubeMesh.tangents;
         PostResize(uiFinalMesh.vertices, uiFinalMesh);
-        Debug.Log("created final mesh");
-
-
-
     }
     public Mesh NewMesh(string type, Vector3 multiplier)
     {

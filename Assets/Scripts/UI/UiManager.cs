@@ -5,7 +5,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
-
+using UiLocker;
+using PongLocker;
+using Unity.VisualScripting;
+using AudioLocker;
 
 public class UiManager : PongManager
 {
@@ -25,6 +28,10 @@ public class UiManager : PongManager
     public Color fontGlowColor;
     [SerializeField]
     public Material cubeMaterial;
+    [SerializeField]
+    public Material cubeMeshMaterial;
+    [SerializeField]
+    public Material titleMeshMaterial;
     [SerializeField]
     public GameObject debugFakeCubePrefab;
     public RectTransform metaCube;
@@ -61,7 +68,13 @@ public class UiManager : PongManager
     bool rightHudExtention = false;
     public PongUiMenu currentActiveMenu;
     public static int currentActiveMenuIndex = 0;
-
+    public List<RenderTexture> uiCubesTextures = new List<RenderTexture>();
+    RenderTexture uiTitleTexture;
+    public Canvas cubeTextureCanvas;
+    public Canvas titleTextureCanvas;
+    public List<TMP_Text> titleTextureText;
+    public List<TMP_Text> cubeTextureText;
+    public Camera cubeTextureCamera;
     Dictionary<int, CubesToHideFromFace[]> cubesToHideForMenu = new Dictionary<int, CubesToHideFromFace[]>()
     {
         {0, new CubesToHideFromFace[4]{
@@ -110,6 +123,7 @@ public class UiManager : PongManager
     void OnEnable()
     {
         SetMetaCube();
+        cubeTextureCamera.gameObject.SetActive(false);
         foreach (PongUiMenu menu in metaCubeSides)
         {
             menu.metaCubeVanished.AddListener(() => TurnOffMetaCube());
@@ -150,6 +164,86 @@ public class UiManager : PongManager
 
         metaCubeSides[5].transform.localPosition = new Vector3(metaCubeSize * 0.5f - uiCubeSize, 0, 0);
         metaCubeSides[5].transform.localRotation = Quaternion.Euler(0, 270, 0);
+        if (useMeshForUiCubes)
+        {
+            GenerateRenderTextures();
+            SetupTextureCanvas();
+        }
+    }
+    void SetUiCubesTextures(PongUiMenu menu)
+    {
+        cubeTextureCamera.gameObject.SetActive(true);
+        titleTextureCanvas.gameObject.SetActive(true);
+        cubeTextureCanvas.gameObject.SetActive(false);
+        menu.title.GetComponent<MeshFilter>().mesh = MeshManager.uiSphereMesh;
+        menu.title.GetComponent<MeshRenderer>().material = titleMeshMaterial;
+        menu.title.GetComponent<CanvasGroup>().alpha = 0;
+        cubeTextureCamera.targetTexture = uiTitleTexture;
+
+        titleTextureText[0].text = menu.title.text;
+        titleTextureText[0].ForceMeshUpdate();
+
+        titleTextureText[1].text = menu.title.text;
+        titleTextureText[1].ForceMeshUpdate();
+
+        cubeTextureCamera.Render();
+        titleMeshMaterial.SetTexture("_CubeTexture", uiTitleTexture);
+
+        titleTextureCanvas.gameObject.SetActive(false);
+        cubeTextureCanvas.gameObject.SetActive(true);
+        for (int i = 0; i < menu.pongUiCubes.Count; i++)
+        {
+            cubeTextureCamera.targetTexture = uiCubesTextures[i];
+            foreach (TMP_Text text in cubeTextureText)
+            {
+                text.text = menu.pongUiCubes[i].cubeText;
+                text.transform.rotation = Quaternion.identity;
+                text.ForceMeshUpdate();
+            }
+            cubeTextureCamera.Render();
+
+            menu.pongUiCubes[i].mat.SetTexture("_CubeTexture", uiCubesTextures[i]);
+        }
+
+        cubeTextureCamera.gameObject.SetActive(false);
+        cubeTextureCanvas.gameObject.SetActive(false);
+    }
+    void GenerateRenderTextures()
+    {
+        int maxCubes = 0;
+        uiTitleTexture = new RenderTexture(600, 100, 32, RenderTextureFormat.ARGB32);
+        foreach (PongUiMenu menu in metaCubeSides) { if (menu.pongUiCubes.Count > maxCubes) { maxCubes = menu.pongUiCubes.Count; } }
+        for (int i = 0; i < maxCubes; i++)
+        {
+            uiCubesTextures.Add(new RenderTexture(600, 100, 32));
+        }
+        cubeTextureCamera.targetTexture = uiCubesTextures[0];
+        cubeTextureCamera.Render();
+    }
+    void SetupTextureCanvas()
+    {
+        cubeTextureCanvas.GetComponent<GridLayoutGroup>().cellSize = new Vector2(cubeTextureCanvas.GetComponent<RectTransform>().rect.width / 6, cubeTextureCanvas.GetComponent<RectTransform>().rect.height);
+        titleTextureCanvas.GetComponent<GridLayoutGroup>().cellSize = new Vector2(titleTextureCanvas.GetComponent<RectTransform>().rect.width/6*2, titleTextureCanvas.GetComponent<RectTransform>().rect.height);
+    }
+    public void RenderCubeTexture(RenderTexture cubeTexture)
+    {
+        cubeTextureCamera.targetTexture = cubeTexture;
+        cubeTextureCanvas.gameObject.SetActive(true);
+        cubeTextureCamera.gameObject.SetActive(true);
+    }
+    public void StopRenderCubeTexture(PongUiCube cube)
+    {
+        cubeTextureCamera.targetTexture = cube.mat.GetTexture("_CubeTexture") as RenderTexture;
+        foreach (TMP_Text text in cubeTextureText)
+        {
+            text.transform.rotation = Quaternion.identity;
+            text.text = cube.cubeText;
+            text.ForceMeshUpdate();
+        }
+        cubeTextureCamera.Render();
+        cubeTextureCamera.targetTexture = null;
+        cubeTextureCanvas.gameObject.SetActive(false);
+        cubeTextureCamera.gameObject.SetActive(false);
     }
     void DisplayGameOverPanel()
     {
@@ -158,7 +252,7 @@ public class UiManager : PongManager
     }
     IEnumerator CycleDisplayGameOverPanel()
     {
-        am.PlayAudio(AudioType.GameOverVoice, Vector3.zero);
+        am.PlayAudio(PongAudioType.GameOverVoice, Vector3.zero);
         yield return new WaitForSecondsRealtime(2);
         am.PlayMusic(MusicType.GameOverMusic);
         float t = 0;
@@ -339,6 +433,10 @@ public class UiManager : PongManager
         }
         HideOverlappingCubes(side);
         currentActiveMenuIndex = side;
+        if (useMeshForUiCubes)
+        {
+            SetUiCubesTextures(metaCubeSides[side]);
+        }
     }
     public void TurnOffMetaCube()
     {
@@ -376,8 +474,11 @@ public class UiManager : PongManager
         {
             for (int i = 0; i < 16; i++)
             {
-                menu.transform.GetChild(i).GetComponent<CanvasGroup>().alpha = 1;
-                if (menu.transform.GetChild(i).GetComponent<MeshRenderer>() != null)
+                if (!useMeshForUiCubes)
+                {
+                    menu.transform.GetChild(i).GetComponent<CanvasGroup>().alpha = 1;
+                }
+                else
                 {
                     menu.transform.GetChild(i).GetComponent<MeshRenderer>().enabled = true;
                 }
@@ -390,8 +491,11 @@ public class UiManager : PongManager
         {
             foreach (int cube in cubesToHideFromFace.cubesToHide)
             {
-                metaCubeSides[cubesToHideFromFace.face].transform.GetChild(cube).GetComponent<CanvasGroup>().alpha = 0;
-                if (metaCubeSides[cubesToHideFromFace.face].transform.GetChild(cube).GetComponent<MeshRenderer>() != null)
+                if (!useMeshForUiCubes)
+                {
+                    metaCubeSides[cubesToHideFromFace.face].transform.GetChild(cube).GetComponent<CanvasGroup>().alpha = 0;
+                }
+                else
                 {
                     metaCubeSides[cubesToHideFromFace.face].transform.GetChild(cube).GetComponent<MeshRenderer>().enabled = false;
                 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PongLocker;
+using AudioLocker;
 public class AudioManager : PongManager
 {
     public AudioList audioList;
@@ -65,7 +67,7 @@ public class AudioManager : PongManager
             musicAudioSource.Play();
         }
     }
-    public void PlayAudio(AudioType audioType, Vector3 position, float? duration = null)
+    public void PlayAudio(PongAudioType audioType, Vector3 position, float? duration = null)
     {
         AudioSource audioSource = Instantiate(audioSourcePrefab, position, Quaternion.identity).GetComponent<AudioSource>();
         liveEffectsAudios.Add(audioSource);
@@ -82,41 +84,41 @@ public class AudioManager : PongManager
         }
     }
 
-    AudioClip PickAudioClip(AudioType audioType)
+    AudioClip PickAudioClip(PongAudioType audioType)
     {
         switch (audioType)
         {
             default:
                 return null;
-            case AudioType.PadBounce:
+            case PongAudioType.PadBounce:
                 return audioList.ballAudioClips.padBounce;
-            case AudioType.BallBounce:
+            case PongAudioType.BallBounce:
                 return audioList.ballAudioClips.bounce;
-            case AudioType.BallShieldBounce:
+            case PongAudioType.BallShieldBounce:
                 return audioList.ballAudioClips.shieldBounce;
-            case AudioType.BalScreenBounce:
+            case PongAudioType.BalScreenBounce:
                 return audioList.ballAudioClips.screenBounce;
-            case AudioType.Attractor:
+            case PongAudioType.Attractor:
                 return audioList.sfxAudioClips.attractor;
-            case AudioType.Repulsor:
+            case PongAudioType.Repulsor:
                 return audioList.sfxAudioClips.repulsor;
-            case AudioType.BallSpeech:
+            case PongAudioType.BallSpeech:
                 return audioList.ballAudioClips.fillers[UnityEngine.Random.Range(0, audioList.ballAudioClips.fillers.Count)];
-            case AudioType.SingularityImplosion:
+            case PongAudioType.SingularityImplosion:
                 return audioList.sfxAudioClips.singularityImplosion;
-            case AudioType.UiConfirm:
+            case PongAudioType.UiConfirm:
                 return audioList.uiAudioClips.select;
-            case AudioType.UiSwitchCubes:
+            case PongAudioType.UiSwitchCubes:
                 return audioList.uiAudioClips.switchCubes;
-            case AudioType.UiSwitchFaces:
+            case PongAudioType.UiSwitchFaces:
                 return audioList.uiAudioClips.switchSides;
-            case AudioType.GameOverVoice:
+            case PongAudioType.GameOverVoice:
                 return audioList.sfxAudioClips.gameOverVoice;
-            case AudioType.StartupSound:
+            case PongAudioType.StartupSound:
                 return audioList.uiAudioClips.startupSound;
-            case AudioType.LaunchBall:
+            case PongAudioType.LaunchBall:
                 return audioList.ballAudioClips.launchBall;
-            case AudioType.SpikeProc:
+            case PongAudioType.SpikeProc:
                 SpikeEntity activeSpikeType = field.spikeStore.activeSpikes.spikeLeft;
                 if (activeSpikeType is SpikePadBlock)
                 {
@@ -142,11 +144,11 @@ public class AudioManager : PongManager
                 {
                     return audioList.spikeAudioClips.padPieceProc;
                 }
-            case AudioType.GainedHealth:
+            case PongAudioType.GainedHealth:
                 return audioList.sfxAudioClips.gainedHealth;
-            case AudioType.LostHealth:
+            case PongAudioType.LostHealth:
                 return audioList.sfxAudioClips.lostHealth;
-            case AudioType.WarningLowHealth:
+            case PongAudioType.WarningLowHealth:
                 return audioList.sfxAudioClips.warningLowHealth;
         }
     }

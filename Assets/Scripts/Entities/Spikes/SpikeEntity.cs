@@ -1,5 +1,9 @@
 using UnityEngine;
 using UnityEngine.Rendering;
+using PongLocker;
+using SpikeLocker;
+using MeshLocker;
+using AudioLocker;
 public class SpikeEntity : PongEntity
 {
     protected int bounceLimit = 10; //THIS IS TO KILL THE SPIKE AFTER AN N AMOUNT OF BOUNCES
@@ -94,7 +98,7 @@ public class SpikeEntity : PongEntity
     {
         if (proc)
         {
-            am.PlayAudio(AudioType.SpikeProc, transform.position);
+            am.PlayAudio(PongAudioType.SpikeProc, transform.position);
         }
         newGameManager.SpikeSpawn();
         KillSpike();

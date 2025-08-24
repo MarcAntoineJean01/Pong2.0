@@ -1,3 +1,4 @@
+using AudioLocker;
 using UnityEngine;
 
 public class SpikeHealthUp : SpikeEntity
@@ -13,7 +14,7 @@ public class SpikeHealthUp : SpikeEntity
                 if (pad.CanAddHealth())
                 {
                     newGameManager.AddHealth(pad.sd);
-                    am.PlayAudio(AudioType.GainedHealth, pad.transform.position);
+                    am.PlayAudio(PongAudioType.GainedHealth, pad.transform.position);
                     displayHud.Invoke(pad.sd);
                     PostMortem(true);
                     return;

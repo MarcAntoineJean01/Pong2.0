@@ -4,6 +4,7 @@ using System.Linq;
 using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
+using PongLocker;
 
 public class DebuffFreeze : DebuffEntity
 {

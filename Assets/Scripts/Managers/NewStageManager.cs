@@ -6,7 +6,9 @@ using UnityEngine.Events;
 using Cinemachine;
 using System.Linq;
 using DG.Tweening;
-using Unity.VisualScripting;
+using PongLocker;
+using MeshLocker;
+using AudioLocker;
 public class NewStageManager : PongManager
 {
     public GameObject freeMoveManagerPrefab;

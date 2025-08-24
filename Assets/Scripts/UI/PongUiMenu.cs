@@ -7,6 +7,7 @@ using System.Linq;
 using TMPro;
 using System;
 using UnityEngine.Events;
+using PongLocker;
 public class PongUiMenu : MonoBehaviour
 {
     public GridLayoutGroup grid;
@@ -59,6 +60,11 @@ public class PongUiMenu : MonoBehaviour
         {
             cube.onClick.AddListener(() => CubeClickInvoke(cube));
         }
+        if (PongBehaviour.um.useMeshForUiCubes)
+        {
+            title.transform.localPosition = new Vector3(title.transform.localPosition.x, title.transform.localPosition.y, -(PongBehaviour.um.uiCubeSize * 0.5f));
+            title.transform.localRotation = Quaternion.Euler((Vector3.right * 60) + (Vector3.back * 120));            
+        }
     }
 
     void OnEnable()
@@ -80,7 +86,7 @@ public class PongUiMenu : MonoBehaviour
             menuControls.Disable();
             menuControls.UiCubeControls.Disable();
             menuControls.UiCubeControls.Cancel.performed += ctx => Back();
-            menuControls.UiCubeControls.Cancel.Enable();                    
+            menuControls.UiCubeControls.Cancel.Enable();
         }
     }
     void Back()
@@ -121,11 +127,14 @@ public class PongUiMenu : MonoBehaviour
         pongUiCubes.First().Select();
         pongUiCubes.First().StopTransitions();
         pongUiCubes.First().StartCoroutine("CycleGlow");
+        title.transform.localRotation = Quaternion.Euler((Vector3.right * 60) + (Vector3.back * 120));
+        title.transform.DOLocalRotate(Vector3.back * 360, 15, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).SetLoops(-1);
     }
     public void MenuInteractionOff()
     {
         pongUiCubes.ForEach(cube => cube.CubeInteractionOff());
         title.alpha = 0;
+        title.transform.DOKill();
     }
     void OnDisable()
     {

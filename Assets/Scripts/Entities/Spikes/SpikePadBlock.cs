@@ -1,4 +1,5 @@
 using UnityEngine;
+using PongLocker;
 public class SpikePadBlock : SpikeEntity
 {
     bool addTop = false;

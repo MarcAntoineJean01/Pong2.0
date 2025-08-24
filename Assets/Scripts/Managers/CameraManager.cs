@@ -2,6 +2,7 @@ using Cinemachine;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using PongLocker;
 public class CameraManager : PongManager
 {
     [SerializeField] public CameraMasks layerMasks;

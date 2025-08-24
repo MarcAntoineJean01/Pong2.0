@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using PongLocker;
+using MeshLocker;
+using AudioLocker;
 public class BallEntity : PongEntity
 {
     float timeScaleWhenStartedRandomDireciton = 1;
@@ -137,15 +140,15 @@ public class BallEntity : PongEntity
             lct = Time.time;
             if (currentStage == Stage.FreeMove && collision.gameObject.GetComponent<Pad>() != null)
             {
-                am.PlayAudio(AudioType.BallShieldBounce, transform.position);
+                am.PlayAudio(PongAudioType.BallShieldBounce, transform.position);
             }
             else if (collision.gameObject.GetComponent<Pad>() != null)
             {
-                am.PlayAudio(AudioType.PadBounce, transform.position);
+                am.PlayAudio(PongAudioType.PadBounce, transform.position);
             }
             else
             {
-                am.PlayAudio(AudioType.BallBounce, transform.position);
+                am.PlayAudio(PongAudioType.BallBounce, transform.position);
             }
             if (collision.gameObject.GetComponent<Pad>() != null && magnetized)
             {

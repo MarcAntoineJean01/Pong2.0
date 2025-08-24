@@ -5,6 +5,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.VFX;
 using Cinemachine;
+using AudioLocker;
 public class DebuffSlow : DebuffEntity
 {
     public Sequence sqnc;
@@ -82,7 +83,7 @@ public class DebuffSlow : DebuffEntity
             yield return null;
         }
         t = 0f;
-        am.PlayAudio(AudioType.SingularityImplosion, transform.position);
+        am.PlayAudio(PongAudioType.SingularityImplosion, transform.position);
         yield return new WaitForSeconds(1);
         visualEffect.playRate = 0.01f;
         visualEffect.SetBool("StartCore", true);
@@ -105,7 +106,7 @@ public class DebuffSlow : DebuffEntity
         cm.MainCameraNoise(CameraManager.activeVCam, 0.25f, 5, 5);
         Vector3 initialScale = Vector3.one * 3;
         float t = 0f;
-        am.PlayAudio(AudioType.SingularityImplosion, transform.position);
+        am.PlayAudio(PongAudioType.SingularityImplosion, transform.position);
         while (t < 5)
         {
             t += Time.deltaTime;

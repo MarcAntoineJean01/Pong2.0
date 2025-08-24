@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using PongLocker;
 public class Pad : PongEntity
 {
     public PadType padType;

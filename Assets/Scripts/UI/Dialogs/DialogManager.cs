@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using UiLocker;
 public class DialogManager : PongManager
 {
     //DIALOG ON IS BROKEN FIX IT, CAN'T CHECK ON ONE BOOL FOR ALL BUBBLES

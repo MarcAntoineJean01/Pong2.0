@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using PongLocker;
+using AudioLocker;
 public class FreeMoveFieldManager : PongManager
 {
     BoxCollider foregroundCollider => foreground.GetComponent<BoxCollider>();
@@ -52,7 +53,7 @@ public class FreeMoveFieldManager : PongManager
     }
     void PlayScreenBounce()
     {
-        am.PlayAudio(AudioType.BalScreenBounce, field.ball.transform.position);
+        am.PlayAudio(PongAudioType.BalScreenBounce, field.ball.transform.position);
     }
     void FixedUpdate()
     {

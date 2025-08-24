@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.Events;
+using PongLocker;
+using MeshLocker;
+using SpikeLocker;
 
 [System.Serializable]
 public class FragmentStore

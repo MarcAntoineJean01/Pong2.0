@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 using UnityEngine.Rendering;
+using PongLocker;
 public class PolySpeechBubble : NewSpeechBubble
 {
     public TMP_FontAsset shadowsOnlyFont;

@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using PVELocker;
 public class VirtualEntity : MonoBehaviour
 {
     public bool live = false;

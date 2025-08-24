@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-
+using PongLocker;
+using MeshLocker;
 public class PongManager : PongBehaviour
 {
     public static MainGameSettings mainSettings;

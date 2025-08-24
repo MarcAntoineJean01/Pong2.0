@@ -4,35 +4,15 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 using System.Linq;
+using UiLocker;
+using PongLocker;
 using System.Collections.Generic;
-
+using System;
+using SpikeLocker;
+using AudioLocker;
 public class SettingSelectCube : PongUiCube
 {
-    public Dictionary<Setting, string> dic;
-    string spikeString
-    {
-        get
-        {
-            switch (spikeType)
-            {
-                case SpikeType.SpikePadPiece:
-                    return "Pad Piece";
-                case SpikeType.SpikePadBlock:
-                    return "Pad Block";
-                case SpikeType.SpikeDissolve:
-                    return "Dissolve";
-                case SpikeType.SpikeRandomDirection:
-                    return "Random Direction";
-                case SpikeType.SpikeWallAttractor:
-                    return "Wall Attractor";
-                case SpikeType.SpikeMagnet:
-                    return " Magnet";
-                case SpikeType.HealthUp:
-                    return "Health Up";
-            }
-            return "null";            
-        }
-    }
+    CubeFaceIndexAndDirection currentIndexAndDirection = new CubeFaceIndexAndDirection(Side.None, 5);
     [SerializeField]
     Side padSide;
     [SerializeField]
@@ -43,7 +23,7 @@ public class SettingSelectCube : PongUiCube
     public static GameOptions options = new GameOptions();
     public static Stage stage;
     public Setting cubeSetting;
-    string unselectedString => dic[cubeSetting] + "\n" + "<size=60%>" + currentRealSettingString;
+    string unselectedString => cubeText + "\n" + "<size=60%>" + currentRealSettingString;
     bool usingCube = false;
     bool release = false;
     PongPlayerControls cubeControls;
@@ -168,33 +148,18 @@ public class SettingSelectCube : PongUiCube
     }
     protected override void OnEnable()
     {
-        dic = new Dictionary<Setting, string>()
-        {
-            { Setting.GameMode, "game mode" },
-            { Setting.CutScenesOn, "cut scenes" },
-            { Setting.InGameDialogsOn, "dialogs" },
-            { Setting.TutorialsOn, "tutorials" },
-            { Setting.LeftPlayerController, "left player" },
-            { Setting.RightPlayerController, "right player" },
-            { Setting.SoundVolume, "main volume" },
-            { Setting.MusicVolume, "music volume" },
-            { Setting.EffectsVolume, "effects volume" },
-            { Setting.AllowedSpikes, spikeString },
-            { Setting.AllowedDebuffs, "allowed debuffs" },
-            { Setting.TimeThreshold, "time threshold" },
-            { Setting.GoalsThreshold, "goals threshold" },
-            { Setting.PadMaxMagnetCharges, "max charges" },
-            { Setting.StartingHealth, "starting health" },
-            { Setting.Stage, "stage" }
-        };
         base.OnEnable();
         cubeControls = new PongPlayerControls();
         cubeControls.Disable();
         usingCube = false;
-        foreach (GameObject side in sides)
+        if (!PongBehaviour.um.useMeshForUiCubes)
         {
-            side.GetComponentInChildren<TMP_Text>().text = unselectedString;
+            foreach (GameObject side in sides)
+            {
+                side.GetComponentInChildren<TMP_Text>().text = unselectedString;
+            }
         }
+
     }
     public override void OnSubmit(BaseEventData eventData)
     {
@@ -209,13 +174,35 @@ public class SettingSelectCube : PongUiCube
             cubeControls.UiCubeControls.Enable();
             cubeControls.UiCubeControls.Up.performed += ctx => SwitchSide(Side.Bottom);
             cubeControls.UiCubeControls.Down.performed += ctx => SwitchSide(Side.Top);
-            cubeControls.UiCubeControls.Left.performed += ctx => SwitchSide(Side.Right);
-            cubeControls.UiCubeControls.Right.performed += ctx => SwitchSide(Side.Left);
-            cubeControls.UiCubeControls.Cancel.performed += ctx => { usingCube = false;  release = true; };
+            cubeControls.UiCubeControls.Left.performed += ctx => SwitchSide(Side.Left);
+            cubeControls.UiCubeControls.Right.performed += ctx => SwitchSide(Side.Right);
+            cubeControls.UiCubeControls.Cancel.performed += ctx => { usingCube = false; release = true; };
             cubeControls.UiCubeControls.Confirm.performed += ctx => SwitchSetting();
             StartCoroutine("CycleActiveGlow");
             stage = PongBehaviour.currentStage;
-            sides[0].GetComponentInChildren<TMP_Text>().text = currentSelectedString;
+            if (!PongBehaviour.um.useMeshForUiCubes)
+            {
+                sides[0].GetComponentInChildren<TMP_Text>().text = currentSelectedString;
+            }
+            else
+            {
+                PongBehaviour.um.cubeTextureText[5].text = PongBehaviour.um.cubeTextureText[4].text = currentSelectedString;
+
+                PongBehaviour.um.cubeTextureText[0].text = NextCubeSettingString();
+                PongBehaviour.um.cubeTextureText[1].text = NextCubeSettingString();
+
+                PongBehaviour.um.cubeTextureText[2].text = NextCubeSettingString(false);
+                PongBehaviour.um.cubeTextureText[3].text = NextCubeSettingString(false);
+                // PongBehaviour.um.cubeTextureText[0].text = "0.1";
+                // PongBehaviour.um.cubeTextureText[1].text = "1";
+                // PongBehaviour.um.cubeTextureText[2].text = "2";
+                // PongBehaviour.um.cubeTextureText[3].text = "3";
+                // PongBehaviour.um.cubeTextureText[4].text = "4";
+                // PongBehaviour.um.cubeTextureText[5].text = "5";
+                currentIndexAndDirection.faceIndex = 5;
+                currentIndexAndDirection.dir = Side.None;
+
+            }
             sqnc.OnComplete(() => StartCoroutine("CycleActivate"));
             sqnc.SetAutoKill(true);
             sqnc.Complete();
@@ -225,18 +212,101 @@ public class SettingSelectCube : PongUiCube
             release = false;
         }
     }
+    void ResetText(int faceOrientation)
+    {
+        int[] nextFaces = CubeRotationDirectory.NextFaces(Tuple.Create(faceOrientation, currentIndexAndDirection.faceIndex));
+        int[] previousFaces = CubeRotationDirectory.PreviousFaces(Tuple.Create(faceOrientation, currentIndexAndDirection.faceIndex));
+        PongBehaviour.um.cubeTextureText[nextFaces[0]].text = NextCubeSettingString();
+        PongBehaviour.um.cubeTextureText[nextFaces[1]].text = NextCubeSettingString();
+
+        PongBehaviour.um.cubeTextureText[previousFaces[0]].text = NextCubeSettingString(false);
+        PongBehaviour.um.cubeTextureText[previousFaces[1]].text = NextCubeSettingString(false);
+    }
     void SwitchSide(Side dir)
     {
-        NextCubeSettingOption(dir == Side.Bottom || dir == Side.Left);
+        NextCubeSettingOption(dir == Side.Bottom || dir == Side.Right);
         transform.DOComplete();
-        PongManager.am.PlayAudio(AudioType.UiSwitchFaces, transform.position);
-        NextSide(dir).transform.rotation = Quaternion.Euler(RotationForDirection(dir) * -1);
-        if (PongBehaviour.currentStage == Stage.Neon)
+        PongManager.am.PlayAudio(PongAudioType.UiSwitchFaces, transform.position);
+        if (!PongBehaviour.um.useMeshForUiCubes)
         {
-            NextSide(dir).transform.rotation *= PongBehaviour.um.metaCube.transform.rotation;
+            NextSide(dir).transform.rotation = Quaternion.Euler(RotationForDirection(dir) * -1);
+            if (PongBehaviour.currentStage == Stage.Neon)
+            {
+                NextSide(dir).transform.rotation *= PongBehaviour.um.metaCube.transform.rotation;
+            }
+            NextSide(dir).GetComponentInChildren<TMP_Text>().text = currentSelectedString;
         }
-        transform.DOLocalRotate(RotationForDirection(dir), 0.5f, RotateMode.WorldAxisAdd);
-        NextSide(dir).GetComponentInChildren<TMP_Text>().text = currentSelectedString;
+        else
+        {
+            currentIndexAndDirection.dir = dir;
+            CubeNextFaceIndexAndTextRotation nextIndexAndRot = CubeRotationDirectory.NextFaceIndexAndRotation(currentIndexAndDirection, transform.rotation);
+            currentIndexAndDirection.faceIndex = nextIndexAndRot.nextFaceIndex;
+            PongBehaviour.um.cubeTextureText[nextIndexAndRot.nextFaceIndex].transform.DORotate(nextIndexAndRot.textRotation, 0.25f, RotateMode.Fast).SetAutoKill(true);
+            ResetText((int)nextIndexAndRot.textRotation.z);
+        }
+        transform.DOLocalRotate(RotationForDirection(dir), 0.5f, RotateMode.WorldAxisAdd).SetAutoKill(true);
+    }
+    string NextCubeSettingString(bool add = true)
+    {
+        switch (cubeSetting)
+        {
+            case Setting.GameMode:
+                if ((int)settings.gameMode + (add ? 1 : -1) < 1) { return ((GameMode)System.Enum.GetValues(typeof(GameMode)).Length - 1).ToString(); }
+                if ((int)settings.gameMode + (add ? 1 : -1) >= System.Enum.GetValues(typeof(GameMode)).Length) { return ((GameMode)1).ToString(); }
+                return (settings.gameMode + (add ? 1 : -1)).ToString();
+            case Setting.CutScenesOn:
+                return settings.cutScenesOn ? "OFF" : "ON";
+            case Setting.InGameDialogsOn:
+                return settings.inGameDialogsOn ? "OFF" : "ON";
+            case Setting.TutorialsOn:
+                return settings.tutorialsOn ? "OFF" : "ON";
+            case Setting.LeftPlayerController:
+                if (settings.leftPlayerController + (add ? 1 : -1) < 0) { return ((PlayerController)System.Enum.GetValues(typeof(PlayerController)).Length - 1).ToString(); }
+                if (settings.leftPlayerController + (add ? 1 : -1) >= (PlayerController)System.Enum.GetValues(typeof(PlayerController)).Length) { return ((PlayerController)1).ToString(); }
+                return (settings.leftPlayerController + (add ? 1 : -1)).ToString();
+            case Setting.RightPlayerController:
+                if (settings.rightPlayerController + (add ? 1 : -1) < 0) { return ((PlayerController)System.Enum.GetValues(typeof(PlayerController)).Length - 1).ToString(); }
+                if (settings.rightPlayerController + (add ? 1 : -1) >= (PlayerController)System.Enum.GetValues(typeof(PlayerController)).Length) { return ((PlayerController)1).ToString(); }
+                return (settings.rightPlayerController + (add ? 1 : -1)).ToString();
+            case Setting.SoundVolume:
+                if (options.soundVolume + (add ? 0.1f : -0.1f) < 0) { return "10"; }
+                if (options.soundVolume + (add ? 0.1f : -0.1f) >= 1.1f) { return "0"; }
+                return ((options.soundVolume + (add ? 0.1f : -0.1f)) * 10).ToString();
+            case Setting.MusicVolume:
+                if (options.m_MusicVolume + (add ? 0.1f : -0.1f) < 0) { return "10"; }
+                if (options.m_MusicVolume + (add ? 0.1f : -0.1f) >= 1.1f) { return "0"; }
+                return ((options.m_MusicVolume + (add ? 0.1f : -0.1f)) * 10).ToString();
+            case Setting.EffectsVolume:
+                if (options.m_EffectsVolume + (add ? 0.1f : -0.1f) < 0) { return "10"; }
+                if (options.m_EffectsVolume + (add ? 0.1f : -0.1f) >= 1.1f) { return "0"; }
+                return ((options.m_EffectsVolume + (add ? 0.1f : -0.1f)) * 10).ToString();
+            case Setting.AllowedSpikes:
+                return options.allowedSpikes.GetAllowedSpike(spikeType) ? "OFF" : "ON";
+            case Setting.AllowedDebuffs:
+                return options.allowedDebuffs.GetAllowedDebuff(debuffType) ? "OFF" : "ON";
+            case Setting.TimeThreshold:
+                if (options.timeThreshold + (add ? 1 : -1) < 10) { return "60"; }
+                if (options.timeThreshold + (add ? 1 : -1) >= 61) { return "10"; }
+                return (options.timeThreshold + (add ? 1 : -1)).ToString();
+            case Setting.GoalsThreshold:
+                if (options.goalsThreshold + (add ? 1 : -1) < 3) { return "20"; }
+                if (options.goalsThreshold + (add ? 1 : -1) >= 21) { return "3"; }
+                return (options.goalsThreshold + (add ? 1 : -1)).ToString();
+            case Setting.PadMaxMagnetCharges:
+                if (options.padMaxMagnetCharges + (add ? 1 : -1) < 1) { return "20"; }
+                if (options.padMaxMagnetCharges + (add ? 1 : -1) >= 21) { return "1"; }
+                return (options.padMaxMagnetCharges + (add ? 1 : -1)).ToString();
+            case Setting.StartingHealth:
+                if (options.startingHealth + (add ? 5 : -5) < 5) { return "200"; }
+                if (options.startingHealth + (add ? 5 : -5) >= 201) { return "5"; }
+                return (options.startingHealth + (add ? 5 : -5)).ToString();
+            case Setting.Stage:
+                if ((int)(stage + (add ? 1 : -1)) < 1) { return ((Stage)System.Enum.GetValues(typeof(Stage)).Length - 1).ToString(); }
+                if ((int)(stage + (add ? 1 : -1)) >= System.Enum.GetValues(typeof(Stage)).Length) { return ((Stage)1).ToString(); }
+                return (stage + (add ? 1 : -1)).ToString();
+            default:
+                return "X";
+        }
     }
     void NextCubeSettingOption(bool add = true)
     {
@@ -376,13 +446,26 @@ public class SettingSelectCube : PongUiCube
         usingCube = false;
         release = true;
     }
-    public override void OnPointerClick(PointerEventData eventData)
-    {
-        StartCoroutine("CycleActiveGlow");
-        sides[0].GetComponentInChildren<TMP_Text>().text = currentSelectedString;
-        sqnc.OnComplete(() => StartCoroutine("CycleActivate"));
-        sqnc.SetAutoKill(true);
-    }
+    // public override void OnPointerClick(PointerEventData eventData)
+    // {
+    //     StartCoroutine("CycleActiveGlow");
+    //     if (!PongBehaviour.um.useMeshForUiCubes)
+    //     {
+    //         sides[0].GetComponentInChildren<TMP_Text>().text = currentSelectedString;
+    //     }
+    //     else
+    //     {
+    //         PongBehaviour.um.cubeTextureText[5].text = PongBehaviour.um.cubeTextureText[4].text = currentSelectedString;
+
+    //         PongBehaviour.um.cubeTextureText[1].text = NextCubeSettingString();
+    //         PongBehaviour.um.cubeTextureText[2].text = NextCubeSettingString();
+
+    //         PongBehaviour.um.cubeTextureText[0].text = NextCubeSettingString(false);
+    //         PongBehaviour.um.cubeTextureText[3].text = NextCubeSettingString(false);
+    //     }
+    //     sqnc.OnComplete(() => StartCoroutine("CycleActivate"));
+    //     sqnc.SetAutoKill(true);
+    // }
     IEnumerator CycleActiveGlow()
     {
         float t = 0f;
@@ -401,9 +484,13 @@ public class SettingSelectCube : PongUiCube
         {
             PongUiMenu.menuControls.UiCubeControls.Cancel.Enable();
         }
-        sides[0].transform.localRotation = Quaternion.Euler(Vector3.zero);
-        sides[0].GetComponentInChildren<TMP_Text>().text = unselectedString;
+        if (!PongBehaviour.um.useMeshForUiCubes)
+        {
+            sides[0].transform.localRotation = Quaternion.Euler(Vector3.zero);
+            sides[0].GetComponentInChildren<TMP_Text>().text = unselectedString;            
+        }
         transform.localRotation = Quaternion.Euler(Vector3.zero);
+        PongBehaviour.um.StopRenderCubeTexture(this);
         NavOn();
         StartCoroutine("CycleGlow");
         if (invokeOnClick && !release) { onClick.Invoke(); }
@@ -468,6 +555,10 @@ public class SettingSelectCube : PongUiCube
     }
     IEnumerator CycleActivate()
     {
+        if (PongBehaviour.um.useMeshForUiCubes)
+        {
+            PongBehaviour.um.RenderCubeTexture(mat.GetTexture("_CubeTexture") as RenderTexture);
+        }
         while (usingCube)
         {
             yield return null;

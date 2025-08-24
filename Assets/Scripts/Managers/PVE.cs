@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using PongLocker;
+using PVELocker;
 public class PVE : PongManager
 {
     public bool roundOn = false;

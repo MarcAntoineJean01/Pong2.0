@@ -2,8 +2,9 @@ using System.Collections;
 using Cinemachine;
 using UnityEngine;
 using DG.Tweening;
-using System.Linq;
-
+using PongLocker;
+using SpikeLocker;
+using AudioLocker;
 public class PongStartup : MonoBehaviour
 {
     public CanvasGroup startupPanel;
@@ -89,8 +90,8 @@ public class PongStartup : MonoBehaviour
         PongManager.mainSettings.tutorialsOn = true;
         PongManager.mainSettings.leftPlayerController = PlayerController.Player;
         PongManager.mainSettings.rightPlayerController = PlayerController.Player;
-        PongManager.options.soundVolume = 0.1f;
-        PongManager.options.m_MusicVolume = 0.1f;
+        PongManager.options.soundVolume = 0f; // 0.1f;
+        PongManager.options.m_MusicVolume = 0f; // 0.1f;
         PongManager.options.m_EffectsVolume = 0.1f;
         PongManager.options.allowedSpikes = new AllowedSpikes();
         PongManager.options.allowedDebuffs = new AllowedDebuffs();
@@ -114,7 +115,7 @@ public class PongStartup : MonoBehaviour
             if (t > 2) { t = 2; }
             yield return null;
         }
-        audioManager.PlayAudio(AudioType.StartupSound, Vector3.zero, 5);
+        audioManager.PlayAudio(PongAudioType.StartupSound, Vector3.zero, 5);
         t = 0;
         while (t < 3 && !titleSkipCalled)
         {

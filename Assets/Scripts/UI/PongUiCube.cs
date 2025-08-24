@@ -9,8 +9,10 @@ using DG.Tweening;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEditor.SceneManagement;
-public class PongUiCube : Selectable, IPointerClickHandler, ISubmitHandler
+using AudioLocker;
+public class PongUiCube : Selectable, ISubmitHandler//, IPointerClickHandler
 {
+    public string cubeText;
     public Material mat;
     public bool vanishMetaCubeOnClick = true;
     public bool highlighted = false;
@@ -39,61 +41,77 @@ public class PongUiCube : Selectable, IPointerClickHandler, ISubmitHandler
     public bool submitted = false;
     protected void SetCube()
     {
-        sides[0].transform.localPosition = new Vector3(0, 0, -size * 0.5f);
-        sides[0].transform.localRotation = Quaternion.Euler(0, 0, 0);
-
-        sides[1].transform.localPosition = new Vector3(0, 0, size * 0.5f);
-        sides[1].transform.localRotation = Quaternion.Euler(0, 180, 180);
-
-        sides[2].transform.localPosition = new Vector3(0, -size * 0.5f, 0);
-        sides[2].transform.localRotation = Quaternion.Euler(-90, 0, 0);
-
-        sides[3].transform.localPosition = new Vector3(0, size * 0.5f, 0);
-        sides[3].transform.localRotation = Quaternion.Euler(90, 0, 0);
-
-        sides[4].transform.localPosition = new Vector3(-size * 0.5f, 0, 0);
-        sides[4].transform.localRotation = Quaternion.Euler(0, 90, 0);
-
-        sides[5].transform.localPosition = new Vector3(size * 0.5f, 0, 0);
-        sides[5].transform.localRotation = Quaternion.Euler(0, 270, 0);
-        if (PongBehaviour.um.useMeshForUiCubes)
+        if (!PongBehaviour.um.useMeshForUiCubes)
         {
-            gameObject.AddComponent<MeshRenderer>().material = mat;
-            gameObject.AddComponent<MeshFilter>().mesh = MeshManager.uiFinalMesh;
-            foreach (GameObject side in sides)
+            sides[0].transform.localPosition = new Vector3(0, 0, -size * 0.5f);
+            sides[0].transform.localRotation = Quaternion.Euler(0, 0, 0);
+
+            sides[1].transform.localPosition = new Vector3(0, 0, size * 0.5f);
+            sides[1].transform.localRotation = Quaternion.Euler(0, 180, 180);
+
+            sides[2].transform.localPosition = new Vector3(0, -size * 0.5f, 0);
+            sides[2].transform.localRotation = Quaternion.Euler(-90, 0, 0);
+
+            sides[3].transform.localPosition = new Vector3(0, size * 0.5f, 0);
+            sides[3].transform.localRotation = Quaternion.Euler(90, 0, 0);
+
+            sides[4].transform.localPosition = new Vector3(-size * 0.5f, 0, 0);
+            sides[4].transform.localRotation = Quaternion.Euler(0, 90, 0);
+
+            sides[5].transform.localPosition = new Vector3(size * 0.5f, 0, 0);
+            sides[5].transform.localRotation = Quaternion.Euler(0, 270, 0);
+            GameObject.Destroy(gameObject.GetComponent<MeshRenderer>());
+            GameObject.Destroy(gameObject.GetComponent<MeshFilter>());
+        }
+        else
+        {
+            gameObject.GetComponent<MeshRenderer>().material = mat;
+            gameObject.GetComponent<MeshFilter>().mesh = MeshManager.uiFinalMesh;
+            foreach (Transform child in transform)
             {
-                GameObject.Destroy(side.GetComponent<Image>());
+                GameObject.Destroy(child.gameObject);
             }
         }
     }
     protected override void Awake()
     {
-        List<GameObject> tempSides = new List<GameObject>();
-        foreach (Transform child in transform)
+        if (!PongBehaviour.um.useMeshForUiCubes)
         {
-            tempSides.Add(child.gameObject);
+            List<GameObject> tempSides = new List<GameObject>();
+            foreach (Transform child in transform)
+            {
+                tempSides.Add(child.gameObject);
+            }
+            sides = tempSides.ToArray();
+            mat = new Material(PongBehaviour.um.cubeMaterial);
         }
-        sides = tempSides.ToArray();
-        mat = new Material(PongBehaviour.um.cubeMaterial);
+        else
+        {
+            mat = new Material(PongBehaviour.um.cubeMeshMaterial);
+        }
         base.Awake();
     }
     protected override void Start()
     {
         base.Start();
         SetCube();
-        string txt = sides[0].GetComponentInChildren<TMP_Text>().text;
-        foreach (GameObject side in sides)
+        // string txt = sides[0].GetComponentInChildren<TMP_Text>().text;
+        if (!PongBehaviour.um.useMeshForUiCubes)
         {
-            if (!PongBehaviour.um.useMeshForUiCubes)
+            foreach (GameObject side in sides)
             {
-                side.GetComponent<Image>().material = mat;
+                if (!PongBehaviour.um.useMeshForUiCubes)
+                {
+                    side.GetComponent<Image>().material = mat;
+                }
+                TMP_Text txtObj = side.GetComponentInChildren<TMP_Text>();
+                txtObj.text = cubeText;
+                txtObj.color = PongBehaviour.um.cubeTextColor;
+                txtObj.alpha = 0;
+                txtObj.transform.localPosition = new Vector3(0, 0, -(size * 0.01f));
             }
-            TMP_Text txtObj = side.GetComponentInChildren<TMP_Text>();
-            txtObj.text = txt;
-            txtObj.color = PongBehaviour.um.cubeTextColor;
-            txtObj.alpha = 0;
-            txtObj.transform.localPosition = new Vector3(0, 0, -(size * 0.01f));
         }
+
         transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -(size * 0.5f));
         sqnc = DOTween.Sequence();
         sqnc.Append(transform.DOLocalRotate(new Vector3(2.5f, 2.5f, 2.5f), 0.2f).SetEase(Ease.Linear));
@@ -121,27 +139,41 @@ public class PongUiCube : Selectable, IPointerClickHandler, ISubmitHandler
         }
         mat.SetFloat("_DissolveProgress", 0);
         transform.localScale = Vector3.one;
-        foreach (GameObject side in sides)
+        if (!PongBehaviour.um.useMeshForUiCubes)
         {
-            side.GetComponentInChildren<TMP_Text>().color = PongBehaviour.um.cubeTextColor;
+            foreach (GameObject side in sides)
+            {
+                side.GetComponentInChildren<TMP_Text>().color = PongBehaviour.um.cubeTextColor;
+            }
         }
     }
     public void CubeInteractionOn()
     {
         interactable = true;
         NavOn();
-        foreach (GameObject side in sides)
+        if (!PongBehaviour.um.useMeshForUiCubes)
         {
-            side.GetComponentInChildren<TMP_Text>().alpha = 1;
+            foreach (GameObject side in sides)
+            {
+                side.GetComponentInChildren<TMP_Text>().alpha = 1;
+            }
         }
+
     }
     public void CubeInteractionOff()
     {
         interactable = false;
         NavOff();
-        foreach (GameObject side in sides)
+        if (!PongBehaviour.um.useMeshForUiCubes)
         {
-            side.GetComponentInChildren<TMP_Text>().alpha = 0;
+            foreach (GameObject side in sides)
+            {
+                side.GetComponentInChildren<TMP_Text>().alpha = 0;
+            }
+        }
+        else
+        {
+            mat.SetTexture("_CubeTexture", null);
         }
     }
     public override void OnSelect(BaseEventData eventData)
@@ -157,14 +189,14 @@ public class PongUiCube : Selectable, IPointerClickHandler, ISubmitHandler
         StopTransitions();
         StartCoroutine("CycleDim");
     }
-    public virtual void OnPointerClick(PointerEventData eventData)
-    {
-        if (!submitted)
-        {
-            submitted = true;
-            StartCoroutine("CycleDimSelected");
-        }
-    }
+    // public virtual void OnPointerClick(PointerEventData eventData)
+    // {
+    //     if (!submitted)
+    //     {
+    //         submitted = true;
+    //         StartCoroutine("CycleDimSelected");
+    //     }
+    // }
     public virtual void OnSubmit(BaseEventData eventData)
     {
         if (!submitted)
@@ -210,7 +242,7 @@ public class PongUiCube : Selectable, IPointerClickHandler, ISubmitHandler
         float t = 0f;
         if (interactable)
         {
-            PongManager.am.PlayAudio(AudioType.UiSwitchCubes, transform.position);            
+            PongManager.am.PlayAudio(PongAudioType.UiSwitchCubes, transform.position);            
         }
         while (t < fadeDuration)
         {
@@ -234,7 +266,7 @@ public class PongUiCube : Selectable, IPointerClickHandler, ISubmitHandler
         highlighted = false;
         onClick.Invoke();
         float t = 0f;
-        PongManager.am.PlayAudio(AudioType.UiConfirm, transform.position);
+        PongManager.am.PlayAudio(PongAudioType.UiConfirm, transform.position);
         sqnc.OnComplete(null);
         sqnc.SetAutoKill(true);
         sqnc.Complete();

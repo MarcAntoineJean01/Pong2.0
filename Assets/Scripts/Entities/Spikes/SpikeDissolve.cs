@@ -1,4 +1,5 @@
 using UnityEngine;
+using PongLocker;
 public class SpikeDissolve : SpikeEntity
 {
     void OnCollisionEnter(Collision collision)

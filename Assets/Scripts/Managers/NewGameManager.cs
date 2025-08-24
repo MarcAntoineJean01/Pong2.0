@@ -5,6 +5,9 @@ using DG.Tweening;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine.Events;
+using PongLocker;
+using SpikeLocker;
+using AudioLocker;
 public class NewGameManager : PongManager
 {
     public PongStartup pongStartup;
@@ -144,12 +147,12 @@ public class NewGameManager : PongManager
                 }
                 else if (leftPlayer.health <= 5)
                 {
-                    am.PlayAudio(AudioType.WarningLowHealth, field.rightWall.transform.position);
+                    am.PlayAudio(PongAudioType.WarningLowHealth, field.rightWall.transform.position);
                     field.leftWall.WarnLowHealth();
                 }
                 else
                 {
-                    am.PlayAudio(AudioType.LostHealth, field.leftWall.transform.position);
+                    am.PlayAudio(PongAudioType.LostHealth, field.leftWall.transform.position);
                 }
             }
             else
@@ -161,12 +164,12 @@ public class NewGameManager : PongManager
                 }
                 else if (rightPlayer.health <= 5)
                 {
-                    am.PlayAudio(AudioType.WarningLowHealth, field.rightWall.transform.position);
+                    am.PlayAudio(PongAudioType.WarningLowHealth, field.rightWall.transform.position);
                     field.rightWall.WarnLowHealth();
                 }
                 else
                 {
-                    am.PlayAudio(AudioType.LostHealth, field.rightWall.transform.position);
+                    am.PlayAudio(PongAudioType.LostHealth, field.rightWall.transform.position);
                 }
             }
             if (currentStage != Stage.DD)
@@ -208,7 +211,7 @@ public class NewGameManager : PongManager
             previousPhase = currentPhase;
             currentPhase = GamePhase.Playing;
             field.ball.SetBallState(State.Live);
-            am.PlayAudio(AudioType.LaunchBall, Vector3.zero);
+            am.PlayAudio(PongAudioType.LaunchBall, Vector3.zero);
             launchCalled = true;
             if (mainSettings.gameMode == GameMode.Time || mainSettings.gameMode == GameMode.NonStop)
             {

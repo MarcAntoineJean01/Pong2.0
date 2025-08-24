@@ -1,4 +1,5 @@
 using UnityEngine;
+using PongLocker;
 public class Block : PongEntity
 {
     public Pad pad;

@@ -2701,7 +2701,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClipping: 0.01
+    - _AlphaClipping: 0.355
     - _Ambient: 0.5
     - _Bevel: 0.5
     - _BevelClamp: 0
@@ -2721,11 +2721,11 @@ Material:
     - _GlowOuter: 0.05
     - _GlowPower: 0.75
     - _GradientScale: 10
-    - _InvertScreenColor: 1
+    - _InvertScreenColor: 0
     - _LightAngle: 3.1416
     - _MaskSoftnessX: 0
     - _MaskSoftnessY: 0
-    - _Opacity: 1
+    - _Opacity: 0.023
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
@@ -2762,7 +2762,7 @@ Material:
     - _ss: 4.3
     m_Colors:
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 0, g: 38.8511, b: 44.17255, a: 0}
     - _EnvMatrixRotation: {r: 0, g: 0, b: 0, a: 0}
     - _FaceColor: {r: 1, g: 1, b: 1, a: 1}
     - _GlowColor: {r: 0, g: 1, b: 0, a: 0.5}

@@ -4,7 +4,7 @@ using System.Linq;
 using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using PongLocker;
 public class DebuffBurn : DebuffEntity
 {
     public Vector3[] calculatedPath

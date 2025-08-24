@@ -1,4 +1,5 @@
 using UnityEngine;
+using PongLocker;
 public class SpikeWallAttractor : SpikeEntity
 {
     public Side wallSide;

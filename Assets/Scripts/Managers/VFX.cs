@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using DG.Tweening;
 using UnityEngine.VFX;
+using PongLocker;
+using MeshLocker;
+using AudioLocker;
 public class VFX : PongManager
 {
     public GameObject padMagnetPrefab;
@@ -220,7 +223,7 @@ public class VFX : PongManager
     IEnumerator CycleRepulsorCollider(SphereCollider col, float radius)
     {
         float t = 0f;
-        am.PlayAudio(AudioType.Repulsor, col.transform.position);
+        am.PlayAudio(PongAudioType.Repulsor, col.transform.position);
         while (t < pm.gameEffects.magnetDuration)
         {
             t += Time.deltaTime;
@@ -238,7 +241,7 @@ public class VFX : PongManager
     IEnumerator CycleAttractorCollider(SphereCollider col, float radius)
     {
         float t = 0f;
-        am.PlayAudio(AudioType.Attractor, col.transform.position);
+        am.PlayAudio(PongAudioType.Attractor, col.transform.position);
         while (t < pm.gameEffects.magnetDuration)
         {
             t += Time.deltaTime;

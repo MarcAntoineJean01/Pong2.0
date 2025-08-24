@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using PongLocker;
 public static class Dialogs
 {
     public static List<string> greetingsFromPoly = new List<string>()
