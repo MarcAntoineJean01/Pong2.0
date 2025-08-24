@@ -110,7 +110,7 @@ namespace PongGame.PVELocker
         }
         public void CopyMeshCollider(MeshCollider original, MeshCollider copy, Mesh overrideMesh = null)
         {
-            copy.sharedMesh = overrideMesh != null ? overrideMesh : original.sharedMesh;
+            copy.sharedMesh = overrideMesh ?? original.sharedMesh;
             copy.convex = original.convex;
             copy.isTrigger = original.isTrigger;
             copy.material = original.material;

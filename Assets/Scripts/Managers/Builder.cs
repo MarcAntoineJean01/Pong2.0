@@ -197,46 +197,46 @@ namespace PongGame
                 mm.ResizePadMesh(pad.meshF.mesh, new Vector3(0, (side == Side.Left ? field.leftPad.meshF.mesh.bounds.size.y : field.rightPad.meshF.mesh.bounds.size.y) - canvasPadWidth * 3, 0));
             }
             pad.gameObject.name = side == Side.Left ? "LeftPad" : "RightPad";
-            switch (side)
+            if (side == Side.Left)
             {
-                case Side.Left:
-                    if (leftPlayer.controller == PlayerController.Player)
+                if (leftPlayer.controller == PlayerController.Player)
+                {
+                    if (Gamepad.all.Count > 0)
                     {
-                        if (Gamepad.all.Count > 0)
-                        {
-                            pad.cntrl = PadController.GamePad;
-                        } else
-                        {
-                            pad.cntrl = PadController.KeyBoard;
-                        }
+                        pad.cntrl = PadController.GamePad;
                     }
                     else
                     {
-                        pad.cntrl = PadController.Environment;
+                        pad.cntrl = PadController.KeyBoard;
                     }
-                    break;
-                case Side.Right:
-                    if (rightPlayer.controller == PlayerController.Player)
+                }
+                else
+                {
+                    pad.cntrl = PadController.Environment;
+                }
+            }
+            if (side == Side.Right)
+            {
+                if (rightPlayer.controller == PlayerController.Player)
+                {
+                    if (Gamepad.all.Count > 1)
                     {
-                        if (Gamepad.all.Count > 1)
-                        {
-                            pad.cntrl = PadController.GamePad;
-                        }
-                        else if (Gamepad.all.Count > 0)
-                        {
-                            pad.cntrl = PadController.KeyBoard;
-                        }
-                        else
-                        {
-                            rightPlayer.controller = PlayerController.Environment;
-                            pad.cntrl = PadController.Environment;
-                        }
+                        pad.cntrl = PadController.GamePad;
+                    }
+                    else if (Gamepad.all.Count > 0)
+                    {
+                        pad.cntrl = PadController.KeyBoard;
                     }
                     else
                     {
+                        rightPlayer.controller = PlayerController.Environment;
                         pad.cntrl = PadController.Environment;
                     }
-                    break;
+                }
+                else
+                {
+                    pad.cntrl = PadController.Environment;
+                }
             }
             pad.EnableControls();
             pad.col = pad.gameObject.AddComponent<MeshCollider>();

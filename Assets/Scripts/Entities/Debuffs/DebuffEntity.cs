@@ -32,7 +32,7 @@ namespace PongGame
             get
             {
                 if (rbd.velocity.sqrMagnitude > sqrDebuffMaxSpeed) { return rbd.velocity.normalized * debuffMaxSpeed; }
-                else if (rbd.velocity.sqrMagnitude < sqrDebuffMinSpeed) { return rbd.velocity.normalized * debuffMinSpeed; }
+                if (rbd.velocity.sqrMagnitude < sqrDebuffMinSpeed) { return rbd.velocity.normalized * debuffMinSpeed; }
                 return rbd.velocity;
             }
         }
@@ -59,7 +59,7 @@ namespace PongGame
                 points[i] = new Vector3(x, y, stagePosZ);
             }
             points[segments] = points[0];
-            return !inverseIdleOrbit ? points : points[(segments / 2)..(segments + 1)].Concat(points[0..((segments / 2) + 1)]).ToArray();
+            return !inverseIdleOrbit ? points : points[(segments / 2)..(segments + 1)].Concat(points[..((segments / 2) + 1)]).ToArray();
         }
         protected Vector3[] ActiveOrbitPath()
         {

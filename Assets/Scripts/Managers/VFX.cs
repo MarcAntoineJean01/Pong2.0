@@ -309,29 +309,29 @@ namespace PongGame
             {
                 case Side.Left:
                     field.leftPad.SetPadForStage();
-                    field.fragmentStore.leftPadFragments[0].transform.DOLocalPath(new Vector3[] { new Vector3(fivePointFive, 0, 0), new Vector3(four, 0, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
-                    field.fragmentStore.leftPadFragments[1].transform.DOLocalPath(new Vector3[] { new Vector3(-fivePointFive, 0, 0), new Vector3(-four, 0, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
-                    field.fragmentStore.leftPadFragments[2].transform.DOLocalPath(new Vector3[] { new Vector3(0, threePointFive, 0), new Vector3(0, two, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
-                    field.fragmentStore.leftPadFragments[3].transform.DOLocalPath(new Vector3[] { new Vector3(0, -threePointFive, 0), new Vector3(0, -two, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
+                    field.fragmentStore.leftPadFragments[0].transform.DOLocalPath(new[] { new Vector3(fivePointFive, 0, 0), new Vector3(four, 0, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
+                    field.fragmentStore.leftPadFragments[1].transform.DOLocalPath(new[] { new Vector3(-fivePointFive, 0, 0), new Vector3(-four, 0, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
+                    field.fragmentStore.leftPadFragments[2].transform.DOLocalPath(new[] { new Vector3(0, threePointFive, 0), new Vector3(0, two, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
+                    field.fragmentStore.leftPadFragments[3].transform.DOLocalPath(new[] { new Vector3(0, -threePointFive, 0), new Vector3(0, -two, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
                     break;
                 case Side.Right:
                     field.rightPad.SetPadForStage();
-                    field.fragmentStore.rightPadFragments[0].transform.DOLocalPath(new Vector3[] { new Vector3(fivePointFive, 0, 0), new Vector3(four, 0, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
-                    field.fragmentStore.rightPadFragments[1].transform.DOLocalPath(new Vector3[] { new Vector3(-fivePointFive, 0, 0), new Vector3(-four, 0, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
-                    field.fragmentStore.rightPadFragments[2].transform.DOLocalPath(new Vector3[] { new Vector3(0, threePointFive, 0), new Vector3(0, two, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
-                    field.fragmentStore.rightPadFragments[3].transform.DOLocalPath(new Vector3[] { new Vector3(0, -threePointFive, 0), new Vector3(0, -two, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
+                    field.fragmentStore.rightPadFragments[0].transform.DOLocalPath(new[] { new Vector3(fivePointFive, 0, 0), new Vector3(four, 0, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
+                    field.fragmentStore.rightPadFragments[1].transform.DOLocalPath(new[] { new Vector3(-fivePointFive, 0, 0), new Vector3(-four, 0, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
+                    field.fragmentStore.rightPadFragments[2].transform.DOLocalPath(new[] { new Vector3(0, threePointFive, 0), new Vector3(0, two, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
+                    field.fragmentStore.rightPadFragments[3].transform.DOLocalPath(new[] { new Vector3(0, -threePointFive, 0), new Vector3(0, -two, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
                     break;
                 case Side.None:
                     field.leftPad.SetPadForStage();
                     field.rightPad.SetPadForStage();
-                    field.fragmentStore.leftPadFragments[0].transform.DOLocalPath(new Vector3[] { new Vector3(fivePointFive, 0, 0), new Vector3(four, 0, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
-                    field.fragmentStore.leftPadFragments[1].transform.DOLocalPath(new Vector3[] { new Vector3(-fivePointFive, 0, 0), new Vector3(-four, 0, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
-                    field.fragmentStore.leftPadFragments[2].transform.DOLocalPath(new Vector3[] { new Vector3(0, threePointFive, 0), new Vector3(0, two, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
-                    field.fragmentStore.leftPadFragments[3].transform.DOLocalPath(new Vector3[] { new Vector3(0, -threePointFive, 0), new Vector3(0, -two, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
-                    field.fragmentStore.rightPadFragments[0].transform.DOLocalPath(new Vector3[] { new Vector3(fivePointFive, 0, 0), new Vector3(four, 0, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
-                    field.fragmentStore.rightPadFragments[1].transform.DOLocalPath(new Vector3[] { new Vector3(-fivePointFive, 0, 0), new Vector3(-four, 0, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
-                    field.fragmentStore.rightPadFragments[2].transform.DOLocalPath(new Vector3[] { new Vector3(0, threePointFive, 0), new Vector3(0, two, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
-                    field.fragmentStore.rightPadFragments[3].transform.DOLocalPath(new Vector3[] { new Vector3(0, -threePointFive, 0), new Vector3(0, -two, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
+                    field.fragmentStore.leftPadFragments[0].transform.DOLocalPath(new[] { new Vector3(fivePointFive, 0, 0), new Vector3(four, 0, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
+                    field.fragmentStore.leftPadFragments[1].transform.DOLocalPath(new[] { new Vector3(-fivePointFive, 0, 0), new Vector3(-four, 0, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
+                    field.fragmentStore.leftPadFragments[2].transform.DOLocalPath(new[] { new Vector3(0, threePointFive, 0), new Vector3(0, two, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
+                    field.fragmentStore.leftPadFragments[3].transform.DOLocalPath(new[] { new Vector3(0, -threePointFive, 0), new Vector3(0, -two, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
+                    field.fragmentStore.rightPadFragments[0].transform.DOLocalPath(new[] { new Vector3(fivePointFive, 0, 0), new Vector3(four, 0, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
+                    field.fragmentStore.rightPadFragments[1].transform.DOLocalPath(new[] { new Vector3(-fivePointFive, 0, 0), new Vector3(-four, 0, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
+                    field.fragmentStore.rightPadFragments[2].transform.DOLocalPath(new[] { new Vector3(0, threePointFive, 0), new Vector3(0, two, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
+                    field.fragmentStore.rightPadFragments[3].transform.DOLocalPath(new[] { new Vector3(0, -threePointFive, 0), new Vector3(0, -two, 0) }, 2, PathType.Linear).SetEase(Ease.OutFlash).SetAutoKill(true);
                     break;
 
             }

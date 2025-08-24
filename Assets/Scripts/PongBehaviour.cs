@@ -45,19 +45,16 @@ namespace PongGame
                     }
                     return PongManager.sizes.fieldDepth * 0.5f + PongManager.sizes.planeDistance + PongManager.sizes.ballDiameter * 0.5f;
                 }
-                else
+                switch (currentStage)
                 {
-                    switch (currentStage)
-                    {
-                        case Stage.StartMenu:
-                        case Stage.DD:
-                            return PongManager.sizes.planeDistance + PongManager.sizes.fieldDepth * 0.5f - PongManager.sizes.ballDiameter * 1.5f;
-                        case Stage.FreeMove:
-                            // *0.20f === /5
-                            return PongManager.sizes.planeDistance + PongManager.sizes.fieldDepth * 0.20f - PongManager.sizes.ballDiameter * 1.5f;
-                        default:
-                            return cm.CameraPosition(currentStage).z + PongManager.sizes.planeDistance + PongManager.sizes.ballDiameter * 0.5f;
-                    }
+                    case Stage.StartMenu:
+                    case Stage.DD:
+                        return PongManager.sizes.planeDistance + PongManager.sizes.fieldDepth * 0.5f - PongManager.sizes.ballDiameter * 1.5f;
+                    case Stage.FreeMove:
+                        // *0.20f === /5
+                        return PongManager.sizes.planeDistance + PongManager.sizes.fieldDepth * 0.20f - PongManager.sizes.ballDiameter * 1.5f;
+                    default:
+                        return cm.CameraPosition(currentStage).z + PongManager.sizes.planeDistance + PongManager.sizes.ballDiameter * 0.5f;
                 }
             }
         }
@@ -73,19 +70,16 @@ namespace PongGame
                     }
                     return PongManager.sizes.fieldDepth * 0.5f + PongManager.sizes.planeDistance + PongManager.sizes.ballDiameter * 0.5f;
                 }
-                else
+                switch (nextStage)
                 {
-                    switch (nextStage)
-                    {
-                        case Stage.StartMenu:
-                        case Stage.DD:
-                            return PongManager.sizes.planeDistance + PongManager.sizes.fieldDepth * 0.5f - PongManager.sizes.ballDiameter * 1.5f;
-                        case Stage.FreeMove:
-                            // *0.20f === /5
-                            return PongManager.sizes.planeDistance + PongManager.sizes.fieldDepth * 0.20f - PongManager.sizes.ballDiameter * 1.5f;
-                        default:
-                            return cm.CameraPosition(nextStage).z + PongManager.sizes.planeDistance + PongManager.sizes.ballDiameter * 0.5f;
-                    }
+                    case Stage.StartMenu:
+                    case Stage.DD:
+                        return PongManager.sizes.planeDistance + PongManager.sizes.fieldDepth * 0.5f - PongManager.sizes.ballDiameter * 1.5f;
+                    case Stage.FreeMove:
+                        // *0.20f === /5
+                        return PongManager.sizes.planeDistance + PongManager.sizes.fieldDepth * 0.20f - PongManager.sizes.ballDiameter * 1.5f;
+                    default:
+                        return cm.CameraPosition(nextStage).z + PongManager.sizes.planeDistance + PongManager.sizes.ballDiameter * 0.5f;
                 }
             }
         }

@@ -20,7 +20,7 @@ namespace PongGame
                 points[i] = new Vector3(x, y, stagePosZ);
             }
             points[segments] = points[0];
-            return points[(segments / 2)..(segments + 1)].Concat(points[0..((segments / 2) + 1)]).ToArray();
+            return points[(segments / 2)..(segments + 1)].Concat(points[..((segments / 2) + 1)]).ToArray();
         }
         protected override void OnEnable()
         {

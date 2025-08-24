@@ -37,7 +37,7 @@ namespace PongGame
             get
             {
                 if (rbd.velocity.sqrMagnitude > sqrBallMaxSpeed) { return rbd.velocity.normalized * ballMaxSpeed; }
-                else if (rbd.velocity.sqrMagnitude < sqrBallMinSpeed) { return rbd.velocity.normalized * ballMinSpeed; }
+                if (rbd.velocity.sqrMagnitude < sqrBallMinSpeed) { return rbd.velocity.normalized * ballMinSpeed; }
                 return rbd.velocity;
             }
         }
@@ -46,7 +46,7 @@ namespace PongGame
             get
             {
                 if (rbd.angularVelocity.sqrMagnitude > ballMaxRotationSpeed) { return rbd.angularVelocity.normalized * ballMaxRotationSpeed; }
-                else if (rbd.angularVelocity.sqrMagnitude < sqrBallMinRotationSpeed) { return rbd.angularVelocity.normalized * ballMinRotationSpeed; }
+                if (rbd.angularVelocity.sqrMagnitude < sqrBallMinRotationSpeed) { return rbd.angularVelocity.normalized * ballMinRotationSpeed; }
                 return rbd.angularVelocity;
             }
         }

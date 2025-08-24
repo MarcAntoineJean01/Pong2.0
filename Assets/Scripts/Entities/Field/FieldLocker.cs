@@ -155,19 +155,19 @@ namespace PongGame.FieldLocker
             {
                 return initialBackgroundPosition;
             }
-            else if (edge == leftWall)
+            if (edge == leftWall)
             {
                 return initialLeftWallPosition;
             }
-            else if (edge == rightWall)
+            if (edge == rightWall)
             {
                 return initialRightWallPosition;
             }
-            else if (edge == topFloor)
+            if (edge == topFloor)
             {
                 return initialTopFloorPosition;
             }
-            else if (edge == bottomFloor)
+            if (edge == bottomFloor)
             {
                 return initialBottomFloorPosition;
             }   

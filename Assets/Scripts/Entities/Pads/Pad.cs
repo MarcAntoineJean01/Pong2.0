@@ -266,7 +266,7 @@ namespace PongGame
                         shouldMove = true;
                     }
                 }
-                else
+                if (sd == Side.Right)
                 {
                     if (freeMove && padForwardTrigger && transform.position.z < field.background.transform.position.z - col.bounds.size.z * 0.5f - field.background.col.bounds.size.z - Vector3.Distance(transform.position, (sd == Side.Left ? field.fragmentStore.leftPadFragments : field.fragmentStore.rightPadFragments)[0].transform.position))
                     {
@@ -372,14 +372,13 @@ namespace PongGame
             mm.ResizePadMesh(meshF.mesh, new Vector3(0, meshF.mesh.bounds.size.x, 0));
             mm.ResizePadFragmentsMeshes(sd, new Vector3(0, meshF.mesh.bounds.size.x, 0));
             (col as MeshCollider).convex = true;
-            switch (sd)
+            if (sd == Side.Left)
             {
-                case Side.Left:
-                    pve.virtualField.leftPad.GetComponent<MeshCollider>().convex = true;
-                    break;
-                case Side.Right:
-                    pve.virtualField.rightPad.GetComponent<MeshCollider>().convex = true;
-                    break;
+                pve.virtualField.leftPad.GetComponent<MeshCollider>().convex = true;
+            }
+            if (sd == Side.Right)
+            {
+                pve.virtualField.rightPad.GetComponent<MeshCollider>().convex = true;
             }
         }
         public bool CanAddPiece()
@@ -455,16 +454,15 @@ namespace PongGame
         }
         public void RemovePadBlock(Side side)
         {
-            switch (side)
+            if (side == Side.Top)
             {
-                case Side.Top:
-                    GameObject.Destroy(topBlock.gameObject);
-                    topBlock = null;
-                    break;
-                case Side.Bottom:
-                    GameObject.Destroy(bottomBlock.gameObject);
-                    bottomBlock = null;
-                    break;
+                GameObject.Destroy(topBlock.gameObject);
+                topBlock = null;                
+            }
+            if (side == Side.Bottom)
+            {
+                GameObject.Destroy(bottomBlock.gameObject);
+                bottomBlock = null;                
             }
         }
         public bool CanAddCharge(bool polarity)
@@ -484,7 +482,7 @@ namespace PongGame
                 {
                     um.leftAttractorCount.text = attractorCharges.ToString();
                 }
-                else
+                if (sd == Side.Right)
                 {
                     um.rightAttractorCount.text = attractorCharges.ToString();
                 }
@@ -496,7 +494,7 @@ namespace PongGame
                 {
                     um.leftRepulsorCount.text = attractorCharges.ToString();
                 }
-                else
+                if (sd == Side.Right)
                 {
                     um.rightRepulsorCount.text = attractorCharges.ToString();
                 }

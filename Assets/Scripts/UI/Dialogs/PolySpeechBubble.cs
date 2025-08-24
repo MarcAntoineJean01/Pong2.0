@@ -47,7 +47,7 @@ namespace PongGame
             RectTransform rt = text.rectTransform;
             rt.sizeDelta = initialBubbleSize;
             transform.position = updatedTarget;
-            initialCorners = new Vector3[]
+            initialCorners = new[]
             {
                 new Vector3(text.transform.position.x - bubbleSize.x * 0.5f, text.transform.position.y - bubbleSize.y * 0.5f, stagePosZ),
                 new Vector3(text.transform.position.x + bubbleSize.x * 0.5f, text.transform.position.y - bubbleSize.y * 0.5f, stagePosZ),

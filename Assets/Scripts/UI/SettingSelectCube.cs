@@ -36,8 +36,6 @@ namespace PongGame
             {
                 switch (cubeSetting)
                 {
-                    default:
-                        return "null";
                     case Setting.GameMode:
                         return PongManager.mainSettings.gameMode.ToString();
                     case Setting.CutScenesOn:
@@ -70,6 +68,8 @@ namespace PongGame
                         return PongManager.options.startingHealth.ToString();
                     case Setting.Stage:
                         return PongBehaviour.currentStage.ToString();
+                    default:
+                        return "null";
                 }
             }
         }
@@ -79,8 +79,6 @@ namespace PongGame
             {
                 switch (cubeSetting)
                 {
-                    default:
-                        return "null";
                     case Setting.GameMode:
                         return settings.gameMode.ToString();
                     case Setting.CutScenesOn:
@@ -113,6 +111,8 @@ namespace PongGame
                         return options.startingHealth.ToString();
                     case Setting.Stage:
                         return stage.ToString();
+                    default:
+                        return "null";
                 }
             }
         }
