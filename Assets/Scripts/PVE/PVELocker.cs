@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-namespace PVELocker
+namespace PongGame.PVELocker
 {
     public enum VirtualEntityType
     {

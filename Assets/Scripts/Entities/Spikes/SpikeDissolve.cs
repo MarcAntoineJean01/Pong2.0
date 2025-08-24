@@ -1,26 +1,30 @@
 using UnityEngine;
-using PongLocker;
-public class SpikeDissolve : SpikeEntity
+using PongGame.PongLocker;
+namespace PongGame
 {
-    void OnCollisionEnter(Collision collision)
+    public class SpikeDissolve : SpikeEntity
     {
-        if (lct != Time.time)
+        void OnCollisionEnter(Collision collision)
         {
-            lct = Time.time;
-            if (collision.gameObject.transform.GetComponent<Pad>() != null)
+            if (lct != Time.time)
             {
-                Pad pad = collision.gameObject.transform.GetComponent<Pad>();
-                field.ball.TriggerDissolve(pad.sd == Side.Right ? Side.Left : Side.Right);
-                PostMortem(true);
-                return;
+                lct = Time.time;
+                if (collision.gameObject.transform.GetComponent<Pad>() != null)
+                {
+                    Pad pad = collision.gameObject.transform.GetComponent<Pad>();
+                    field.ball.TriggerDissolve(pad.sd == Side.Right ? Side.Left : Side.Right);
+                    PostMortem(true);
+                    return;
 
+                }
+                bounces += 1;
+                if (bounces >= bounceLimit)
+                {
+                    PostMortem();
+                }          
             }
-            bounces += 1;
-            if (bounces >= bounceLimit)
-            {
-                PostMortem();
-            }          
-        }
 
+        }
     }
 }
+

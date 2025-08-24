@@ -5,507 +5,466 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
-using UiLocker;
-using PongLocker;
+using PongGame.UiLocker;
+using PongGame.PongLocker;
 using Unity.VisualScripting;
-using AudioLocker;
+using PongGame.AudioLocker;
 
-public class UiManager : PongManager
+namespace PongGame
 {
-    public bool useMeshForUiCubes;
-    [SerializeField]
-    [ColorUsage(true, true)]
-    public Color cubeNormalColor;
-    [SerializeField]
-    [ColorUsage(true, true)]
-    public Color cubeHighlightedColor;
-    [SerializeField]
-    [ColorUsage(true, true)]
-    public Color cubePressedColor;
-    [SerializeField]
-    public Color cubeTextColor;
-    [ColorUsage(true, true)]
-    public Color fontGlowColor;
-    [SerializeField]
-    public Material cubeMaterial;
-    [SerializeField]
-    public Material cubeMeshMaterial;
-    [SerializeField]
-    public Material titleMeshMaterial;
-    [SerializeField]
-    public GameObject debugFakeCubePrefab;
-    public RectTransform metaCube;
-    public List<PongUiMenu> metaCubeSides = new List<PongUiMenu>(6);
-    public float uiCubePadding => menuCanvas.GetComponent<RectTransform>().sizeDelta.y / 25;
-    public float uiCubeSize => (menuCanvas.GetComponent<RectTransform>().sizeDelta.y - (uiCubePadding * 5)) / 4;
-    float metaCubeSize => uiCubeSize * 4 + uiCubePadding * 3;
-    public InputSystemUIInputModule inputSystemUI;
-    public Material menuBackgroundMaterial;
-    public Material fontMaterial;// this way to grab fonts is temporary (and bad).
-    public GridLayoutGroup hudCanvasGrid;
-    public CanvasGroup leftHudFull;
-    public CanvasGroup rightHudFull;
-    public CanvasGroup leftHudSplit;
-    public CanvasGroup rightHudSplit;
-    public CanvasGroup leftHud => currentStage == Stage.Neon ? leftHudSplit : leftHudFull;
-    public CanvasGroup rightHud => currentStage == Stage.Neon ? rightHudSplit : rightHudFull;
-    public TMP_Text leftAttractorCount;
-    public TMP_Text leftRepulsorCount;
-    public TMP_Text rightAttractorCount;
-    public TMP_Text rightRepulsorCount;
-    public GameObject startMenu;
-    public GameObject settingsMenu;
-    public GameObject pauseMenu;
-    public GameObject gameOverPanel;
-    public ProgressBar hudBarLeft;
-    public ProgressBar hudBarRight;
-    public ProgressBar hudBarLeftSplit;
-    public ProgressBar hudBarRightSplit;
-    public bool menuOn = false;
-    bool displayingLeftHud = false;
-    bool displayingRightHud = false;
-    bool leftHudExtention = false;
-    bool rightHudExtention = false;
-    public PongUiMenu currentActiveMenu;
-    public static int currentActiveMenuIndex = 0;
-    public List<RenderTexture> uiCubesTextures = new List<RenderTexture>();
-    RenderTexture uiTitleTexture;
-    public Canvas cubeTextureCanvas;
-    public Canvas titleTextureCanvas;
-    public List<TMP_Text> titleTextureText;
-    public List<TMP_Text> cubeTextureText;
-    public Camera cubeTextureCamera;
-    Dictionary<int, CubesToHideFromFace[]> cubesToHideForMenu = new Dictionary<int, CubesToHideFromFace[]>()
+    public class UiManager : PongManager
     {
-        {0, new CubesToHideFromFace[4]{
-                new CubesToHideFromFace(2, new int[4] {0,1,2,3}),
-                new CubesToHideFromFace(3, new int[4] {12,13,14,15}),
-                new CubesToHideFromFace(4, new int[4] {3,7,11,15}) ,
-                new CubesToHideFromFace(5, new int[4] {0,4,8,12})
+        public bool useMeshForUiCubes;
+        [SerializeField]
+        [ColorUsage(true, true)]
+        public Color cubeNormalColor;
+        [SerializeField]
+        [ColorUsage(true, true)]
+        public Color cubeHighlightedColor;
+        [SerializeField]
+        [ColorUsage(true, true)]
+        public Color cubePressedColor;
+        [SerializeField]
+        public Color cubeTextColor;
+        [ColorUsage(true, true)]
+        public Color fontGlowColor;
+        [SerializeField]
+        public Material cubeMaterial;
+        [SerializeField]
+        public Material cubeMeshMaterial;
+        [SerializeField]
+        public Material titleMeshMaterial;
+        [SerializeField]
+        public GameObject debugFakeCubePrefab;
+        public RectTransform metaCube;
+        public List<PongUiMenu> metaCubeSides = new List<PongUiMenu>(6);
+        public float uiCubePadding => menuCanvas.GetComponent<RectTransform>().sizeDelta.y / 25;
+        public float uiCubeSize => (menuCanvas.GetComponent<RectTransform>().sizeDelta.y - (uiCubePadding * 5)) / 4;
+        float metaCubeSize => uiCubeSize * 4 + uiCubePadding * 3;
+        public InputSystemUIInputModule inputSystemUI;
+        public Material menuBackgroundMaterial;
+        public Material fontMaterial;// this way to grab fonts is temporary (and bad).
+        public GridLayoutGroup hudCanvasGrid;
+        public CanvasGroup leftHudFull;
+        public CanvasGroup rightHudFull;
+        public CanvasGroup leftHudSplit;
+        public CanvasGroup rightHudSplit;
+        public CanvasGroup leftHud => currentStage == Stage.Neon ? leftHudSplit : leftHudFull;
+        public CanvasGroup rightHud => currentStage == Stage.Neon ? rightHudSplit : rightHudFull;
+        public TMP_Text leftAttractorCount;
+        public TMP_Text leftRepulsorCount;
+        public TMP_Text rightAttractorCount;
+        public TMP_Text rightRepulsorCount;
+        public GameObject startMenu;
+        public GameObject settingsMenu;
+        public GameObject pauseMenu;
+        public GameObject gameOverPanel;
+        public ProgressBar hudBarLeft;
+        public ProgressBar hudBarRight;
+        public ProgressBar hudBarLeftSplit;
+        public ProgressBar hudBarRightSplit;
+        public bool menuOn = false;
+        bool displayingLeftHud = false;
+        bool displayingRightHud = false;
+        bool leftHudExtention = false;
+        bool rightHudExtention = false;
+        public PongUiMenu currentActiveMenu;
+        public static int currentActiveMenuIndex = 0;
+        public List<RenderTexture> uiCubesTextures = new List<RenderTexture>();
+        RenderTexture uiTitleTexture;
+        public Canvas cubeTextureCanvas;
+        public Canvas titleTextureCanvas;
+        public List<TMP_Text> titleTextureText;
+        public List<TMP_Text> cubeTextureText;
+        public Camera cubeTextureCamera;
+        void OnEnable()
+        {
+            SetMetaCube();
+            cubeTextureCamera.gameObject.SetActive(false);
+            foreach (PongUiMenu menu in metaCubeSides)
+            {
+                menu.metaCubeVanished.AddListener(() => TurnOffMetaCube());
             }
-        },
-        {1, new CubesToHideFromFace[4]{
-                new CubesToHideFromFace(2, new int[4] {12,13,14,15}),
-                new CubesToHideFromFace(3, new int[4] {0,1,2,3}),
-                new CubesToHideFromFace(4, new int[4] {0,4,8,12}) ,
-                new CubesToHideFromFace(5, new int[4] {3,7,11,15})
+            hudCanvasGrid.cellSize = new Vector2(menuCanvas.GetComponent<RectTransform>().rect.width * 0.5f, menuCanvas.GetComponent<RectTransform>().rect.height * 0.25f);
+            leftAttractorCount.text = "0";
+            leftRepulsorCount.text = "0";
+            rightAttractorCount.text = "0";
+            rightRepulsorCount.text = "0";
+            leftHud.alpha = 0;
+            rightHud.alpha = 0;
+            displayHud.AddListener((sd) => { DisplayHudForSeconds(sd); });
+            newGameManager.gameOver.AddListener(() => DisplayGameOverPanel());
+        }
+        public void SetMetaCube()
+        {
+            metaCube.sizeDelta = new Vector2(metaCubeSize, metaCubeSize);
+            metaCube.transform.localPosition = new Vector3(0, 0, metaCubeSize * 0.5f);
+            foreach (PongUiMenu menu in metaCubeSides)
+            {
+                menu.grid.cellSize = new Vector2(uiCubeSize, uiCubeSize);
+                menu.grid.spacing = new Vector2(uiCubePadding, uiCubePadding);
             }
-        },
-        {2, new CubesToHideFromFace[4]{
-                new CubesToHideFromFace(0, new int[4] {12,13,14,15}),
-                new CubesToHideFromFace(1, new int[4] {0,1,2,3}),
-                new CubesToHideFromFace(4, new int[4] {12,13,14,15}) ,
-                new CubesToHideFromFace(5, new int[4] {12,13,14,15})
-            }
-        },
-        {3, new CubesToHideFromFace[4]{
-                new CubesToHideFromFace(0, new int[4] {0,1,2,3}),
-                new CubesToHideFromFace(1, new int[4] {12,13,14,15}),
-                new CubesToHideFromFace(4, new int[4] {0,1,2,3}),
-                new CubesToHideFromFace(5, new int[4] {0,1,2,3})
-            }
-        },
-        {4, new CubesToHideFromFace[4]{
-                new CubesToHideFromFace(0, new int[4] {0,4,8,12}),
-                new CubesToHideFromFace(1, new int[4] {0,4,8,12}),
-                new CubesToHideFromFace(2, new int[4] {0,4,8,12}),
-                new CubesToHideFromFace(3, new int[4] {0,4,8,12})
-            }
-        },
-        {5, new CubesToHideFromFace[4]{
-                new CubesToHideFromFace(0, new int[4] {3,7,11,15}),
-                new CubesToHideFromFace(1, new int[4] {3,7,11,15}),
-                new CubesToHideFromFace(2, new int[4] {3,7,11,15}),
-                new CubesToHideFromFace(3, new int[4] {3,7,11,15})
+            metaCubeSides[0].transform.localPosition = new Vector3(0, 0, -metaCubeSize * 0.5f + uiCubeSize);
+            metaCubeSides[0].transform.localRotation = Quaternion.Euler(0, 0, 0);
+
+            metaCubeSides[1].transform.localPosition = new Vector3(0, 0, metaCubeSize * 0.5f - uiCubeSize);
+            metaCubeSides[1].transform.localRotation = Quaternion.Euler(0, 180, 180);
+
+            metaCubeSides[2].transform.localPosition = new Vector3(0, -metaCubeSize * 0.5f + uiCubeSize, 0);
+            metaCubeSides[2].transform.localRotation = Quaternion.Euler(-90, 0, 0);
+
+            metaCubeSides[3].transform.localPosition = new Vector3(0, metaCubeSize * 0.5f - uiCubeSize, 0);
+            metaCubeSides[3].transform.localRotation = Quaternion.Euler(90, 0, 0);
+
+            metaCubeSides[4].transform.localPosition = new Vector3(-metaCubeSize * 0.5f + uiCubeSize, 0, 0);
+            metaCubeSides[4].transform.localRotation = Quaternion.Euler(0, 90, 0);
+
+            metaCubeSides[5].transform.localPosition = new Vector3(metaCubeSize * 0.5f - uiCubeSize, 0, 0);
+            metaCubeSides[5].transform.localRotation = Quaternion.Euler(0, 270, 0);
+            if (useMeshForUiCubes)
+            {
+                GenerateRenderTextures();
+                SetupTextureCanvas();
             }
         }
-    };
-    void OnEnable()
-    {
-        SetMetaCube();
-        cubeTextureCamera.gameObject.SetActive(false);
-        foreach (PongUiMenu menu in metaCubeSides)
+        void SetUiCubesTextures(PongUiMenu menu)
         {
-            menu.metaCubeVanished.AddListener(() => TurnOffMetaCube());
+            cubeTextureCamera.gameObject.SetActive(true);
+            titleTextureCanvas.gameObject.SetActive(true);
+            cubeTextureCanvas.gameObject.SetActive(false);
+            menu.title.GetComponent<MeshFilter>().mesh = MeshManager.uiSphereMesh;
+            menu.title.GetComponent<MeshRenderer>().material = titleMeshMaterial;
+            menu.title.GetComponent<CanvasGroup>().alpha = 0;
+            cubeTextureCamera.targetTexture = uiTitleTexture;
+
+            titleTextureText[0].text = menu.title.text;
+            titleTextureText[0].ForceMeshUpdate();
+
+            titleTextureText[1].text = menu.title.text;
+            titleTextureText[1].ForceMeshUpdate();
+
+            cubeTextureCamera.Render();
+            titleMeshMaterial.SetTexture("_CubeTexture", uiTitleTexture);
+
+            titleTextureCanvas.gameObject.SetActive(false);
+            cubeTextureCanvas.gameObject.SetActive(true);
+            for (int i = 0; i < menu.pongUiCubes.Count; i++)
+            {
+                cubeTextureCamera.targetTexture = uiCubesTextures[i];
+                foreach (TMP_Text text in cubeTextureText)
+                {
+                    text.text = menu.pongUiCubes[i].cubeText;
+                    text.transform.rotation = Quaternion.identity;
+                    text.ForceMeshUpdate();
+                }
+                cubeTextureCamera.Render();
+
+                menu.pongUiCubes[i].mat.SetTexture("_CubeTexture", uiCubesTextures[i]);
+            }
+
+            cubeTextureCamera.gameObject.SetActive(false);
+            cubeTextureCanvas.gameObject.SetActive(false);
         }
-        hudCanvasGrid.cellSize = new Vector2(menuCanvas.GetComponent<RectTransform>().rect.width * 0.5f, menuCanvas.GetComponent<RectTransform>().rect.height * 0.25f);
-        leftAttractorCount.text = "0";
-        leftRepulsorCount.text = "0";
-        rightAttractorCount.text = "0";
-        rightRepulsorCount.text = "0";
-        leftHud.alpha = 0;
-        rightHud.alpha = 0;
-        displayHud.AddListener((sd) => { DisplayHudForSeconds(sd); });
-        newGameManager.gameOver.AddListener(() => DisplayGameOverPanel());
-    }
-    public void SetMetaCube()
-    {
-        metaCube.sizeDelta = new Vector2(metaCubeSize, metaCubeSize);
-        metaCube.transform.localPosition = new Vector3(0, 0, metaCubeSize * 0.5f);
-        foreach (PongUiMenu menu in metaCubeSides)
+        void GenerateRenderTextures()
         {
-            menu.grid.cellSize = new Vector2(uiCubeSize, uiCubeSize);
-            menu.grid.spacing = new Vector2(uiCubePadding, uiCubePadding);
+            int maxCubes = 0;
+            uiTitleTexture = new RenderTexture(600, 100, 32, RenderTextureFormat.ARGB32);
+            foreach (PongUiMenu menu in metaCubeSides) { if (menu.pongUiCubes.Count > maxCubes) { maxCubes = menu.pongUiCubes.Count; } }
+            for (int i = 0; i < maxCubes; i++)
+            {
+                uiCubesTextures.Add(new RenderTexture(600, 100, 32));
+            }
+            cubeTextureCamera.targetTexture = uiCubesTextures[0];
+            cubeTextureCamera.Render();
         }
-        metaCubeSides[0].transform.localPosition = new Vector3(0, 0, -metaCubeSize * 0.5f + uiCubeSize);
-        metaCubeSides[0].transform.localRotation = Quaternion.Euler(0, 0, 0);
-
-        metaCubeSides[1].transform.localPosition = new Vector3(0, 0, metaCubeSize * 0.5f - uiCubeSize);
-        metaCubeSides[1].transform.localRotation = Quaternion.Euler(0, 180, 180);
-
-        metaCubeSides[2].transform.localPosition = new Vector3(0, -metaCubeSize * 0.5f + uiCubeSize, 0);
-        metaCubeSides[2].transform.localRotation = Quaternion.Euler(-90, 0, 0);
-
-        metaCubeSides[3].transform.localPosition = new Vector3(0, metaCubeSize * 0.5f - uiCubeSize, 0);
-        metaCubeSides[3].transform.localRotation = Quaternion.Euler(90, 0, 0);
-
-        metaCubeSides[4].transform.localPosition = new Vector3(-metaCubeSize * 0.5f + uiCubeSize, 0, 0);
-        metaCubeSides[4].transform.localRotation = Quaternion.Euler(0, 90, 0);
-
-        metaCubeSides[5].transform.localPosition = new Vector3(metaCubeSize * 0.5f - uiCubeSize, 0, 0);
-        metaCubeSides[5].transform.localRotation = Quaternion.Euler(0, 270, 0);
-        if (useMeshForUiCubes)
+        void SetupTextureCanvas()
         {
-            GenerateRenderTextures();
-            SetupTextureCanvas();
+            cubeTextureCanvas.GetComponent<GridLayoutGroup>().cellSize = new Vector2(cubeTextureCanvas.GetComponent<RectTransform>().rect.width / 6, cubeTextureCanvas.GetComponent<RectTransform>().rect.height);
+            titleTextureCanvas.GetComponent<GridLayoutGroup>().cellSize = new Vector2(titleTextureCanvas.GetComponent<RectTransform>().rect.width / 6 * 2, titleTextureCanvas.GetComponent<RectTransform>().rect.height);
         }
-    }
-    void SetUiCubesTextures(PongUiMenu menu)
-    {
-        cubeTextureCamera.gameObject.SetActive(true);
-        titleTextureCanvas.gameObject.SetActive(true);
-        cubeTextureCanvas.gameObject.SetActive(false);
-        menu.title.GetComponent<MeshFilter>().mesh = MeshManager.uiSphereMesh;
-        menu.title.GetComponent<MeshRenderer>().material = titleMeshMaterial;
-        menu.title.GetComponent<CanvasGroup>().alpha = 0;
-        cubeTextureCamera.targetTexture = uiTitleTexture;
-
-        titleTextureText[0].text = menu.title.text;
-        titleTextureText[0].ForceMeshUpdate();
-
-        titleTextureText[1].text = menu.title.text;
-        titleTextureText[1].ForceMeshUpdate();
-
-        cubeTextureCamera.Render();
-        titleMeshMaterial.SetTexture("_CubeTexture", uiTitleTexture);
-
-        titleTextureCanvas.gameObject.SetActive(false);
-        cubeTextureCanvas.gameObject.SetActive(true);
-        for (int i = 0; i < menu.pongUiCubes.Count; i++)
+        public void RenderCubeTexture(RenderTexture cubeTexture)
         {
-            cubeTextureCamera.targetTexture = uiCubesTextures[i];
+            cubeTextureCamera.targetTexture = cubeTexture;
+            cubeTextureCanvas.gameObject.SetActive(true);
+            cubeTextureCamera.gameObject.SetActive(true);
+        }
+        public void StopRenderCubeTexture(PongUiCube cube)
+        {
+            cubeTextureCamera.targetTexture = cube.mat.GetTexture("_CubeTexture") as RenderTexture;
             foreach (TMP_Text text in cubeTextureText)
             {
-                text.text = menu.pongUiCubes[i].cubeText;
                 text.transform.rotation = Quaternion.identity;
+                text.text = cube.cubeText;
                 text.ForceMeshUpdate();
             }
             cubeTextureCamera.Render();
-
-            menu.pongUiCubes[i].mat.SetTexture("_CubeTexture", uiCubesTextures[i]);
+            cubeTextureCamera.targetTexture = null;
+            cubeTextureCanvas.gameObject.SetActive(false);
+            cubeTextureCamera.gameObject.SetActive(false);
         }
-
-        cubeTextureCamera.gameObject.SetActive(false);
-        cubeTextureCanvas.gameObject.SetActive(false);
-    }
-    void GenerateRenderTextures()
-    {
-        int maxCubes = 0;
-        uiTitleTexture = new RenderTexture(600, 100, 32, RenderTextureFormat.ARGB32);
-        foreach (PongUiMenu menu in metaCubeSides) { if (menu.pongUiCubes.Count > maxCubes) { maxCubes = menu.pongUiCubes.Count; } }
-        for (int i = 0; i < maxCubes; i++)
+        void DisplayGameOverPanel()
         {
-            uiCubesTextures.Add(new RenderTexture(600, 100, 32));
+            gameOverPanel.SetActive(true);
+            StartCoroutine("CycleDisplayGameOverPanel");
         }
-        cubeTextureCamera.targetTexture = uiCubesTextures[0];
-        cubeTextureCamera.Render();
-    }
-    void SetupTextureCanvas()
-    {
-        cubeTextureCanvas.GetComponent<GridLayoutGroup>().cellSize = new Vector2(cubeTextureCanvas.GetComponent<RectTransform>().rect.width / 6, cubeTextureCanvas.GetComponent<RectTransform>().rect.height);
-        titleTextureCanvas.GetComponent<GridLayoutGroup>().cellSize = new Vector2(titleTextureCanvas.GetComponent<RectTransform>().rect.width/6*2, titleTextureCanvas.GetComponent<RectTransform>().rect.height);
-    }
-    public void RenderCubeTexture(RenderTexture cubeTexture)
-    {
-        cubeTextureCamera.targetTexture = cubeTexture;
-        cubeTextureCanvas.gameObject.SetActive(true);
-        cubeTextureCamera.gameObject.SetActive(true);
-    }
-    public void StopRenderCubeTexture(PongUiCube cube)
-    {
-        cubeTextureCamera.targetTexture = cube.mat.GetTexture("_CubeTexture") as RenderTexture;
-        foreach (TMP_Text text in cubeTextureText)
+        IEnumerator CycleDisplayGameOverPanel()
         {
-            text.transform.rotation = Quaternion.identity;
-            text.text = cube.cubeText;
-            text.ForceMeshUpdate();
+            am.PlayAudio(PongAudioType.GameOverVoice, Vector3.zero);
+            yield return new WaitForSecondsRealtime(2);
+            am.PlayMusic(MusicType.GameOverMusic);
+            float t = 0;
+            while (t < 4)
+            {
+                t += Time.unscaledDeltaTime;
+                if (t > 4) { t = 4; }
+                gameOverPanel.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0, 1, t / 4);
+                yield return null;
+            }
+            t = 0;
+            while (t < 10)
+            {
+                t += Time.unscaledDeltaTime;
+                if (t > 10) { t = 10; }
+                Color c = gameOverPanel.GetComponent<Image>().color;
+                c.a = Mathf.Lerp(0, 1, t / 10);
+                gameOverPanel.GetComponent<Image>().color = c;
+                yield return null;
+            }
+            yield return new WaitForSecondsRealtime(5);
+    #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+    #else
+            Application.Quit();
+    #endif
         }
-        cubeTextureCamera.Render();
-        cubeTextureCamera.targetTexture = null;
-        cubeTextureCanvas.gameObject.SetActive(false);
-        cubeTextureCamera.gameObject.SetActive(false);
-    }
-    void DisplayGameOverPanel()
-    {
-        gameOverPanel.SetActive(true);
-        StartCoroutine("CycleDisplayGameOverPanel");
-    }
-    IEnumerator CycleDisplayGameOverPanel()
-    {
-        am.PlayAudio(PongAudioType.GameOverVoice, Vector3.zero);
-        yield return new WaitForSecondsRealtime(2);
-        am.PlayMusic(MusicType.GameOverMusic);
-        float t = 0;
-        while (t < 4)
+        public void OpenStartMenu()
         {
-            t += Time.unscaledDeltaTime;
-            if (t > 4) { t = 4; }
-            gameOverPanel.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(0, 1, t / 4);
-            yield return null;
+            TurnOnMetaCube(0);
         }
-        t = 0;
-        while (t < 10)
+        public void OpenSettingsMenu()
         {
-            t += Time.unscaledDeltaTime;
-            if (t > 10) { t = 10; }
-            Color c = gameOverPanel.GetComponent<Image>().color;
-            c.a = Mathf.Lerp(0, 1, t / 10);
-            gameOverPanel.GetComponent<Image>().color = c;
-            yield return null;
+            TurnOnMetaCube(currentPhase == GamePhase.Startup ? 1 : 2);
         }
-        yield return new WaitForSecondsRealtime(5);
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    }
-    public void OpenStartMenu()
-    {
-        TurnOnMetaCube(0);
-    }
-    public void OpenSettingsMenu()
-    {
-        TurnOnMetaCube(currentPhase == GamePhase.Startup ? 1 : 2);
-    }
-    public void OpenPauseMenu()
-    {
-        TurnOnMetaCube(2);
-        currentActiveMenu.MenuInteractionOn();
-    }
-    public void OpenAllowedSpikesMenu()
-    {
-        TurnOnMetaCube(3);
-    }
-    public void OpenSoundMenu()
-    {
-        TurnOnMetaCube(4);
-    }
-    public void OpenGameplayMenu()
-    {
-        TurnOnMetaCube(5);
-    }
-    public void DisplayHudForSeconds(Side sd)
-    {
-        if ((!displayingLeftHud && sd == Side.Left) || (!displayingRightHud && sd == Side.Right))
+        public void OpenPauseMenu()
         {
+            TurnOnMetaCube(2);
+            currentActiveMenu.MenuInteractionOn();
+        }
+        public void OpenAllowedSpikesMenu()
+        {
+            TurnOnMetaCube(3);
+        }
+        public void OpenSoundMenu()
+        {
+            TurnOnMetaCube(4);
+        }
+        public void OpenGameplayMenu()
+        {
+            TurnOnMetaCube(5);
+        }
+        public void DisplayHudForSeconds(Side sd)
+        {
+            if ((!displayingLeftHud && sd == Side.Left) || (!displayingRightHud && sd == Side.Right))
+            {
+                if (sd == Side.Left)
+                {
+                    displayingLeftHud = true;
+                }
+                else
+                {
+                    displayingRightHud = true;
+                }
+                UpdateHud();
+                StartCoroutine(CycleDisplayHud(sd));
+            }
+            else if (sd == Side.Left)
+            {
+                leftHudExtention = true;
+                UpdateHud();
+            }
+            else if (sd == Side.Right)
+            {
+                rightHudExtention = true;
+                UpdateHud();
+            }
+        }
+        public void UpdateHud()
+        {
+            leftPlayer.healthBar.SetCurrentFill(); ;
+            rightPlayer.healthBar.SetCurrentFill(); ;
+            leftAttractorCount.text = PongBehaviour.field.leftPad.attractorCharges.ToString();
+            leftRepulsorCount.text = PongBehaviour.field.leftPad.repulsorCharges.ToString();
+            rightAttractorCount.text = PongBehaviour.field.rightPad.attractorCharges.ToString();
+            rightRepulsorCount.text = PongBehaviour.field.rightPad.repulsorCharges.ToString();
+        }
+        IEnumerator CycleDisplayHud(Side sd)
+        {
+            float t = 0f;
+            CanvasGroup cg = sd == Side.Left ? leftHud : rightHud;
+            while (t < 0.5f)
+            {
+                t += Time.unscaledDeltaTime;
+                if (t > 0.5f) { t = 0.5f; }
+                cg.alpha = Mathf.Lerp(0, 1, t / 0.5f);
+                yield return null;
+            }
+            cg.alpha = 1;
+            yield return new WaitForSecondsRealtime(3);
+            while (sd == Side.Left && leftHudExtention)
+            {
+                leftHudExtention = false;
+                yield return new WaitForSecondsRealtime(2);
+                yield return null;
+            }
+            while (sd == Side.Right && rightHudExtention)
+            {
+                rightHudExtention = false;
+                yield return new WaitForSecondsRealtime(2);
+                yield return null;
+            }
+            t = 0f;
+            while (t < 0.5f)
+            {
+                t += Time.unscaledDeltaTime;
+                if (t > 0.5f) { t = 0.5f; }
+                cg.alpha = Mathf.Lerp(1, 0, t / 0.5f);
+                yield return null;
+            }
+            cg.alpha = 0;
             if (sd == Side.Left)
             {
-                displayingLeftHud = true;
+                displayingLeftHud = false;
             }
             else
             {
-                displayingRightHud = true;
+                displayingRightHud = false;
             }
-            UpdateHud();
-            StartCoroutine(CycleDisplayHud(sd));
         }
-        else if (sd == Side.Left)
+        public void TurnOnMetaCube(int side)
         {
-            leftHudExtention = true;
-            UpdateHud();
-        }
-        else if (sd == Side.Right)
-        {
-            rightHudExtention = true;
-            UpdateHud();
-        }
-    }
-    public void UpdateHud()
-    {
-        leftPlayer.healthBar.SetCurrentFill();;
-        rightPlayer.healthBar.SetCurrentFill();;
-        leftAttractorCount.text = PongBehaviour.field.leftPad.attractorCharges.ToString();
-        leftRepulsorCount.text = PongBehaviour.field.leftPad.repulsorCharges.ToString();
-        rightAttractorCount.text = PongBehaviour.field.rightPad.attractorCharges.ToString();
-        rightRepulsorCount.text = PongBehaviour.field.rightPad.repulsorCharges.ToString();
-    }
-    IEnumerator CycleDisplayHud(Side sd)
-    {
-        float t = 0f;
-        CanvasGroup cg = sd == Side.Left ? leftHud : rightHud;
-        while (t < 0.5f)
-        {
-            t += Time.unscaledDeltaTime;
-            if (t > 0.5f) { t = 0.5f; }
-            cg.alpha = Mathf.Lerp(0, 1, t / 0.5f);
-            yield return null;
-        }
-        cg.alpha = 1;
-        yield return new WaitForSecondsRealtime(3);
-        while (sd == Side.Left && leftHudExtention)
-        {
-            leftHudExtention = false;
-            yield return new WaitForSecondsRealtime(2);
-            yield return null;
-        }
-        while (sd == Side.Right && rightHudExtention)
-        {
-            rightHudExtention = false;
-            yield return new WaitForSecondsRealtime(2);
-            yield return null;
-        }
-        t = 0f;
-        while (t < 0.5f)
-        {
-            t += Time.unscaledDeltaTime;
-            if (t > 0.5f) { t = 0.5f; }
-            cg.alpha = Mathf.Lerp(1, 0, t / 0.5f);
-            yield return null;
-        }
-        cg.alpha = 0;
-        if (sd == Side.Left)
-        {
-            displayingLeftHud = false;
-        }
-        else
-        {
-            displayingRightHud = false;
-        }
-    }
-    public void TurnOnMetaCube(int side)
-    {
-        ShowOverlappingCubes();
-        if (!metaCube.gameObject.activeSelf)
-        {
-            currentActiveMenu = metaCubeSides[side];
-            if (currentStage == Stage.Neon)
+            ShowOverlappingCubes();
+            if (!metaCube.gameObject.activeSelf)
             {
-                cm.overlayCam.transform.position = cm.leftPadCam.transform.position;
-                cm.overlayCam.transform.rotation = cm.leftPadCam.transform.rotation;
-                metaCube.transform.position = new Vector3(metaCube.transform.position.x, metaCube.transform.position.y, stagePosZ);
-                metaCube.transform.LookAt(cm.leftPadCam.transform.position);
-                metaCube.transform.rotation = Quaternion.LookRotation(cm.leftPadCam.transform.position - metaCube.transform.position) * Quaternion.Euler(RotationForMenu(side));
-                metaCube.transform.localScale = Vector3.one * 0.5f;
-                menuCanvas.renderMode = RenderMode.WorldSpace;
+                currentActiveMenu = metaCubeSides[side];
+                if (currentStage == Stage.Neon)
+                {
+                    cm.overlayCam.transform.position = cm.leftPadCam.transform.position;
+                    cm.overlayCam.transform.rotation = cm.leftPadCam.transform.rotation;
+                    metaCube.transform.position = new Vector3(metaCube.transform.position.x, metaCube.transform.position.y, stagePosZ);
+                    metaCube.transform.LookAt(cm.leftPadCam.transform.position);
+                    metaCube.transform.rotation = Quaternion.LookRotation(cm.leftPadCam.transform.position - metaCube.transform.position) * Quaternion.Euler(RotationForMenu(side));
+                    metaCube.transform.localScale = Vector3.one * 0.5f;
+                    menuCanvas.renderMode = RenderMode.WorldSpace;
+                }
+                else
+                {
+                    cm.overlayCam.transform.position = cm.mainCam.transform.position;
+                    cm.overlayCam.transform.rotation = cm.mainCam.transform.rotation;
+                    metaCube.transform.localPosition = new Vector3(0, 0, metaCubeSize * 0.5f);
+                    metaCube.transform.rotation = Quaternion.Euler(RotationForMenu(side));
+                }
+                metaCube.gameObject.SetActive(true);
             }
             else
             {
-                cm.overlayCam.transform.position = cm.mainCam.transform.position;
-                cm.overlayCam.transform.rotation = cm.mainCam.transform.rotation;
-                metaCube.transform.localPosition = new Vector3(0, 0, metaCubeSize * 0.5f);
-                metaCube.transform.rotation = Quaternion.Euler(RotationForMenu(side));
+                currentActiveMenu.MenuInteractionOff();
+                if (currentStage == Stage.Neon)
+                {
+                    metaCube.transform.DORotateQuaternion(Quaternion.LookRotation(cm.leftPadCam.transform.position - metaCube.transform.position) * Quaternion.Euler(RotationForMenu(side)), 1).OnComplete(() =>
+                    {
+                        currentActiveMenu = metaCubeSides[side];
+                        metaCube.gameObject.transform.rotation = Quaternion.LookRotation(cm.leftPadCam.transform.position - metaCube.transform.position) * Quaternion.Euler(RotationForMenu(side));
+                        currentActiveMenu.MenuInteractionOn();
+                    });
+                }
+                else
+                {
+                    metaCube.transform.DORotate(RotationForMenu(side), 1).OnComplete(() =>
+                    {
+                        currentActiveMenu = metaCubeSides[side];
+                        metaCube.gameObject.transform.rotation = Quaternion.Euler(RotationForMenu(side));
+                        currentActiveMenu.MenuInteractionOn();
+                    });
+                }
+
             }
-            metaCube.gameObject.SetActive(true);
+            HideOverlappingCubes(side);
+            currentActiveMenuIndex = side;
+            if (useMeshForUiCubes)
+            {
+                SetUiCubesTextures(metaCubeSides[side]);
+            }
         }
-        else
+        public void TurnOffMetaCube()
         {
             currentActiveMenu.MenuInteractionOff();
-            if (currentStage == Stage.Neon)
+            metaCube.gameObject.SetActive(false);
+            cm.overlayCam.transform.position = cm.mainCam.transform.position;
+            cm.overlayCam.transform.rotation = cm.mainCam.transform.rotation;
+            metaCube.transform.localScale = Vector3.one;
+            menuCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+            metaCube.transform.rotation = Quaternion.identity;
+            metaCube.transform.localScale = Vector3.one;
+        }
+        Vector3 RotationForMenu(int side)
+        {
+            switch (side)
             {
-                metaCube.transform.DORotateQuaternion(Quaternion.LookRotation(cm.leftPadCam.transform.position - metaCube.transform.position) * Quaternion.Euler(RotationForMenu(side)), 1).OnComplete(() =>
-                {
-                    currentActiveMenu = metaCubeSides[side];
-                    metaCube.gameObject.transform.rotation = Quaternion.LookRotation(cm.leftPadCam.transform.position - metaCube.transform.position) * Quaternion.Euler(RotationForMenu(side));
-                    currentActiveMenu.MenuInteractionOn();
-                });
+                default:
+                case 0:
+                    return Vector3.zero;
+                case 1:
+                    return new Vector3(180, 0, 0);
+                case 2:
+                    return currentStage == Stage.Neon ? new Vector3(0, 90, -90) : new Vector3(90, 0, 0);
+                case 3:
+                    return currentStage == Stage.Neon ? new Vector3(180, 90, 90) : new Vector3(-90, 0, 0);
+                case 4:
+                    return currentStage == Stage.Neon ? new Vector3(-90, 90, 0) : new Vector3(0, -90, 0);
+                case 5:
+                    return new Vector3(0, 90, 0);
             }
-            else
+        }
+        void ShowOverlappingCubes()
+        {
+            foreach (PongUiMenu menu in metaCubeSides)
             {
-                metaCube.transform.DORotate(RotationForMenu(side), 1).OnComplete(() =>
+                for (int i = 0; i < 16; i++)
                 {
-                    currentActiveMenu = metaCubeSides[side];
-                    metaCube.gameObject.transform.rotation = Quaternion.Euler(RotationForMenu(side));
-                    currentActiveMenu.MenuInteractionOn();
-                });
-            }
-
-        }
-        HideOverlappingCubes(side);
-        currentActiveMenuIndex = side;
-        if (useMeshForUiCubes)
-        {
-            SetUiCubesTextures(metaCubeSides[side]);
-        }
-    }
-    public void TurnOffMetaCube()
-    {
-        currentActiveMenu.MenuInteractionOff();
-        metaCube.gameObject.SetActive(false);
-        cm.overlayCam.transform.position = cm.mainCam.transform.position;
-        cm.overlayCam.transform.rotation = cm.mainCam.transform.rotation;
-        metaCube.transform.localScale = Vector3.one;
-        menuCanvas.renderMode = RenderMode.ScreenSpaceCamera;
-        metaCube.transform.rotation = Quaternion.identity;
-        metaCube.transform.localScale = Vector3.one;
-    }
-    Vector3 RotationForMenu(int side)
-    {
-        switch (side)
-        {
-            default:
-            case 0:
-                return Vector3.zero;
-            case 1:
-                return new Vector3(180, 0, 0);
-            case 2:
-                return currentStage == Stage.Neon ? new Vector3(0,90,-90) : new Vector3(90, 0, 0);
-            case 3:
-                return currentStage == Stage.Neon ? new Vector3(180,90,90) : new Vector3(-90, 0, 0);
-            case 4:
-                return currentStage == Stage.Neon ? new Vector3(-90,90,0) : new Vector3(0, -90, 0);
-            case 5:
-                return new Vector3(0, 90, 0);
-        }
-    }
-    void ShowOverlappingCubes()
-    {
-        foreach (PongUiMenu menu in metaCubeSides)
-        {
-            for (int i = 0; i < 16; i++)
-            {
-                if (!useMeshForUiCubes)
-                {
-                    menu.transform.GetChild(i).GetComponent<CanvasGroup>().alpha = 1;
-                }
-                else
-                {
-                    menu.transform.GetChild(i).GetComponent<MeshRenderer>().enabled = true;
+                    if (!useMeshForUiCubes)
+                    {
+                        menu.transform.GetChild(i).GetComponent<CanvasGroup>().alpha = 1;
+                    }
+                    else
+                    {
+                        menu.transform.GetChild(i).GetComponent<MeshRenderer>().enabled = true;
+                    }
                 }
             }
         }
-    }
-    public void HideOverlappingCubes(int side)
-    {
-        foreach (CubesToHideFromFace cubesToHideFromFace in cubesToHideForMenu[side])
+        public void HideOverlappingCubes(int side)
         {
-            foreach (int cube in cubesToHideFromFace.cubesToHide)
+            foreach (CubesToHideFromFace cubesToHideFromFace in CubeDirectory.cubesToHideForMenuDict[side])
             {
-                if (!useMeshForUiCubes)
+                foreach (int cube in cubesToHideFromFace.cubesToHide)
                 {
-                    metaCubeSides[cubesToHideFromFace.face].transform.GetChild(cube).GetComponent<CanvasGroup>().alpha = 0;
-                }
-                else
-                {
-                    metaCubeSides[cubesToHideFromFace.face].transform.GetChild(cube).GetComponent<MeshRenderer>().enabled = false;
+                    if (!useMeshForUiCubes)
+                    {
+                        metaCubeSides[cubesToHideFromFace.face].transform.GetChild(cube).GetComponent<CanvasGroup>().alpha = 0;
+                    }
+                    else
+                    {
+                        metaCubeSides[cubesToHideFromFace.face].transform.GetChild(cube).GetComponent<MeshRenderer>().enabled = false;
+                    }
                 }
             }
-        }
-        List<int> metaCubeFaces = new List<int>(){0,1,2,3,4,5};
-        metaCubeFaces.Remove(side);
-        foreach (int metaCubeFace in metaCubeFaces)
-        {
-            metaCubeSides[metaCubeFace].MenuInteractionOff();
+            List<int> metaCubeFaces = new List<int>() { 0, 1, 2, 3, 4, 5 };
+            metaCubeFaces.Remove(side);
+            foreach (int metaCubeFace in metaCubeFaces)
+            {
+                metaCubeSides[metaCubeFace].MenuInteractionOff();
+            }
         }
     }
 }
+

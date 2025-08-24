@@ -5,49 +5,50 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using DG.Tweening;
-using Unity.VisualScripting;
-public class DebuffEntity : PongEntity
+using PongGame.VFXLocker;
+using PongGame.BallLocker;
+namespace PongGame
 {
-    public bool exploded = false;
-    public bool orbitWheIdle = true;
-    public bool orbitWhenActive => !orbitWheIdle;
-    public OrbitPath activeOrbitPaths;
-    protected float suctionRange;
-    protected float suctionThreshold;
-    public float delayBetweenFragments;
-    public bool inverseIdleOrbit = false;
-    public bool orbiting = true;
-    [Range(6, 360)]
-    public int segments;
-    public bool withinSpeedLimits => rbd != null ? rbd.velocity.sqrMagnitude >= sqrDebuffMinSpeed && rbd.velocity.sqrMagnitude <= sqrDebuffMaxSpeed : true;
-    public float debuffMaxSpeed => pm.speeds.entitySpeeds.debuffMaxLinearVelocity * speedModifier;
-    public float debuffMinSpeed => pm.speeds.entitySpeeds.debuffMinLinearVelocity * speedModifier;
-    public float sqrDebuffMaxSpeed => debuffMaxSpeed * debuffMaxSpeed;
-    public float sqrDebuffMinSpeed => debuffMinSpeed * debuffMinSpeed;
-    Vector3 clampedVelocity
+    public class DebuffEntity : PongEntity
     {
-        get
+        public bool exploded = false;
+        public bool orbitWheIdle = true;
+        public bool orbitWhenActive => !orbitWheIdle;
+        public OrbitPath activeOrbitPaths;
+        protected float suctionRange;
+        protected float suctionThreshold;
+        public float delayBetweenFragments;
+        public bool inverseIdleOrbit = false;
+        public bool orbiting = true;
+        [Range(6, 360)]
+        public int segments;
+        public bool withinSpeedLimits => rbd != null ? rbd.velocity.sqrMagnitude >= sqrDebuffMinSpeed && rbd.velocity.sqrMagnitude <= sqrDebuffMaxSpeed : true;
+        public float debuffMaxSpeed => pm.speeds.entitySpeeds.debuffMaxLinearVelocity * speedModifier;
+        public float debuffMinSpeed => pm.speeds.entitySpeeds.debuffMinLinearVelocity * speedModifier;
+        public float sqrDebuffMaxSpeed => debuffMaxSpeed * debuffMaxSpeed;
+        public float sqrDebuffMinSpeed => debuffMinSpeed * debuffMinSpeed;
+        Vector3 clampedVelocity
         {
-            if (rbd.velocity.sqrMagnitude > sqrDebuffMaxSpeed) { return rbd.velocity.normalized * debuffMaxSpeed; }
-            else if (rbd.velocity.sqrMagnitude < sqrDebuffMinSpeed) { return rbd.velocity.normalized * debuffMinSpeed; }
-            return rbd.velocity;
+            get
+            {
+                if (rbd.velocity.sqrMagnitude > sqrDebuffMaxSpeed) { return rbd.velocity.normalized * debuffMaxSpeed; }
+                else if (rbd.velocity.sqrMagnitude < sqrDebuffMinSpeed) { return rbd.velocity.normalized * debuffMinSpeed; }
+                return rbd.velocity;
+            }
         }
-    }
-    protected Vector3 initialDebuffVelocity
-    {
-        get
+        protected Vector3 initialDebuffVelocity
         {
-            int[] directions = { -1, 1 };
-            float x = UnityEngine.Random.Range(1f, 2f) * directions[UnityEngine.Random.Range(0, 2)] * debuffMaxSpeed * 0.75f;
-            float y = UnityEngine.Random.Range(1f, 2f) * directions[UnityEngine.Random.Range(0, 2)] * debuffMaxSpeed * 0.75f;
-            float z = 0;
+            get
+            {
+                int[] directions = { -1, 1 };
+                float x = UnityEngine.Random.Range(1f, 2f) * directions[UnityEngine.Random.Range(0, 2)] * debuffMaxSpeed * 0.75f;
+                float y = UnityEngine.Random.Range(1f, 2f) * directions[UnityEngine.Random.Range(0, 2)] * debuffMaxSpeed * 0.75f;
+                float z = 0;
 
-            return new Vector3(x, y, z);
+                return new Vector3(x, y, z);
+            }
         }
-    }
-    public Vector3[] idleOrbitPath
-    {
-        get
+        public Vector3[] IdleOrbitPath()
         {
             Vector3[] points = new Vector3[segments + 1];
             for (int i = 0; i < segments; i++)
@@ -60,27 +61,12 @@ public class DebuffEntity : PongEntity
             points[segments] = points[0];
             return !inverseIdleOrbit ? points : points[(segments / 2)..(segments + 1)].Concat(points[0..((segments / 2) + 1)]).ToArray();
         }
-    }
-    protected Vector3[] activeOrbitPath
-    {
-        get
+        protected Vector3[] ActiveOrbitPath()
         {
             Vector3[] points = new Vector3[segments];
             Vector3 point = Vector3.zero;
             switch (activeOrbitPaths)
             {
-                default:
-                case OrbitPath.Ellipse:
-                    for (int i = 0; i < (segments - 1); i++)
-                    {
-                        float angle = (float)i / (float)(segments - 1) * 360 * Mathf.Deg2Rad;
-                        point.x = Mathf.Sin(angle) * fieldBounds.x * 0.9f;
-                        point.y = Mathf.Cos(angle) * fieldBounds.y * 0.9f;
-                        point.z = stagePosZ + PongManager.sizes.ballDiameter * 2.5f;
-                        points[i] = point;
-                    }
-                    points[segments - 1] = points[0];
-                    return points;
                 case OrbitPath.Gerono:
                     for (int i = 0; i < (segments - 1); i++)
                     {
@@ -105,115 +91,127 @@ public class DebuffEntity : PongEntity
                     points[segments - 1] = points[0];
                     // SHIFT START BY 1/4 TO START CENTER SCREEN (CROSS SECTION OF THE FIGURE8 SHAPE OF THE PATH)
                     return points.ToList().GetRange(segments / 4, (int)(segments * 0.75f)).Concat(points.ToList().GetRange(0, segments / 4)).ToArray();
+                default:
+                case OrbitPath.Ellipse:
+                    for (int i = 0; i < (segments - 1); i++)
+                    {
+                        float angle = (float)i / (float)(segments - 1) * 360 * Mathf.Deg2Rad;
+                        point.x = Mathf.Sin(angle) * fieldBounds.x * 0.9f;
+                        point.y = Mathf.Cos(angle) * fieldBounds.y * 0.9f;
+                        point.z = stagePosZ + PongManager.sizes.ballDiameter * 2.5f;
+                        points[i] = point;
+                    }
+                    points[segments - 1] = points[0];
+                    return points;
             }
         }
-    }
-    protected List<Fragment> fragmentListForDebuff
-    {
-        get
+        protected List<Fragment> fragmentListForDebuff
         {
-            switch (this)
+            get
             {
-                case DebuffBurn:
-                    return field.fragmentStore.icosahedronBurnFragments;
-                case DebuffFreeze:
-                    return field.fragmentStore.icosahedronFreezeFragments;
-                case DebuffSlow:
-                    return field.fragmentStore.cubeFragments;
+                switch (this)
+                {
+                    case DebuffBurn:
+                        return field.fragmentStore.icosahedronBurnFragments;
+                    case DebuffFreeze:
+                        return field.fragmentStore.icosahedronFreezeFragments;
+                    case DebuffSlow:
+                        return field.fragmentStore.cubeFragments;
+                }
+                return null;
             }
-            return null;
         }
-    }
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        orbiting = true;
-        transform.position = orbitWheIdle ? idleOrbitPath[0] : activeOrbitPath[0];
-        if (col != null)
+        protected override void OnEnable()
         {
-            col.enabled = false;
+            base.OnEnable();
+            orbiting = true;
+            transform.position = orbitWheIdle ? IdleOrbitPath()[0] : ActiveOrbitPath()[0];
+            if (col != null)
+            {
+                col.enabled = false;
+            }
+            if (orbitWheIdle)
+            {
+                IdleOrbit();
+            }
         }
-        if (orbitWheIdle)
+        protected override void FixedUpdate()
         {
-            IdleOrbit();
+            base.FixedUpdate();
+            if (!orbitWhenActive && !orbiting && !magnetized && !withinSpeedLimits)
+            {
+                rbd.velocity = clampedVelocity;
+            }
+            if (Mathf.Abs(transform.position.x) > Mathf.Abs(fieldBounds.x) || Mathf.Abs(transform.position.y) > Mathf.Abs(fieldBounds.y))
+            {
+                transform.position = new Vector3(0, 0, stagePosZ);
+            }
         }
-    }
-    protected override void FixedUpdate()
-    {
-        base.FixedUpdate();
-        if (!orbitWhenActive && !orbiting && !magnetized && !withinSpeedLimits)
+        protected void OnAllBallFragmentsDropped()
         {
-            rbd.velocity = clampedVelocity;
+            StartCoroutine(CycleGobbleFragments());
         }
-        if (Mathf.Abs(transform.position.x) > Mathf.Abs(fieldBounds.x) || Mathf.Abs(transform.position.y) > Mathf.Abs(fieldBounds.y))
+        public void IdleOrbit()
         {
-            transform.position = new Vector3(0, 0, stagePosZ);
+            transform.position = IdleOrbitPath()[0];
+            transform.DOKill();
+            transform.DOPath(IdleOrbitPath(), pm.gameEffects.debuffOrbitTime, PathType.Linear).SetEase(Ease.Linear).SetLoops(-1).Play();
+            meshR.enabled = false;
         }
-    }
-    protected void OnAllBallFragmentsDropped()
-    {
-        StartCoroutine(CycleGobbleFragments());
-    }
-    public void IdleOrbit()
-    {
-        transform.position = idleOrbitPath[0];
-        transform.DOKill();
-        transform.DOPath(idleOrbitPath, pm.gameEffects.debuffOrbitTime, PathType.Linear).SetEase(Ease.Linear).SetLoops(-1).Play();
-        meshR.enabled = false;
-    }
-    public virtual void OnGobbledAllFragments()
-    {
+        public virtual void OnGobbledAllFragments()
+        {
 
-    }
-    protected IEnumerator CycleGobbleFragments()
-    {
-        foreach (Fragment fragment in fragmentListForDebuff)
-        {
-            field.fragmentStore.RemoveFragmentRigidBody(fragment, "Fragment");
-            StartCoroutine(CycleGobbleFragment(fragment));
-            yield return new WaitForSecondsRealtime(delayBetweenFragments);            
         }
-        while (fragmentListForDebuff.Any(frg => frg.transform.parent != transform))
+        protected IEnumerator CycleGobbleFragments()
         {
-            yield return null;
+            foreach (Fragment fragment in fragmentListForDebuff)
+            {
+                field.fragmentStore.RemoveFragmentRigidBody(fragment, "Fragment");
+                StartCoroutine(CycleGobbleFragment(fragment));
+                yield return new WaitForSecondsRealtime(delayBetweenFragments);            
+            }
+            while (fragmentListForDebuff.Any(frg => frg.transform.parent != transform))
+            {
+                yield return null;
+            }
+            if (field.ball.st == State.Live)
+            {
+                OnGobbledAllFragments();
+            }
         }
-        if (field.ball.st == State.Live)
+        protected IEnumerator CycleGobbleFragment(Fragment fragment)
         {
-            OnGobbledAllFragments();
-        }
-    }
-    protected IEnumerator CycleGobbleFragment(Fragment fragment)
-    {
-        int direction = UnityEngine.Random.Range(0, 2) > 0 ? -1 : 1;
-        float angle = 1 * direction;
-        float radius = 10;
-        float angleSpeed = 50;
-        float radialSpeed = 3;
-        float maxDistanceDelta = PongManager.sizes.fieldWidth / 90; // testing this is +/- the distance the ball moves in one fixed update
-        fragment.meshR.material.SetFloat("_SuctionRange", suctionRange);
-        fragment.meshR.material.SetFloat("_SuctionThreshold", suctionThreshold);
+            int direction = UnityEngine.Random.Range(0, 2) > 0 ? -1 : 1;
+            float angle = 1 * direction;
+            float radius = 10;
+            float angleSpeed = 50;
+            float radialSpeed = 3;
+            float maxDistanceDelta = PongManager.sizes.fieldWidth / 90; // testing this is +/- the distance the ball moves in one fixed update
+            fragment.meshR.material.SetFloat("_SuctionRange", suctionRange);
+            fragment.meshR.material.SetFloat("_SuctionThreshold", suctionThreshold);
 
-        while (orbiting && (Vector3.Distance(transform.position, fragment.transform.position) > 1f || Quaternion.Angle(fragment.transform.rotation, Quaternion.identity) > 0.2f))
-        {
-            angle += Time.unscaledDeltaTime * angleSpeed;
-            radius -= Time.unscaledDeltaTime * radialSpeed;
-            radius = Mathf.Max(0, radius);
+            while (orbiting && (Vector3.Distance(transform.position, fragment.transform.position) > 1f || Quaternion.Angle(fragment.transform.rotation, Quaternion.identity) > 0.2f))
+            {
+                angle += Time.unscaledDeltaTime * angleSpeed;
+                radius -= Time.unscaledDeltaTime * radialSpeed;
+                radius = Mathf.Max(0, radius);
 
-            float x = transform.position.x + radius * Mathf.Cos(Mathf.Deg2Rad * angle);
-            float z = transform.position.z + radius * Mathf.Sin(Mathf.Deg2Rad * angle);
-            float y = transform.position.y + radius * Mathf.Cos(Mathf.Deg2Rad * angle);
+                float x = transform.position.x + radius * Mathf.Cos(Mathf.Deg2Rad * angle);
+                float z = transform.position.z + radius * Mathf.Sin(Mathf.Deg2Rad * angle);
+                float y = transform.position.y + radius * Mathf.Cos(Mathf.Deg2Rad * angle);
 
-            fragment.transform.position = Vector3.MoveTowards(fragment.transform.position, new Vector3(x, y, z), maxDistanceDelta);
-            fragment.transform.rotation = Quaternion.RotateTowards(fragment.transform.rotation, Quaternion.identity, 2f);
-            yield return null;
+                fragment.transform.position = Vector3.MoveTowards(fragment.transform.position, new Vector3(x, y, z), maxDistanceDelta);
+                fragment.transform.rotation = Quaternion.RotateTowards(fragment.transform.rotation, Quaternion.identity, 2f);
+                yield return null;
+            }
+            fragment.transform.SetParent(transform);
+            fragment.transform.localPosition = Vector3.zero;
+            fragment.transform.rotation = Quaternion.identity;
+            fragment.gameObject.layer = LayerMask.NameToLayer("Debuff");
         }
-        fragment.transform.SetParent(transform);
-        fragment.transform.localPosition = Vector3.zero;
-        fragment.transform.rotation = Quaternion.identity;
-        fragment.gameObject.layer = LayerMask.NameToLayer("Debuff");
-    }
-    protected void OnDestroy()
-    {
-        StopAllCoroutines();
+        protected void OnDestroy()
+        {
+            StopAllCoroutines();
+        }
     }
 }

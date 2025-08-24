@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using PongLocker;
-namespace FieldLocker
+using PongGame.PongLocker;
+using PongGame.BallLocker;
+namespace PongGame.FieldLocker
 {
     public enum EdgeType
     {
@@ -37,7 +38,7 @@ namespace FieldLocker
         public Vector3 initialRightWallPosition { get; private set; }
         public Vector3 initialTopFloorPosition { get; private set; }
         public Vector3 initialBottomFloorPosition { get; private set; }
-        public List<Block> blocks => new List<Block>() { leftPad.topBlock, leftPad.bottomBlock, rightPad.topBlock, rightPad.bottomBlock }.Where(b => b != null).ToList();
+        public List<Block> Blocks() => new List<Block>() { leftPad.topBlock, leftPad.bottomBlock, rightPad.topBlock, rightPad.bottomBlock }.Where(b => b != null).ToList();
         public Field(GameObject parent, Floor topFloor, Floor bottomFloor, Wall leftWall, Wall rightWall, Background background, Pad leftPad, Pad rightPad, BallEntity ball, SpikeStore spikeStore, DebuffStore debuffStore, FragmentStore fragmentStore)
         {
             this.parent = parent;

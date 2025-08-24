@@ -1,6 +1,6 @@
 using UnityEngine;
-using SpikeLocker;
-namespace PongLocker
+using PongGame.SpikeLocker;
+namespace PongGame.PongLocker
 {
     public enum GameMode
     {
@@ -70,14 +70,13 @@ namespace PongLocker
         }
         public void UpdateHealth(int amount, bool remove = false)
         {
-            switch (remove)
+            if (!remove)
             {
-                case false:
-                    this.health += amount;
-                    break;
-                case true:
-                    this.health -= amount;
-                    break;
+                this.health += amount;
+            }
+            else
+            {
+                this.health -= amount;
             }
             this.healthBar.current = this.health;
         }

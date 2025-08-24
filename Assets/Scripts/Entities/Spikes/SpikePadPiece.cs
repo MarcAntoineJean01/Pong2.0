@@ -1,33 +1,36 @@
 using UnityEngine;
-
-public class SpikePadPiece : SpikeEntity
+namespace PongGame
 {
-    void OnCollisionEnter(Collision collision)
+    public class SpikePadPiece : SpikeEntity
     {
-        if (lct != Time.time)
+        void OnCollisionEnter(Collision collision)
         {
-            lct = Time.time;
-            if (collision.gameObject.transform.GetComponent<Pad>() != null)
+            if (lct != Time.time)
             {
-                Pad pad = collision.gameObject.transform.GetComponent<Pad>();
-                if (pad.CanAddPiece())
+                lct = Time.time;
+                if (collision.gameObject.transform.GetComponent<Pad>() != null)
                 {
-                    pad.AddPadPiece();
-                    PostMortem(true);
+                    Pad pad = collision.gameObject.transform.GetComponent<Pad>();
+                    if (pad.CanAddPiece())
+                    {
+                        pad.AddPadPiece();
+                        PostMortem(true);
+                        return;
+                    }
+
+                }
+                else if (collision.gameObject.transform.GetComponent<Wall>() != null)
+                {
+                    PostMortem();
                     return;
                 }
-
-            }
-            else if (collision.gameObject.transform.GetComponent<Wall>() != null)
-            {
-                PostMortem();
-                return;
-            }
-            bounces += 1;
-            if (bounces >= bounceLimit)
-            {
-                PostMortem();
+                bounces += 1;
+                if (bounces >= bounceLimit)
+                {
+                    PostMortem();
+                }
             }
         }
     }
 }
+

@@ -1,6 +1,9 @@
 using UnityEngine;
-
-public class Fragment : PongEntity
+namespace PongGame
 {
-    public ConstantForce cf;
+    public class Fragment : PongEntity
+    {
+        public ConstantForce cf;
+    }
 }
+

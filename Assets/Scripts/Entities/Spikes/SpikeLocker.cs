@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using PongLocker;
-namespace SpikeLocker
+using PongGame.PongLocker;
+namespace PongGame.SpikeLocker
 {
     public enum SpikeType
     {

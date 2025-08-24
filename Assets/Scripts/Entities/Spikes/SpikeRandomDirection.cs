@@ -1,26 +1,26 @@
 using UnityEngine;
-
-public class SpikeRandomDirection : SpikeEntity
+namespace PongGame
 {
-    void OnCollisionEnter(Collision collision)
+    public class SpikeRandomDirection : SpikeEntity
     {
-        if (lct != Time.time)
+        void OnCollisionEnter(Collision collision)
         {
-            lct = Time.time;
-            if (collision.gameObject.transform.GetComponent<Pad>() != null)
+            if (lct != Time.time)
             {
-                if (!field.ball.cyclingRandomDirection)
+                lct = Time.time;
+                if (collision.gameObject.transform.GetComponent<Pad>() != null && !field.ball.cyclingRandomDirection)
                 {
                     field.ball.RandomDirection();
                     PostMortem(true);
                     return;
                 }
-            }
-            bounces += 1;
-            if (bounces >= bounceLimit)
-            {
-                PostMortem();
+                bounces += 1;
+                if (bounces >= bounceLimit)
+                {
+                    PostMortem();
+                }
             }
         }
-    }
+    }   
 }
+

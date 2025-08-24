@@ -1,33 +1,37 @@
 using UnityEngine;
-using PongLocker;
-public class Block : PongEntity
+using PongGame.PongLocker;
+namespace PongGame
 {
-    public Pad pad;
-    public Side sd;
-    void OnCollisionExit(Collision collision)
+    public class Block : PongEntity
     {
-        if (lct != Time.time)
+        public Pad pad;
+        public Side sd;
+        void OnCollisionExit(Collision collision)
         {
-            lct = Time.time;
-            if (collision.gameObject.GetComponent<DebuffBurn>() != null)
+            if (lct != Time.time)
             {
-                if (sd == Side.Top)
+                lct = Time.time;
+                if (collision.gameObject.GetComponent<DebuffBurn>() != null)
                 {
-                    mm.ResizeMeshBottom(meshF.mesh, -(PongManager.sizes.padWidth * 0.5f));
-                    (col as MeshCollider).convex = true;
-                    collision.gameObject.GetComponent<DebuffBurn>().TriggerExplosion();
+                    if (sd == Side.Top)
+                    {
+                        mm.ResizeMeshBottom(meshF.mesh, -(PongManager.sizes.padWidth * 0.5f));
+                        (col as MeshCollider).convex = true;
+                        collision.gameObject.GetComponent<DebuffBurn>().TriggerExplosion();
+                    }
+                    else
+                    {
+                        mm.ResizeMeshTop(meshF.mesh, -(PongManager.sizes.padWidth * 0.5f));
+                        (col as MeshCollider).convex = true;
+                        collision.gameObject.GetComponent<DebuffBurn>().TriggerExplosion();
+                    }
                 }
-                else
+                if (col.bounds.size.y <= PongManager.sizes.padWidth*0.5f)
                 {
-                    mm.ResizeMeshTop(meshF.mesh, -(PongManager.sizes.padWidth * 0.5f));
-                    (col as MeshCollider).convex = true;
-                    collision.gameObject.GetComponent<DebuffBurn>().TriggerExplosion();
+                    pad.RemovePadBlock(sd);
                 }
-            }
-            if (col.bounds.size.y <= PongManager.sizes.padWidth*0.5f)
-            {
-                pad.RemovePadBlock(sd);
             }
         }
     }
 }
+

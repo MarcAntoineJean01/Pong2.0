@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using SpikeLocker;
-namespace MeshLocker
+using PongGame.SpikeLocker;
+namespace PongGame.MeshLocker
 {
     public enum BallMesh
     {
@@ -94,8 +94,6 @@ namespace MeshLocker
         {
             switch (ballType)
             {
-                default:
-                    return fallBackMaterial;
                 case BallMesh.Cube:
                     return cubeMaterial;
                 case BallMesh.IcosahedronRough:
@@ -108,6 +106,8 @@ namespace MeshLocker
                     return icosikaihenagonMaterial;
                 case BallMesh.Sphere:
                     return sphereMaterial;
+                default:
+                    return fallBackMaterial;
 
             }
         }
@@ -127,8 +127,6 @@ namespace MeshLocker
         {
             switch (spikeType)
             {
-                default:
-                    return addPadPieceMaterial;
                 case SpikeType.SpikePadPiece:
                     return addPadPieceMaterial;
                 case SpikeType.SpikePadBlock:
@@ -143,6 +141,8 @@ namespace MeshLocker
                     return repulsorMaterial;
                 case SpikeType.HealthUp:
                     return healthUpMaterial;
+                default:
+                    return addPadPieceMaterial;
             }
         }
     }

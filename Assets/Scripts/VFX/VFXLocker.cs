@@ -1,6 +1,9 @@
-public enum OrbitPath
+namespace PongGame.VFXLocker
 {
-    Ellipse,
-    Gerono,
-    Bernoulli
+    public enum OrbitPath
+    {
+        Ellipse,
+        Gerono,
+        Bernoulli
+    }
 }

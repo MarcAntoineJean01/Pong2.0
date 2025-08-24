@@ -1,4 +1,8 @@
-public class Floor : Edge
+namespace PongGame
 {
+    public class Floor : Edge
+    {
 
+    }
 }
+

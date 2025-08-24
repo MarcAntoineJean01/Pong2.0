@@ -4,12 +4,12 @@ using System.Linq;
 using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
-using PongLocker;
-public class DebuffBurn : DebuffEntity
+using PongGame.PongLocker;
+namespace PongGame
 {
-    public Vector3[] calculatedPath
+    public class DebuffBurn : DebuffEntity
     {
-        get
+        public Vector3[] CalculatedPath()
         {
             Vector3[] points = new Vector3[segments + 1];
             for (int i = 0; i < segments; i++)
@@ -22,49 +22,49 @@ public class DebuffBurn : DebuffEntity
             points[segments] = points[0];
             return points[(segments / 2)..(segments + 1)].Concat(points[0..((segments / 2) + 1)]).ToArray();
         }
-    }
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        field.fragmentStore.droppedAllIcosahedronFragments.RemoveListener(OnAllBallFragmentsDropped);
-        if (field.fragmentStore.droppedIcosahedronFragmentsIndex == 0 && currentStage == Stage.FireAndIce)
+        protected override void OnEnable()
         {
-            field.fragmentStore.droppedAllIcosahedronFragments.AddListener(OnAllBallFragmentsDropped);
+            base.OnEnable();
+            field.fragmentStore.droppedAllIcosahedronFragments.RemoveListener(OnAllBallFragmentsDropped);
+            if (field.fragmentStore.droppedIcosahedronFragmentsIndex == 0 && currentStage == Stage.FireAndIce)
+            {
+                field.fragmentStore.droppedAllIcosahedronFragments.AddListener(OnAllBallFragmentsDropped);
+            }
         }
-    }
-    public override void OnGobbledAllFragments()
-    {
-        EnterStage();
-    }
-    public void EnterStage()
-    {
-        transform.DOKill();
-        StopAllCoroutines();
-        orbiting = false;
-        rbd.isKinematic = false;
-        transform.position = new Vector3(transform.position.x, transform.position.y, stagePosZ);
-        rbd.AddForce(initialDebuffVelocity, ForceMode.VelocityChange);
-        col.enabled = true;
-    }
-    public void TriggerExplosion()
-    {
-        if (!exploded)
+        public override void OnGobbledAllFragments()
         {
-            exploded = true;
-            orbiting = true;
-            fragmentListForDebuff.ForEach(frg => field.fragmentStore.DropFragment(frg));
-            StartCoroutine("CyclePostExplosion");
-            rbd.angularVelocity = Vector3.zero;
-            rbd.velocity = Vector3.zero;
-            rbd.isKinematic = true;
-            col.enabled = false;
+            EnterStage();
         }
-    }
-    IEnumerator CyclePostExplosion()
-    {
-        yield return new WaitForSeconds(2);
-        exploded = false;
-        IdleOrbit();
-        StartCoroutine(CycleGobbleFragments());
+        public void EnterStage()
+        {
+            transform.DOKill();
+            StopAllCoroutines();
+            orbiting = false;
+            rbd.isKinematic = false;
+            transform.position = new Vector3(transform.position.x, transform.position.y, stagePosZ);
+            rbd.AddForce(initialDebuffVelocity, ForceMode.VelocityChange);
+            col.enabled = true;
+        }
+        public void TriggerExplosion()
+        {
+            if (!exploded)
+            {
+                exploded = true;
+                orbiting = true;
+                fragmentListForDebuff.ForEach(frg => field.fragmentStore.DropFragment(frg));
+                StartCoroutine("CyclePostExplosion");
+                rbd.angularVelocity = Vector3.zero;
+                rbd.velocity = Vector3.zero;
+                rbd.isKinematic = true;
+                col.enabled = false;
+            }
+        }
+        IEnumerator CyclePostExplosion()
+        {
+            yield return new WaitForSeconds(2);
+            exploded = false;
+            IdleOrbit();
+            StartCoroutine(CycleGobbleFragments());
+        }
     }
 }

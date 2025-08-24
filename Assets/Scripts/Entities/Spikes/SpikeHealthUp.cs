@@ -1,36 +1,39 @@
-using AudioLocker;
+using PongGame.AudioLocker;
 using UnityEngine;
-
-public class SpikeHealthUp : SpikeEntity
+namespace PongGame
 {
-    void OnCollisionEnter(Collision collision)
+    public class SpikeHealthUp : SpikeEntity
     {
-        if (lct != Time.time)
+        void OnCollisionEnter(Collision collision)
         {
-            lct = Time.time;
-            if (collision.gameObject.transform.GetComponent<Pad>() != null)
+            if (lct != Time.time)
             {
-                Pad pad = collision.gameObject.transform.GetComponent<Pad>();
-                if (pad.CanAddHealth())
+                lct = Time.time;
+                if (collision.gameObject.transform.GetComponent<Pad>() != null)
                 {
-                    newGameManager.AddHealth(pad.sd);
-                    am.PlayAudio(PongAudioType.GainedHealth, pad.transform.position);
-                    displayHud.Invoke(pad.sd);
-                    PostMortem(true);
+                    Pad pad = collision.gameObject.transform.GetComponent<Pad>();
+                    if (pad.CanAddHealth())
+                    {
+                        newGameManager.AddHealth(pad.sd);
+                        am.PlayAudio(PongAudioType.GainedHealth, pad.transform.position);
+                        displayHud.Invoke(pad.sd);
+                        PostMortem(true);
+                        return;
+                    }
+
+                }
+                else if (collision.gameObject.transform.GetComponent<Wall>() != null)
+                {
+                    PostMortem();
                     return;
                 }
-
-            }
-            else if (collision.gameObject.transform.GetComponent<Wall>() != null)
-            {
-                PostMortem();
-                return;
-            }
-            bounces += 1;
-            if (bounces >= bounceLimit)
-            {
-                PostMortem();
+                bounces += 1;
+                if (bounces >= bounceLimit)
+                {
+                    PostMortem();
+                }
             }
         }
     }
 }
+

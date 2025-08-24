@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using SpikeLocker;
-namespace AudioLocker
+using PongGame.SpikeLocker;
+namespace PongGame.AudioLocker
 {
     public enum MusicType
     {
@@ -94,8 +94,6 @@ namespace AudioLocker
         {
             switch (spikeType)
             {
-                default:
-                    return null;
                 case SpikeType.SpikePadPiece:
                     return padPieceProc;
                 case SpikeType.SpikePadBlock:
@@ -110,6 +108,8 @@ namespace AudioLocker
                     return randomDirectionProc;
                 case SpikeType.HealthUp:
                     return healthUpProc;
+                default:
+                    return null;
             }
         }
     }

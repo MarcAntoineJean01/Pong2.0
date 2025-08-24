@@ -1,4 +1,7 @@
-public class Background : Edge
+namespace PongGame
 {
+    public class Background : Edge
+    {
 
+    }
 }

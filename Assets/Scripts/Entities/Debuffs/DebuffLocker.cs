@@ -18,13 +18,13 @@ public class AllowedDebuffs
     {
         switch (debuffType)
         {
-            default:
-            case DebuffType.DebuffBurn:
-                return burn;
             case DebuffType.DebuffSlow:
                 return slow;
             case DebuffType.DebuffFreeze:
                 return freeze;
+            default:
+            case DebuffType.DebuffBurn:
+                return burn;
 
         }
     }

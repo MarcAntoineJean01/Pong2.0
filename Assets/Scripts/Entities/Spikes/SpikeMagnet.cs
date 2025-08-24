@@ -1,49 +1,51 @@
 using UnityEngine;
-
-public class SpikeMagnet : SpikeEntity
+namespace PongGame
 {
-    bool attractor = false;
-    protected override void OnEnable()
+    public class SpikeMagnet : SpikeEntity
     {
-        base.OnEnable();
-        int polarity = Random.Range(0, 2);
-        if (polarity > 0)
+        bool attractor = false;
+        protected override void OnEnable()
         {
-            attractor = true;
-            transform.rotation = Quaternion.Euler(180, 0, 0);
-            meshR.material = mm.materials.spikeMaterials.attractorMaterial;
-        }
-        else
-        {
-            attractor = false;
-        }            
-    }
-    void OnCollisionEnter(Collision collision)
-    {
-        if (lct != Time.time)
-        {
-            lct = Time.time;
-            if (collision.gameObject.transform.GetComponent<Pad>() != null)
+            base.OnEnable();
+            int polarity = Random.Range(0, 2);
+            if (polarity > 0)
             {
-                Pad pad = collision.gameObject.transform.GetComponent<Pad>();
-                if (pad.CanAddCharge(attractor))
+                attractor = true;
+                transform.rotation = Quaternion.Euler(180, 0, 0);
+                meshR.material = mm.materials.spikeMaterials.attractorMaterial;
+            }
+            else
+            {
+                attractor = false;
+            }            
+        }
+        void OnCollisionEnter(Collision collision)
+        {
+            if (lct != Time.time)
+            {
+                lct = Time.time;
+                if (collision.gameObject.transform.GetComponent<Pad>() != null)
                 {
-                    pad.AddCharge(attractor);
-                    displayHud.Invoke(pad.sd);
-                    PostMortem(true);
+                    Pad pad = collision.gameObject.transform.GetComponent<Pad>();
+                    if (pad.CanAddCharge(attractor))
+                    {
+                        pad.AddCharge(attractor);
+                        displayHud.Invoke(pad.sd);
+                        PostMortem(true);
+                        return;
+                    }
+
+                }
+                else if (collision.gameObject.transform.GetComponent<Wall>() != null)
+                {
+                    PostMortem();
                     return;
                 }
-
-            }
-            else if (collision.gameObject.transform.GetComponent<Wall>() != null)
-            {
-                PostMortem();
-                return;
-            }
-            bounces += 1;
-            if (bounces >= bounceLimit)
-            {
-                PostMortem();
+                bounces += 1;
+                if (bounces >= bounceLimit)
+                {
+                    PostMortem();
+                }
             }
         }
     }

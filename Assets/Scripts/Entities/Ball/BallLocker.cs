@@ -1,6 +1,9 @@
-public enum State
+namespace PongGame.BallLocker
 {
-    Idle,
-    Live,
-    Dead
+    public enum State
+    {
+        Idle,
+        Live,
+        Dead
+    }
 }

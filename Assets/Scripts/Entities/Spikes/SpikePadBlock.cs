@@ -1,59 +1,63 @@
 using UnityEngine;
-using PongLocker;
-public class SpikePadBlock : SpikeEntity
+using PongGame.PongLocker;
+namespace PongGame
 {
-    bool addTop = false;
-    protected override void OnEnable()
+    public class SpikePadBlock : SpikeEntity
     {
-        base.OnEnable();
-        int top = Random.Range(0, 2);
-        if (top > 0)
+        bool addTop = false;
+        protected override void OnEnable()
         {
-            addTop = true;
-            transform.rotation = Quaternion.Euler(180, 0, 0);
-        } else
-        {
-            addTop = false;
-        }            
-    }
-    void OnCollisionEnter(Collision collision)
-    {
-        if (lct != Time.time)
-        {
-            lct = Time.time;
-            if (collision.gameObject.transform.GetComponent<Pad>() != null)
+            base.OnEnable();
+            int top = Random.Range(0, 2);
+            if (top > 0)
             {
-                Pad pad = collision.gameObject.transform.GetComponent<Pad>();
-                if (pad.CanAddBlock(addTop ? Side.Top : Side.Bottom))
-                {
-                    pad.AddPadBlock(addTop ? Side.Top : Side.Bottom);
-                    PostMortem(true);
-                    return;
-                }
-            }
-            else if (collision.gameObject.transform.GetComponent<Block>() != null)
+                addTop = true;
+                transform.rotation = Quaternion.Euler(180, 0, 0);
+            } else
             {
-                Block block = collision.gameObject.transform.GetComponent<Block>();
-                if ((addTop && block.sd == Side.Top) || (!addTop && block.sd == Side.Bottom))
+                addTop = false;
+            }            
+        }
+        void OnCollisionEnter(Collision collision)
+        {
+            if (lct != Time.time)
+            {
+                lct = Time.time;
+                if (collision.gameObject.transform.GetComponent<Pad>() != null)
                 {
-                    if (block.pad.CanAddBlock(addTop ? Side.Top : Side.Bottom))
+                    Pad pad = collision.gameObject.transform.GetComponent<Pad>();
+                    if (pad.CanAddBlock(addTop ? Side.Top : Side.Bottom))
                     {
-                        block.pad.AddPadBlock(addTop ? Side.Top : Side.Bottom);
+                        pad.AddPadBlock(addTop ? Side.Top : Side.Bottom);
                         PostMortem(true);
                         return;
                     }
                 }
-            }
-            else if (collision.gameObject.transform.GetComponent<Wall>() != null)
-            {
-                PostMortem();
-                return;
-            }
-            bounces += 1;
-            if (bounces >= bounceLimit)
-            {
-                PostMortem();
+                else if (collision.gameObject.transform.GetComponent<Block>() != null)
+                {
+                    Block block = collision.gameObject.transform.GetComponent<Block>();
+                    if ((addTop && block.sd == Side.Top) || (!addTop && block.sd == Side.Bottom))
+                    {
+                        if (block.pad.CanAddBlock(addTop ? Side.Top : Side.Bottom))
+                        {
+                            block.pad.AddPadBlock(addTop ? Side.Top : Side.Bottom);
+                            PostMortem(true);
+                            return;
+                        }
+                    }
+                }
+                else if (collision.gameObject.transform.GetComponent<Wall>() != null)
+                {
+                    PostMortem();
+                    return;
+                }
+                bounces += 1;
+                if (bounces >= bounceLimit)
+                {
+                    PostMortem();
+                }
             }
         }
-    }
+    }    
 }
+
